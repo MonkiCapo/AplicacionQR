@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "h94vKit0RIo=",
+  "dgSpecHash": "HLa9NJR0GvM=",
   "success": true,
   "projectFilePath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.WebAPI\\AppQR.WebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Naho\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.6\\microsoft.aspnetcore.openapi.9.0.6.nupkg.sha512",
-    "C:\\Users\\Naho\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+    "C:\\Users\\Naho\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512",
+    "C:\\Users\\Naho\\.nuget\\packages\\qrcoder\\1.6.0\\qrcoder.1.6.0.nupkg.sha512"
   ],
   "logs": []
 }
