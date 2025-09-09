@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/home/et12alumno/Escritorio/Aplicaci-nQR/AppQR.Dapper/AppQR.Dapper.csproj": {}
+    "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Dapper\\AppQR.Dapper.csproj": {}
   },
   "projects": {
-    "/home/et12alumno/Escritorio/Aplicaci-nQR/AppQR.Dapper/AppQR.Dapper.csproj": {
+    "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Dapper\\AppQR.Dapper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/et12alumno/Escritorio/Aplicaci-nQR/AppQR.Dapper/AppQR.Dapper.csproj",
+        "projectUniqueName": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Dapper\\AppQR.Dapper.csproj",
         "projectName": "AppQR.Dapper",
-        "projectPath": "/home/et12alumno/Escritorio/Aplicaci-nQR/AppQR.Dapper/AppQR.Dapper.csproj",
-        "packagesPath": "/home/et12alumno/.nuget/packages/",
-        "outputPath": "/home/et12alumno/Escritorio/Aplicaci-nQR/AppQR.Dapper/obj/",
+        "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Dapper\\AppQR.Dapper.csproj",
+        "packagesPath": "C:\\Users\\Naho\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Dapper\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/et12alumno/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Naho\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -60,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.109/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

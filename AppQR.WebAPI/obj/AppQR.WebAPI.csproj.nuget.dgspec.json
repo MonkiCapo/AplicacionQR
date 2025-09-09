@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\AppQR.Core.csproj": {}
+    "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.WebAPI\\AppQR.WebAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\AppQR.Core.csproj": {
+    "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.WebAPI\\AppQR.WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\AppQR.Core.csproj",
-        "projectName": "AppQR.Core",
-        "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\AppQR.Core.csproj",
+        "projectUniqueName": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.WebAPI\\AppQR.WebAPI.csproj",
+        "projectName": "AppQR.WebAPI",
+        "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.WebAPI\\AppQR.WebAPI.csproj",
         "packagesPath": "C:\\Users\\Naho\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\obj\\",
+        "outputPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.WebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Naho\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,6 +43,12 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -55,6 +61,9 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
