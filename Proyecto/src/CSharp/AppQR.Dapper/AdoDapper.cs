@@ -13,5 +13,5 @@ public class AdoDapper : IAdo
 
     public AdoDapper(string cadena) => _conexion = new MySqlConnection(cadena);
 
-        
+    
 }
