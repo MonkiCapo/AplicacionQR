@@ -7,11 +7,14 @@ namespace AppQR.Dapper;
 
 public class AdoDapper : IAdo
 {
-    private readonly IDbConnection _conexion;
+    private readonly string _conexion;
+    public AdoDapper(string conexion)
+    {
+        _conexion = conexion;
+    }
 
-    public AdoDapper(IDbConnection conexion) => this._conexion = conexion;
-
-    public AdoDapper(string cadena) => _conexion = new MySqlConnection(cadena);
-
-    
+    public IDbConnection GetDbConnection()
+    {
+        return new MySqlConnection(_conexion);
+    }
 }

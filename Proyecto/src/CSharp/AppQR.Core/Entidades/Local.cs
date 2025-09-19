@@ -10,5 +10,9 @@ namespace AppQR.Core
         public int IdLocal { get; set; }
         public string Nombre { get; set; }
         public string Direccion { get; set; }
+        public List<Sector> Sectores { get; set; } = new List<Sector>();
+
+        public Local()
+        {}
     }
 }
