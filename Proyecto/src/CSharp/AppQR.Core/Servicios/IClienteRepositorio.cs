@@ -9,5 +9,8 @@ namespace AppQR.Core.Servicios
     {
         Task<IEnumerable<Cliente>> ObtenerClientes();
         Task<Cliente> ObtenerClientePorID(int id);
+        Task<Cliente> AgregarCliente(Cliente cliente);
+        Task<bool> ActualizarCliente(Cliente cliente);
+        Task<bool> EliminarCliente(int id);
     }
 }

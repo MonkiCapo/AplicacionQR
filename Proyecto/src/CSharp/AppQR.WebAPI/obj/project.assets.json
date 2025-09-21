@@ -1716,11 +1716,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.WebAPI\\AppQR.WebAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.WebAPI\\AppQR.WebAPI.csproj",
       "projectName": "AppQR.WebAPI",
-      "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.WebAPI\\AppQR.WebAPI.csproj",
+      "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.WebAPI\\AppQR.WebAPI.csproj",
       "packagesPath": "C:\\Users\\Naho\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.WebAPI\\obj\\",
+      "outputPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.WebAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Naho\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1735,11 +1735,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\AppQR.Core.csproj": {
-              "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\AppQR.Core.csproj"
+            "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\AppQR.Core.csproj": {
+              "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\AppQR.Core.csproj"
             },
-            "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Dapper\\AppQR.Dapper.csproj": {
-              "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Dapper\\AppQR.Dapper.csproj"
+            "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Dapper\\AppQR.Dapper.csproj": {
+              "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Dapper\\AppQR.Dapper.csproj"
             }
           }
         }

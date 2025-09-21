@@ -1,0 +1,16 @@
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\AppQR.Dapper.csproj.AssemblyReference.cache
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\AppQR.Dapper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\AppQR.Dapper.AssemblyInfoInputs.cache
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\AppQR.Dapper.AssemblyInfo.cs
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\AppQR.Dapper.csproj.CoreCompileInputs.cache
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\AppQR.Dapper.sourcelink.json
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\bin\Debug\net9.0\AppQR.Dapper.deps.json
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\bin\Debug\net9.0\AppQR.Dapper.dll
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\bin\Debug\net9.0\AppQR.Dapper.pdb
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\bin\Debug\net9.0\AppQR.Core.dll
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\bin\Debug\net9.0\AppQR.Core.pdb
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\AppQR.Da.2D441BC5.Up2Date
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\AppQR.Dapper.dll
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\refint\AppQR.Dapper.dll
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\AppQR.Dapper.pdb
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Dapper\obj\Debug\net9.0\ref\AppQR.Dapper.dll

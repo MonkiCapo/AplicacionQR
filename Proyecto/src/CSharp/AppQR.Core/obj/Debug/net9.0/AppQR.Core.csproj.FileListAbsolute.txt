@@ -1,0 +1,12 @@
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\bin\Debug\net9.0\AppQR.Core.deps.json
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\bin\Debug\net9.0\AppQR.Core.dll
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\bin\Debug\net9.0\AppQR.Core.pdb
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\obj\Debug\net9.0\AppQR.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\obj\Debug\net9.0\AppQR.Core.AssemblyInfoInputs.cache
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\obj\Debug\net9.0\AppQR.Core.AssemblyInfo.cs
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\obj\Debug\net9.0\AppQR.Core.csproj.CoreCompileInputs.cache
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\obj\Debug\net9.0\AppQR.Core.sourcelink.json
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\obj\Debug\net9.0\AppQR.Core.dll
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\obj\Debug\net9.0\refint\AppQR.Core.dll
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\obj\Debug\net9.0\AppQR.Core.pdb
+C:\Users\Naho\Desktop\AplicacionQR\Proyecto\src\CSharp\AppQR.Core\obj\Debug\net9.0\ref\AppQR.Core.dll

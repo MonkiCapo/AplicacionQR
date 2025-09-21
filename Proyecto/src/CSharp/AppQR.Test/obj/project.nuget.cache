@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Jh47wWye1Nw=",
+  "dgSpecHash": "JvZQ8VMcHww=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Test\\AppQR.Test.csproj",
+  "projectFilePath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Test\\AppQR.Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Naho\\.nuget\\packages\\bouncycastle.cryptography\\2.5.1\\bouncycastle.cryptography.2.5.1.nupkg.sha512",
     "C:\\Users\\Naho\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\AppQR.Core.csproj": {}
+    "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\AppQR.Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\AppQR.Core.csproj": {
+    "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\AppQR.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\AppQR.Core.csproj",
+        "projectUniqueName": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\AppQR.Core.csproj",
         "projectName": "AppQR.Core",
-        "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\AppQR.Core.csproj",
+        "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\AppQR.Core.csproj",
         "packagesPath": "C:\\Users\\Naho\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.Core\\obj\\",
+        "outputPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Naho\\AppData\\Roaming\\NuGet\\NuGet.Config"

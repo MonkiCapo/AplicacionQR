@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/fAeir9985c=",
+  "dgSpecHash": "EaEP6MjxEIE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\AppQR.WebAPI\\AppQR.WebAPI.csproj",
+  "projectFilePath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.WebAPI\\AppQR.WebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Naho\\.nuget\\packages\\bouncycastle.cryptography\\2.5.1\\bouncycastle.cryptography.2.5.1.nupkg.sha512",
     "C:\\Users\\Naho\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",

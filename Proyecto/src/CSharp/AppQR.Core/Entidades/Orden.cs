@@ -12,5 +12,6 @@ namespace AppQR.Core
         public string Estado { get; set; }
         public decimal PrecioTotal { get; set; }
         public DateTime Fecha { get; set; }
+        public List<Entrada> Entradas { get; set; }
     }
 }
