@@ -10,7 +10,7 @@ namespace AppQR.Dapper
 {
     public class EventosRepositorio : IEventosRepositorio
     {
-        public readonly IAdo _ado;
+        private readonly IAdo _ado;
         public EventosRepositorio(IAdo ado) => _ado = ado;
 
 

@@ -56,7 +56,7 @@ namespace AppQR.Dapper
         {
             var sql = "SELECT * FROM Clientes";
             using var db = _ado.GetDbConnection();
-            return  db.Query<Cliente>(sql);
+            return db.Query<Cliente>(sql);
         }
     }
 }
