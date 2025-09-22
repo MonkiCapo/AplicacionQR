@@ -3,6 +3,7 @@ using Dapper;
 using MySql.Data.MySqlClient;
 using AppQR.Core;
 using AppQR.Core.Servicios;
+using AppQR.Core.Entidades;
 using System.Reflection.Metadata;
 
 namespace AppQR.Dapper

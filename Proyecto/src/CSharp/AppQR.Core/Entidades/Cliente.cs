@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppQR.Core
+namespace AppQR.Core.Entidades
 {
     public class Cliente
     {
