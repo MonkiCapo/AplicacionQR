@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AppQR.Core.Entidades;
 
-namespace AppQR.Core.Servicios
+namespace AppQR.Core.Servicios;
+
+public interface IFuncionRepositorio
 {
-    public interface IFuncionRepositorio
-    {
-        IEnumerable<Funcion> ObtenerTodasLasFunciones();
-        Funcion ObtenerPorID(int id);
-        Funcion AgregarFuncion(Funcion funcion);
-        bool ActualizarFuncion(Funcion funcion);
-        bool EliminarFuncion(int id);
-    }
+    IEnumerable<Funcion> ObtenerTodasLasFunciones();
+    Funcion ObtenerPorID(int id);
+    Funcion AgregarFuncion(Funcion funcion);
+    bool ActualizarFuncion(Funcion funcion);
+    bool EliminarFuncion(int id);
 }
