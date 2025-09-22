@@ -7,10 +7,10 @@ namespace AppQR.Core.Servicios
 {
     public interface IEventosRepositorio
     {
-        Task<IEnumerable<Evento>> ObtenerEventos();
-        Task<Evento> ObtenerEventoPorID(int id);
-        Task<Evento> AgregarEvento(Evento evento);
-        Task<bool> ActualizarEvento(Evento evento);
-        Task<bool> EliminarEvento(int id);
+        IEnumerable<Evento> ObtenerEventos();
+        Evento ObtenerEventoPorID(int id);
+        Evento AgregarEvento(Evento evento);
+        bool ActualizarEvento(Evento evento);
+        bool EliminarEvento(int id);
     }
 }

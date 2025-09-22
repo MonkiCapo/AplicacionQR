@@ -7,10 +7,10 @@ namespace AppQR.Core.Servicios
 {
     public interface IEntradaRepositorio
     {
-        Task<IEnumerable<Entrada>> ObtenerEntradas();
-        Task<Entrada> ObtenerEntradaPorID(int id);
-        Task<Entrada> AgregarEntrada(Entrada entrada);
-        Task<bool> ActualizarEntrada(Entrada entrada);
-        Task<bool> EliminarEntrada(int id);
+        IEnumerable<Entrada> ObtenerEntradas();
+        Entrada ObtenerEntradaPorID(int id);
+        Entrada AgregarEntrada(Entrada entrada);
+        bool ActualizarEntrada(Entrada entrada);
+        bool EliminarEntrada(int id);
     }
 }
