@@ -12,6 +12,48 @@ namespace AppQR.Dapper
         private readonly IAdo _ado;
         public LocalRepositorio(IAdo ado) => _ado = ado;
 
-        
+        public Local AgregarLocal(Local local)
+        {
+            var sql = @"INSERT INTO Local (Nombre, Dirección) VALUES (@Nombre, @Direccion); 
+                SELECT LAST_INSERT_ID();";
+            using var db = _ado.GetDbConnection();
+            var id = db.ExecuteScalar<int>(sql, local);
+            local.IdLocal = id;
+            return local;
+        }
+
+        public bool ActualizarLocal(Local local)
+        {
+            var sql = @"UPDATE Local SET Nombre = @Nombre, Direccion = @Direccion
+            WHERE IdLocal = @IdLocal";
+            using var db = _ado.GetDbConnection();
+            var rowsAffected = db.Execute(sql, local);
+            return rowsAffected > 0;
+        }
+
+        public bool EliminarLocal(int id)
+        {
+            var sql = @"DELETE FROM Local WHERE IdLocal = @Id";
+            using var db = _ado.GetDbConnection();
+            var rowsAffected = db.Execute(sql, new { Id = id });
+            return rowsAffected > 0;
+        }
+
+        public IEnumerable<Local> ObtenerLocales()
+        {
+            var sql = "SELECT * FROM Local";
+            using var db = _ado.GetDbConnection();
+            return db.Query<Local>(sql);
+        }
+
+        public Evento ObtenerLocalPorID(int id)
+        {
+            var sql = "SELECT * FROM Local WHERE IdLocal = @Id";
+            using var db = _ado.GetDbConnection();
+            var local = db.QueryFirstOrDefault<Local>(sql, new { Id = id });
+            if (local == null)
+                throw new InvalidOperationException($"No se encontró un local con el ID {id}.");
+            return local;
+        }
     }
 }

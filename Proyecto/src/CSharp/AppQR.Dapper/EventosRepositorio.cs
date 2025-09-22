@@ -35,7 +35,7 @@ namespace AppQR.Dapper
 
         public bool EliminarEvento(int id)
         {
-            var sql = "DELETE FROM Eventos WHERE IdEvento = @Id";
+            var sql = @"DELETE FROM Eventos WHERE IdEvento = @Id";
             using var db = _ado.GetDbConnection();
             var rowsAffected = db.Execute(sql, new { Id = id });
             return rowsAffected > 0;

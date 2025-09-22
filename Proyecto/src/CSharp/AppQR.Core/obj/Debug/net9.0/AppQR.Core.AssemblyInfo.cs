@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AppQR.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94bdf437fcdc54fc9dfc4b8078cc42600bb12649")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f18f3c931e43655c0c101e71db7499262bf66471")]
 [assembly: System.Reflection.AssemblyProductAttribute("AppQR.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AppQR.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
