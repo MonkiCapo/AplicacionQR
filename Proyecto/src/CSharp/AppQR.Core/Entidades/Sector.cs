@@ -11,5 +11,8 @@ namespace AppQR.Core
         public string Nombre { get; set; }
         public int Capacidad { get; set; }
         public Local local { get; set; }
+
+        public Sector()
+        {}
     }
 }

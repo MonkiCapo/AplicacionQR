@@ -13,5 +13,8 @@ namespace AppQR.Core
         public string Email { get; set; }
         public string Telefono { get; set; }
         public string dni { get; set; }
+
+        public Cliente()
+        {}
     }
 }

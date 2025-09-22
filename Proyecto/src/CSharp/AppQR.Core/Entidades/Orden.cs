@@ -13,5 +13,8 @@ namespace AppQR.Core
         public decimal PrecioTotal { get; set; }
         public DateTime Fecha { get; set; }
         public List<Entrada> Entradas { get; set; }
+
+        public Orden()
+        {}
     }
 }

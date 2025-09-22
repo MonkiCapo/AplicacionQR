@@ -11,5 +11,8 @@ namespace AppQR.Core
         public DateTime FechaHora { get; set; }
         public Evento evento { get; set; }
         public Sector sector { get; set; }
+
+        public Funcion()
+        {}
     }
 }

@@ -12,5 +12,8 @@ namespace AppQR.Core
         public Orden orden { get; set; }
         public string CodigoQR { get; set; }
         public string Estado { get; set; }
+
+        public Entrada()
+        {}
     }
 }

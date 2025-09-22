@@ -12,5 +12,8 @@ namespace AppQR.Core
         public int stock { get; set; }
         public string Estado { get; set; }
         public Funcion funcion { get; set; }
+
+        public Tarifa()
+        {}
     }
 }

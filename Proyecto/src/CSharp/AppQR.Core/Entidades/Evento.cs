@@ -11,5 +11,8 @@ namespace AppQR.Core
         public string Nombre { get; set; }
         public string Estado { get; set; }
         public Local local { get; set; }
+
+        public Evento()
+        {}
     }
 }
