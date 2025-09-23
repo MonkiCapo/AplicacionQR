@@ -15,7 +15,9 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
         var sql = @"INSERT INTO Funcion (FechaHora, IdEvento, IdSector)
                 VALUES (@FechaHora, @IdEvento, @IdSector); 
                 SELECT LAST_INSERT_ID();";
-        Conexion.
+        var id = Conexion.ExecuteScalar<int>(sql, funcion);
+        funcion.IdFuncion = id;
+        return funcion;
 
     }
 
@@ -23,31 +25,28 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
     {
         var sql = @"UPDATE Funcion SET FechaHora = @FechaHora, IdEvento = @IdEvento, IdSector = @IdSector
             WHERE IdFuncion = @IdFuncion";
-        using var db = _ado.GetDbConnection();
-        var rowsAffected = db.Execute(sql, funcion);
+        Conexion.ExecuteScalar<int>(sql, funcion);
+        var rowsAffected = Conexion.Execute(sql, funcion);
         return rowsAffected > 0;
     }
 
     public bool EliminarFuncion(int id)
     {
         var sql = @"DELETE FROM Funcion WHERE IdFuncion = @Id";
-        using var db = _ado.GetDbConnection();
-        var rowsAffected = db.Execute(sql, new { Id = id });
+        var rowsAffected = Conexion.Execute(sql, new { Id = id });
         return rowsAffected > 0;
     }
 
     public IEnumerable<Funcion> ObtenerTodasLasFunciones()
     {
         var sql = "SELECT * FROM Funcion";
-        using var db = _ado.GetDbConnection();
-        return db.Query<Funcion>(sql);
+        return Conexion.Query<Funcion>(sql);
     }
 
     public Funcion ObtenerPorID(int id)
     {
         var sql = "SELECT * FROM Funcion WHERE IdFuncion = @Id";
-        using var db = _ado.GetDbConnection();
-        var funcion = db.QueryFirstOrDefault<Funcion>(sql, new { Id = id });
+        var funcion = Conexion.QueryFirstOrDefault<Funcion>(sql, new { Id = id });
         if (funcion == null)
             throw new InvalidOperationException($"No se encontró una función con el ID {id}.");
         return funcion;

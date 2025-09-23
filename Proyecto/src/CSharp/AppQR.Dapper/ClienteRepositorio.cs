@@ -1,62 +1,56 @@
+using System;
+using System.Collections.Generic;
 using System.Data;
 using Dapper;
-using MySql.Data.MySqlClient;
-using AppQR.Core;
-using AppQR.Core.Servicios;
 using AppQR.Core.Entidades;
-
-
+using AppQR.Core.Servicios;
 
 namespace AppQR.Dapper
 {
-    public class ClienteRepositorio : IClienteRepositorio
+    public class ClienteRepositorio : DapperRepo, IClienteRepositorio
     {
-        private readonly IAdo _ado;
-        public ClienteRepositorio(IAdo ado) => _ado = ado;
+        public ClienteRepositorio(IDbConnection conexion) : base(conexion) { }
 
         public Cliente AgregarCliente(Cliente cliente)
         {
-            var sql = @"INSERT INTO Clientes (Nombre, Contraseña, Email, Telefono, dni) 
-                VALUES (@Nombre, @Contraseña, @Email, @Telefono, @dni); 
-                SELECT LAST_INSERT_ID();";
-            using var db = _ado.GetDbConnection();
-            var id = db.ExecuteScalar<int>(sql, cliente);
-            cliente.IdCliente = id;
+            var sql = @"INSERT INTO Clientes (Nombre, Telefono) 
+                        VALUES (@Nombre, @Telefono);
+                        SELECT LAST_INSERT_ID();";
+            var id = Conexion.ExecuteScalar<int>(sql, cliente);
+            cliente.DNI = id;
             return cliente;
         }
 
         public bool ActualizarCliente(Cliente cliente)
         {
-            var sql = @"UPDATE Clientes SET Nombre = @Nombre, Contraseña = @Contraseña, 
-                Email = @Email, Telefono = @Telefono, dni = @dni WHERE IdCliente = @IdCliente";
-            using var db = _ado.GetDbConnection();
-            var rowsAffected = db.Execute(sql, cliente);
+            var sql = @"UPDATE Clientes SET 
+                            Nombre = @Nombre, 
+                            Telefono = @Telefono
+                        WHERE DNI = @DNI";
+            var rowsAffected = Conexion.Execute(sql, cliente);
             return rowsAffected > 0;
         }
 
-        public bool EliminarCliente(int id)
+        public bool EliminarCliente(int dni)
         {
-            var sql = "DELETE FROM Clientes WHERE IdCliente = @Id";
-            using var db = _ado.GetDbConnection();
-            var rowsAffected = db.Execute(sql, new { Id = id });
+            var sql = "DELETE FROM Clientes WHERE DNI = @DNI";
+            var rowsAffected = Conexion.Execute(sql, new { DNI = dni });
             return rowsAffected > 0;
-        }
-
-        public Cliente ObtenerClientePorID(int id)
-        {
-            var sql = "SELECT * FROM Clientes WHERE IdCliente = @Id";
-            using var db = _ado.GetDbConnection();
-            var cliente = db.QueryFirstOrDefault<Cliente>(sql, new { Id = id });
-            if (cliente == null)
-                throw new InvalidOperationException($"No se encontró un cliente con el ID {id}.");
-            return cliente;
         }
 
         public IEnumerable<Cliente> ObtenerClientes()
         {
-            var sql = "SELECT * FROM Clientes";
-            using var db = _ado.GetDbConnection();
-            return db.Query<Cliente>(sql);
+            var sql = "SELECT DNI, Nombre, Telefono FROM Clientes";
+            return Conexion.Query<Cliente>(sql);
+        }
+
+        public Cliente ObtenerClientePorID(int dni)
+        {
+            var sql = "SELECT DNI, Nombre, Telefono FROM Clientes WHERE DNI = @DNI";
+            var cliente = Conexion.QueryFirstOrDefault<Cliente>(sql, new { DNI = dni });
+            if (cliente == null)
+                throw new InvalidOperationException($"No se encontró un cliente con el DNI {dni}.");
+            return cliente;
         }
     }
 }

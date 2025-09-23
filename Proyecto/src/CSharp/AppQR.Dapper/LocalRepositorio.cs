@@ -7,17 +7,15 @@ using AppQR.Core.Entidades;
 
 namespace AppQR.Dapper
 {
-    public class LocalRepositorio : ILocalRepositorio
+    public class LocalRepositorio : DapperRepo, ILocalRepositorio
     {
-        private readonly IAdo _ado;
-        public LocalRepositorio(IAdo ado) => _ado = ado;
+        public LocalRepositorio(IDbConnection conexion) : base(conexion) { }
 
         public Local AgregarLocal(Local local)
         {
             var sql = @"INSERT INTO Local (Nombre, Dirección) VALUES (@Nombre, @Direccion); 
                 SELECT LAST_INSERT_ID();";
-            using var db = _ado.GetDbConnection();
-            var id = db.ExecuteScalar<int>(sql, local);
+            var id = Conexion.ExecuteScalar<int>(sql, local);
             local.IdLocal = id;
             return local;
         }
@@ -26,31 +24,27 @@ namespace AppQR.Dapper
         {
             var sql = @"UPDATE Local SET Nombre = @Nombre, Direccion = @Direccion
             WHERE IdLocal = @IdLocal";
-            using var db = _ado.GetDbConnection();
-            var rowsAffected = db.Execute(sql, local);
+            var rowsAffected = Conexion.Execute(sql, local);
             return rowsAffected > 0;
         }
 
         public bool EliminarLocal(int id)
         {
             var sql = @"DELETE FROM Local WHERE IdLocal = @Id";
-            using var db = _ado.GetDbConnection();
-            var rowsAffected = db.Execute(sql, new { Id = id });
+            var rowsAffected = Conexion.Execute(sql, new { Id = id });
             return rowsAffected > 0;
         }
 
         public IEnumerable<Local> ObtenerLocales()
         {
             var sql = "SELECT * FROM Local";
-            using var db = _ado.GetDbConnection();
-            return db.Query<Local>(sql);
+            return Conexion.Query<Local>(sql);
         }
 
-        public Evento ObtenerLocalPorID(int id)
+        public Local ObtenerPorID(int id)
         {
             var sql = "SELECT * FROM Local WHERE IdLocal = @Id";
-            using var db = _ado.GetDbConnection();
-            var local = db.QueryFirstOrDefault<Local>(sql, new { Id = id });
+            var local = Conexion.QueryFirstOrDefault<Local>(sql, new { Id = id });
             if (local == null)
                 throw new InvalidOperationException($"No se encontró un local con el ID {id}.");
             return local;

@@ -8,8 +8,8 @@ namespace AppQR.Core.Servicios
 {
     public interface ILocalRepositorio
     {
-        IEnumerable<Local> ObtenerTodos();
-        Local ObtenerPorId(int id);
+        IEnumerable<Local> ObtenerLocales();
+        Local ObtenerPorID(int id);
         Local AgregarLocal(Local local);
         bool ActualizarLocal(Local local);
         bool EliminarLocal(int id);
