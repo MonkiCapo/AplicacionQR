@@ -13,6 +13,19 @@ namespace AppQR.Core.Entidades
         public List<Sector> Sectores { get; set; } = new List<Sector>();
 
         public Local()
-        {}
+        { }
+
+        public void AgregarSector(Sector sector)
+        {
+            Sectores.Add(sector);
+        }
+
+        public MostrarSectores()
+        {
+            foreach (var sector in Sectores)
+            {
+                Console.WriteLine($"Sector ID: {sector.IdSector}, Nombre: {sector.Nombre}, Capacidad: {sector.Capacidad}");
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AppQR.Dapper")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1f5c34ee5a22e9c458b032df5cc9f3d705dc0134")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1294a80bf695b0554ba938dc873a107b3db5c37d")]
 [assembly: System.Reflection.AssemblyProductAttribute("AppQR.Dapper")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AppQR.Dapper")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

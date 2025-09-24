@@ -15,6 +15,6 @@ namespace AppQR.Core.Entidades
         public List<Entrada> Entradas { get; set; }
 
         public Orden()
-        {}
+        { }
     }
 }

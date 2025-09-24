@@ -15,6 +15,6 @@ namespace AppQR.Core.Entidades
         public Cliente cliente { get; set; }
 
         public Usuario()
-        { }
+        {}
     }
 }

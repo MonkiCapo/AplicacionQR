@@ -13,11 +13,12 @@ namespace AppQR.Dapper
 
         public Cliente AgregarCliente(Cliente cliente)
         {
-            var sql = @"INSERT INTO Clientes (Nombre, Telefono) 
+            var sql = @"INSERT INTO Cliente (Nombre, Telefono) 
                         VALUES (@Nombre, @Telefono);
                         SELECT LAST_INSERT_ID();";
-            var id = Conexion.ExecuteScalar<int>(sql, cliente);
-            cliente.DNI = id;
+            Conexion.Query<Cliente>(sql, cliente);
+            var DNI = Conexion.ExecuteScalar<int>(sql, cliente);
+            cliente.DNI = DNI;
             return cliente;
         }
 
