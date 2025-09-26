@@ -3013,36 +3013,35 @@
     ]
   },
   "packageFolders": {
-    "/home/et12alumno/.nuget/packages/": {}
+    "C:\\Users\\Naho\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.Test/AppQR.Test.csproj",
+      "projectUniqueName": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Test\\AppQR.Test.csproj",
       "projectName": "AppQR.Test",
-      "projectPath": "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.Test/AppQR.Test.csproj",
-      "packagesPath": "/home/et12alumno/.nuget/packages/",
-      "outputPath": "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.Test/obj/",
+      "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Test\\AppQR.Test.csproj",
+      "packagesPath": "C:\\Users\\Naho\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Test\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/et12alumno/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Naho\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.Core/AppQR.Core.csproj": {
-              "projectPath": "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.Core/AppQR.Core.csproj"
+            "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\AppQR.Core.csproj": {
+              "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\AppQR.Core.csproj"
             },
-            "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.WebAPI/AppQR.WebAPI.csproj": {
-              "projectPath": "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.WebAPI/AppQR.WebAPI.csproj"
+            "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.WebAPI\\AppQR.WebAPI.csproj": {
+              "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.WebAPI\\AppQR.WebAPI.csproj"
             }
           }
         }
@@ -3057,7 +3056,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -3096,7 +3095,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.110/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

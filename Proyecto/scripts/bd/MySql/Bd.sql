@@ -42,9 +42,7 @@ CREATE TABLE Funcion (
     IdFuncion INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATETIME NOT NULL,
     IdEvento INT NOT NULL,
-    IdSector INT NOT NULL,
-    FOREIGN KEY (IdEvento) REFERENCES Evento(IdEvento),
-    FOREIGN KEY (IdSector) REFERENCES Sector(IdSector)
+    FOREIGN KEY (IdEvento) REFERENCES Evento(IdEvento)
 );
 
 -- ======================
@@ -63,13 +61,24 @@ CREATE TABLE Tarifa (
 -- TABLA: Cliente
 -- ======================
 CREATE TABLE Cliente (
-    IdCliente INT AUTO_INCREMENT PRIMARY KEY,
+    DNI UNSIGNED INT PRIMARY KEY UNIQUE NOT NULL,
     nombre VARCHAR(100) NOT NULL,
-    contrasena VARCHAR(255) NOT NULL,
-    email VARCHAR(150) UNIQUE NOT NULL,
-    dni VARCHAR(20) UNIQUE NOT NULL,
     telefono VARCHAR(20)
 );
+
+-- ======================
+-- TABLA: Usuario
+-- ======================
+
+CREATE TABLE Usuario (
+    IdUsuario INT AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    Contraseña VARCHAR(255) NOT NULL,
+    Rol VARCHAR(50) NOT NULL,
+    DNI INT NOT NULL,
+    FOREIGN KEY (DNI) REFERENCES Cliente(DNI)
+);
+
 
 -- ======================
 -- TABLA: Orden
