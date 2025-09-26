@@ -11,46 +11,49 @@ namespace AppQR.Dapper
     {
         public ClienteRepositorio(IDbConnection conexion) : base(conexion) { }
 
-        public Cliente AgregarCliente(Cliente cliente)
+       public Cliente AgregarCliente(Cliente cliente)
+{
+        var sql = @"INSERT INTO Cliente (DNI, Nombre, Telefono) 
+                    VALUES (@dni, @nombre, @telefono);
+                    SELECT @dni;";
+        
+        var Dni = Conexion.ExecuteScalar<int>(sql, new
         {
-            var sql = @"INSERT INTO Cliente (Nombre, Telefono) 
-                        VALUES (@Nombre, @Telefono);
-                        SELECT LAST_INSERT_ID();";
-            Conexion.Query<Cliente>(sql, cliente);
-            var DNI = Conexion.ExecuteScalar<int>(sql, cliente);
-            cliente.DNI = DNI;
-            return cliente;
-        }
+            dni = cliente.DNI,
+            nombre = cliente.Nombre,
+            telefono = cliente.Telefono
+        });
 
+        cliente.DNI = Dni;
+        return cliente;
+}
         public bool ActualizarCliente(Cliente cliente)
         {
-            var sql = @"UPDATE Clientes SET 
+            var sql = @"UPDATE Cliente SET 
                             Nombre = @Nombre, 
                             Telefono = @Telefono
-                        WHERE DNI = @DNI";
+                        WHERE DNI = @dni";
             var rowsAffected = Conexion.Execute(sql, cliente);
             return rowsAffected > 0;
         }
 
         public bool EliminarCliente(int dni)
         {
-            var sql = "DELETE FROM Clientes WHERE DNI = @DNI";
+            var sql = "DELETE FROM Cliente WHERE DNI = @DNI";
             var rowsAffected = Conexion.Execute(sql, new { DNI = dni });
             return rowsAffected > 0;
         }
 
         public IEnumerable<Cliente> ObtenerClientes()
         {
-            var sql = "SELECT DNI, Nombre, Telefono FROM Clientes";
+            var sql = "SELECT DNI, Nombre, Telefono FROM Cliente";
             return Conexion.Query<Cliente>(sql);
         }
 
         public Cliente ObtenerClientePorID(int dni)
         {
-            var sql = "SELECT DNI, Nombre, Telefono FROM Clientes WHERE DNI = @DNI";
+            var sql = "SELECT DNI, Nombre, Telefono FROM Cliente WHERE DNI = @DNI";
             var cliente = Conexion.QueryFirstOrDefault<Cliente>(sql, new { DNI = dni });
-            if (cliente == null)
-                throw new InvalidOperationException($"No se encontró un cliente con el DNI {dni}.");
             return cliente;
         }
     }

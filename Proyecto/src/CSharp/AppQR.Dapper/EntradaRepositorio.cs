@@ -14,9 +14,15 @@ namespace AppQR.Dapper
         public Entrada AgregarEntrada(Entrada entrada)
         {
             var sql = @"INSERT INTO Entradas (IdTarifa, IdOrden, CodigoQR, Estado)
-                        VALUES (@IdTarifa, @IdOrden, @CodigoQR, @Estado);
-                        SELECT LAST_INSERT_ID();";
-            var id = Conexion.ExecuteScalar<int>(sql, entrada);
+                VALUES (@idTarifa, @idOrden, @codigoQR, @estado);
+                SELECT LAST_INSERT_ID();";
+            var id = Conexion.ExecuteScalar<int>(sql, new
+            {
+                idTarifa = entrada.tarifa?.IdTarifa,
+                idOrden = entrada.orden?.IdOrden,
+                codigoQR = entrada.CodigoQR,
+                estado = entrada.Estado
+            });
             entrada.IdEntrada = id;
             return entrada;
         }
@@ -24,12 +30,19 @@ namespace AppQR.Dapper
         public bool ActualizarEntrada(Entrada entrada)
         {
             var sql = @"UPDATE Entradas SET 
-                            IdTarifa = @IdTarifa, 
-                            IdOrden = @IdOrden, 
-                            CodigoQR = @CodigoQR, 
-                            Estado = @Estado
-                        WHERE IdEntrada = @IdEntrada";
-            var rowsAffected = Conexion.Execute(sql, entrada);
+                            IdTarifa = @idTarifa, 
+                            IdOrden = @idOrden, 
+                            CodigoQR = @codigoQR, 
+                            Estado = @estado
+                        WHERE IdEntrada = @idEntrada";
+            var rowsAffected = Conexion.Execute(sql, new
+            {
+                idTarifa = entrada.tarifa?.IdTarifa,
+                idOrden = entrada.orden?.IdOrden,
+                codigoQR = entrada.CodigoQR,
+                estado = entrada.Estado,
+                idEntrada = entrada.IdEntrada
+            });
             return rowsAffected > 0;
         }
 
@@ -50,8 +63,6 @@ namespace AppQR.Dapper
         {
             var sql = "SELECT * FROM Entradas WHERE IdEntrada = @Id";
             var entrada = Conexion.QueryFirstOrDefault<Entrada>(sql, new { Id = id });
-            if (entrada == null)
-                throw new InvalidOperationException($"No se encontró una entrada con el ID {id}.");
             return entrada;
         }
     }

@@ -15,9 +15,14 @@ namespace AppQR.Dapper
 
         public Evento AgregarEvento(Evento evento)
         {
-            var sql = @"INSERT INTO Eventos (Nombre, Estado, IdLocal) VALUES (@Nombre, @Estado, @IdLocal); 
+            var sql = @"INSERT INTO Eventos (Nombre, Estado, IdLocal) VALUES (@nombre, @estado, @idLocal); 
                 SELECT LAST_INSERT_ID();";
-            var id = Conexion.ExecuteScalar<int>(sql, evento);
+            var id = Conexion.ExecuteScalar<int>(sql, new
+            {
+                nombre = evento.Nombre,
+                estado = evento.Estado,
+                idLocal = evento.local?.IdLocal
+            });
             evento.IdEvento = id;
             return evento;
         }
@@ -47,8 +52,6 @@ namespace AppQR.Dapper
         {
             var sql = "SELECT * FROM Eventos WHERE IdEvento = @Id";
             var evento = Conexion.QueryFirstOrDefault<Evento>(sql, new { Id = id });
-            if (evento == null)
-                throw new InvalidOperationException($"No se encontró un evento con el ID {id}.");
             return evento;
         }
     }

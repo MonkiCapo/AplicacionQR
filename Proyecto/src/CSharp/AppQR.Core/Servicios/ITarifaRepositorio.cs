@@ -8,8 +8,8 @@ namespace AppQR.Core.Servicios
 {
     public interface ITarifaRepositorio
     {
-        IEnumerable<Tarifa> ObtenerTarifas();
-        Tarifa ObtenerPorID(int id);
+        public IEnumerable<Tarifa> ObtenerTodasLasTarifas();
+        Tarifa ObtenerTarifaPorID(int id);
         Tarifa AgregarTarifa(Tarifa tarifa);
         bool ActualizarTarifa(Tarifa tarifa);
         bool EliminarTarifa(int id);

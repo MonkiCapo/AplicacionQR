@@ -20,12 +20,13 @@ namespace AppQR.Core.Entidades
             Sectores.Add(sector);
         }
 
-        public MostrarSectores()
+        public void MostrarSectores()
         {
             foreach (var sector in Sectores)
             {
                 Console.WriteLine($"Sector ID: {sector.IdSector}, Nombre: {sector.Nombre}, Capacidad: {sector.Capacidad}");
             }
+            
         }
     }
 }

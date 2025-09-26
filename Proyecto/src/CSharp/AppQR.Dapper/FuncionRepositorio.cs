@@ -8,25 +8,32 @@ namespace AppQR.Dapper;
 
 public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
 {
-    public FuncionRepositorio(IDbConnection conexion) : base(conexion ){ }
+    public FuncionRepositorio(IDbConnection conexion) : base(conexion) { }
 
     public Funcion AgregarFuncion(Funcion funcion)
     {
-        var sql = @"INSERT INTO Funcion (FechaHora, IdEvento, IdSector)
-                VALUES (@FechaHora, @IdEvento, @IdSector); 
+        var sql = @"INSERT INTO Funcion (FechaHora, IdEvento) 
+                VALUES (@fechaHora, @idEvento);
                 SELECT LAST_INSERT_ID();";
-        var id = Conexion.ExecuteScalar<int>(sql, funcion);
+        var id = Conexion.ExecuteScalar<int>(sql, new
+        {
+            fechaHora = funcion.FechaHora,
+            idEvento = funcion.evento.IdEvento
+        });
         funcion.IdFuncion = id;
         return funcion;
-
     }
 
     public bool ActualizarFuncion(Funcion funcion)
     {
-        var sql = @"UPDATE Funcion SET FechaHora = @FechaHora, IdEvento = @IdEvento, IdSector = @IdSector
-            WHERE IdFuncion = @IdFuncion";
-        Conexion.ExecuteScalar<int>(sql, funcion);
-        var rowsAffected = Conexion.Execute(sql, funcion);
+        var sql = @"UPDATE Funcion SET FechaHora = @fechaHora, IdEvento = @idEvento
+                    WHERE IdFuncion = @idFuncion";
+        var rowsAffected = Conexion.Execute(sql, new
+        {
+            fechaHora = funcion.FechaHora,
+            idEvento = funcion.evento.IdEvento,
+            idFuncion = funcion.IdFuncion
+        });
         return rowsAffected > 0;
     }
 
@@ -47,8 +54,6 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
     {
         var sql = "SELECT * FROM Funcion WHERE IdFuncion = @Id";
         var funcion = Conexion.QueryFirstOrDefault<Funcion>(sql, new { Id = id });
-        if (funcion == null)
-            throw new InvalidOperationException($"No se encontró una función con el ID {id}.");
         return funcion;
     }
 }
