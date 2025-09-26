@@ -33,7 +33,10 @@ namespace AppQR.Dapper
                             Nombre = @Nombre, 
                             Telefono = @Telefono
                         WHERE DNI = @dni";
-            var rowsAffected = Conexion.Execute(sql, cliente);
+            var rowsAffected = Conexion.Execute(sql, new
+            {
+                
+            });
             return rowsAffected > 0;
         }
 

@@ -13,18 +13,26 @@ namespace AppQR.Dapper
 
         public Local AgregarLocal(Local local)
         {
-            var sql = @"INSERT INTO Local (Nombre, Dirección) VALUES (@Nombre, @Direccion); 
+            var sql = @"INSERT INTO Local (Nombre, Dirección) VALUES (@nombre, @direccion); 
                 SELECT LAST_INSERT_ID();";
-            var id = Conexion.ExecuteScalar<int>(sql, local);
+            var id = Conexion.ExecuteScalar<int>(sql, new
+            {
+                nombre = local.Nombre,
+                direccion = local.Direccion
+            });
             local.IdLocal = id;
             return local;
         }
 
         public bool ActualizarLocal(Local local)
         {
-            var sql = @"UPDATE Local SET Nombre = @Nombre, Direccion = @Direccion
+            var sql = @"UPDATE Local SET Nombre = @nombre, Direccion = @direccion
             WHERE IdLocal = @IdLocal";
-            var rowsAffected = Conexion.Execute(sql, local);
+            var rowsAffected = Conexion.Execute(sql, new
+            {
+                nombre = local.Nombre,
+                direccion = local.Direccion
+            });
             return rowsAffected > 0;
         }
 

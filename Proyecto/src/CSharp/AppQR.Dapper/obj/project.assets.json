@@ -1597,32 +1597,33 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Naho\\.nuget\\packages\\": {}
+    "/home/et12alumno/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Dapper\\AppQR.Dapper.csproj",
+      "projectUniqueName": "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.Dapper/AppQR.Dapper.csproj",
       "projectName": "AppQR.Dapper",
-      "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Dapper\\AppQR.Dapper.csproj",
-      "packagesPath": "C:\\Users\\Naho\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Dapper\\obj\\",
+      "projectPath": "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.Dapper/AppQR.Dapper.csproj",
+      "packagesPath": "/home/et12alumno/.nuget/packages/",
+      "outputPath": "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.Dapper/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Naho\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/et12alumno/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\AppQR.Core.csproj": {
-              "projectPath": "C:\\Users\\Naho\\Desktop\\AplicacionQR\\Proyecto\\src\\CSharp\\AppQR.Core\\AppQR.Core.csproj"
+            "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.Core/AppQR.Core.csproj": {
+              "projectPath": "/home/et12alumno/Escritorio/AplicacionQR/Proyecto/src/CSharp/AppQR.Core/AppQR.Core.csproj"
             }
           }
         }
@@ -1637,7 +1638,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -1668,7 +1669,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.110/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
