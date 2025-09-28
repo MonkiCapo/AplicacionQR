@@ -1,0 +1,79 @@
+using System.Data;
+using Dapper;
+using MySql.Data.MySqlClient;
+using AppQR.Core;
+using AppQR.Core.Servicios;
+using AppQR.Core.Entidades;
+
+namespace AppQR.Dapper
+{
+    public class UsuarioRepositorio : DapperRepo, IUsuarioRepositorio
+    {
+        public UsuarioRepositorio(IDbConnection conexion) : base(conexion) { }
+
+        public Usuario AgregarUsuario(Usuario usuario)
+        {
+            var sql = @"INSERT INTO Usuario (NombreUsuario, Email, Contraseña, Rol, DNI) VALUES (@nombreUsuario, @email, @contraseña, @rol, @Dni); 
+                SELECT LAST_INSERT_ID();";
+            var id = Conexion.ExecuteScalar<int>(sql, new
+            {
+                nombreUsuario = usuario.NombreUsuario,
+                email = usuario.Email,
+                contraseña = usuario.Contraseña,
+                rol = usuario.Rol,
+                Dni = usuario.cliente.DNI
+            });
+            usuario.IdUsuario = id;
+            return usuario;
+        }
+
+        public bool ActualizarUsuario(Usuario usuario)
+        {
+            var sql = @"UPDATE Usuario NombreUsuario = @nombreUsuario, Email = @email, Contraseña = @contraseña, Rol = @rol, DNI = @Dni
+            WHERE IdUsuario = @idUsuario;";
+            var rowsAffected = Conexion.Execute(sql, new
+            {
+                nombreUsuario = usuario.NombreUsuario,
+                email = usuario.Email,
+                contraseña = usuario.Contraseña,
+                rol = usuario.Rol,
+                Dni = usuario.cliente.DNI
+            });
+            return rowsAffected > 0;
+        }
+
+        public bool EliminarUsuario(int idUsuario)
+        {
+            var sql = "DELETE FROM Usuario WHERE IdUsuario = @IDUsuario;";
+            var rowsAffected = Conexion.Execute(sql, new { IDUsuario = idUsuario });
+            return rowsAffected > 0;
+        }
+
+        public IEnumerable<Usuario> ObtenerTodosLosUsuarios()
+        {
+            var sql = @"SELECT u.IdUsuario, u.NombreUsuario, u.Email, u.Contraseña, u.Rol,
+                               c.DNI, c.Nombre, c.Telefono
+                        FROM Usuario u
+                        INNER JOIN Cliente c ON u.DNI = c.DNI;";
+
+            var usuarios = Conexion.Query<Usuario, Cliente, Usuario>(
+                sql,
+                (usuario, cliente) =>
+                {
+                    usuario.cliente = cliente;
+                    return usuario;
+                },
+                splitOn: "DNI"
+            );
+
+            return usuarios;
+        }
+
+        public Usuario ObtenerUsuarioPorID(int id)
+        {
+            var sql = "SELECT * FROM Usuario WHERE IdUsuario = @IDUsuario;";
+            var usuario = Conexion.QueryFirstOrDefault<Usuario>(sql, new { IDUsuario = id });
+            return usuario;
+        }
+    }
+}

@@ -8,7 +8,7 @@ namespace AppQR.Core.Entidades
     public class Orden
     {
         public int IdOrden { get; set; }
-        public Cliente cliente { get; set; }
+        public Usuario usuario { get; set; }
         public string Estado { get; set; }
         public decimal PrecioTotal { get; set; }
         public DateTime Fecha { get; set; }

@@ -53,8 +53,6 @@ namespace AppQR.Dapper
         {
             var sql = "SELECT * FROM Local WHERE IdLocal = @Id";
             var local = Conexion.QueryFirstOrDefault<Local>(sql, new { Id = id });
-            if (local == null)
-                throw new InvalidOperationException($"No se encontró un local con el ID {id}.");
             return local;
         }
 
@@ -72,7 +70,7 @@ namespace AppQR.Dapper
         {
             var sql = @"UPDATE Sector SET Nombre = @nombre, Capacidad = @capacidad, IdLocal = @idLocal
                         WHERE IdSector = @idSector";
-            var rowsAffected = Conexion.Execute(sql, new { idSector = sector.IdSector, nombre = sector.Nombre, capacidad = sector.Capacidad, idLocal = id });
+            var rowsAffected = Conexion.Execute(sql, new { nombre = sector.Nombre, capacidad = sector.Capacidad, idLocal = id });
             return rowsAffected > 0;
         }
 

@@ -9,7 +9,7 @@ namespace AppQR.Core.Servicios
     public interface IClienteRepositorio
     {
         IEnumerable<Cliente> ObtenerClientes();
-        Cliente ObtenerClientePorID(int dni);
+        Cliente ObtenerClientePorDNI(int dni);
         Cliente AgregarCliente(Cliente cliente);
         bool ActualizarCliente(Cliente cliente);
         bool EliminarCliente(int dni);

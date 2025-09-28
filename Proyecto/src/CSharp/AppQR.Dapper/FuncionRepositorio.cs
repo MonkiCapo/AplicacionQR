@@ -31,8 +31,7 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
         var rowsAffected = Conexion.Execute(sql, new
         {
             fechaHora = funcion.FechaHora,
-            idEvento = funcion.evento.IdEvento,
-            idFuncion = funcion.IdFuncion
+            idEvento = funcion.evento.IdEvento
         });
         return rowsAffected > 0;
     }

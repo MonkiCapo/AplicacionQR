@@ -61,7 +61,7 @@ CREATE TABLE Tarifa (
 -- TABLA: Cliente
 -- ======================
 CREATE TABLE Cliente (
-    DNI UNSIGNED INT PRIMARY KEY UNIQUE NOT NULL,
+    DNI INT PRIMARY KEY UNIQUE NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     telefono VARCHAR(20)
 );
@@ -72,7 +72,7 @@ CREATE TABLE Cliente (
 
 CREATE TABLE Usuario (
     IdUsuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombreUsuario VARCHAR(100) NOT NULL UNIQUE,
+    NombreUsuario VARCHAR(100) NOT NULL UNIQUE,
     Email VARCHAR(100) NOT NULL UNIQUE,
     Contraseña VARCHAR(255) NOT NULL,
     Rol VARCHAR(50) NOT NULL,
@@ -86,11 +86,11 @@ CREATE TABLE Usuario (
 -- ======================
 CREATE TABLE Orden (
     IdOrden INT AUTO_INCREMENT PRIMARY KEY,
-    IdCliente INT NOT NULL,
+    IdUsuario INT NOT NULL,
     estado VARCHAR(50) NOT NULL,
     precioTotal DECIMAL(10,2) NOT NULL,
     fechaHora DATETIME NOT NULL,
-    FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente)
+    FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
 );
 
 -- ======================

@@ -13,7 +13,7 @@ namespace AppQR.Dapper
 
         public Entrada AgregarEntrada(Entrada entrada)
         {
-            var sql = @"INSERT INTO Entradas (IdTarifa, IdOrden, CodigoQR, Estado)
+            var sql = @"INSERT INTO Entrada (IdTarifa, IdOrden, CodigoQR, Estado)
                 VALUES (@idTarifa, @idOrden, @codigoQR, @estado);
                 SELECT LAST_INSERT_ID();";
             var id = Conexion.ExecuteScalar<int>(sql, new
@@ -29,7 +29,7 @@ namespace AppQR.Dapper
 
         public bool ActualizarEntrada(Entrada entrada)
         {
-            var sql = @"UPDATE Entradas SET 
+            var sql = @"UPDATE Entrada SET 
                             IdTarifa = @idTarifa, 
                             IdOrden = @idOrden, 
                             CodigoQR = @codigoQR, 
@@ -40,22 +40,21 @@ namespace AppQR.Dapper
                 idTarifa = entrada.tarifa?.IdTarifa,
                 idOrden = entrada.orden?.IdOrden,
                 codigoQR = entrada.CodigoQR,
-                estado = entrada.Estado,
-                idEntrada = entrada.IdEntrada
+                estado = entrada.Estado
             });
             return rowsAffected > 0;
         }
 
         public bool EliminarEntrada(int id)
         {
-            var sql = "DELETE FROM Entradas WHERE IdEntrada = @Id";
+            var sql = "DELETE FROM Entrada WHERE IdEntrada = @Id";
             var rowsAffected = Conexion.Execute(sql, new { Id = id });
             return rowsAffected > 0;
         }
 
         public IEnumerable<Entrada> ObtenerEntradas()
         {
-            var sql = "SELECT * FROM Entradas";
+            var sql = "SELECT * FROM Entrada";
             return Conexion.Query<Entrada>(sql);
         }
 

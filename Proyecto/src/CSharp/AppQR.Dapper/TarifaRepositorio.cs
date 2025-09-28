@@ -40,8 +40,7 @@ namespace AppQR.Dapper
                 precio = tarifa.Precio,
                 stock = tarifa.Stock,
                 estado = tarifa.Estado,
-                idFuncion = tarifa.funcion.IdFuncion,
-                idTarifa = tarifa.IdTarifa
+                idFuncion = tarifa.funcion.IdFuncion
             });
             return rowsAffected > 0;
         }

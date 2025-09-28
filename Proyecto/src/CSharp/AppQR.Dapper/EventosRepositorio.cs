@@ -29,9 +29,14 @@ namespace AppQR.Dapper
 
         public bool ActualizarEvento(Evento evento)
         {
-            var sql = @"UPDATE Eventos SET Nombre = @Nombre, Estado = @Estado, IdLocal = @IdLocal
-            WHERE IdEvento = @IdEvento";
-            var rowsAffected = Conexion.Execute(sql, evento);
+            var sql = @"UPDATE Eventos SET Nombre = @nombre, Estado = @estado, IdLocal = @idLocal
+            WHERE IdEvento = @idEvento";
+            var rowsAffected = Conexion.Execute(sql, new
+            {
+                nombre = evento.Nombre,
+                estado = evento.Estado,
+                idLocal = evento.local?.IdLocal
+            });
             return rowsAffected > 0;
         }
 

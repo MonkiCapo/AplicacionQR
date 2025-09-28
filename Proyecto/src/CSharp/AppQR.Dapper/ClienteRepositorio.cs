@@ -12,38 +12,39 @@ namespace AppQR.Dapper
         public ClienteRepositorio(IDbConnection conexion) : base(conexion) { }
 
        public Cliente AgregarCliente(Cliente cliente)
-{
-        var sql = @"INSERT INTO Cliente (DNI, Nombre, Telefono) 
-                    VALUES (@dni, @nombre, @telefono);
-                    SELECT @dni;";
-        
-        var Dni = Conexion.ExecuteScalar<int>(sql, new
         {
-            dni = cliente.DNI,
-            nombre = cliente.Nombre,
-            telefono = cliente.Telefono
-        });
+            var sql = @"INSERT INTO Cliente (DNI, Nombre, Telefono) 
+                        VALUES (@dni, @nombre, @telefono);";
+            
+            Conexion.Execute(sql, new
+            {
+                dni = cliente.DNI,
+                nombre = cliente.Nombre,
+                telefono = cliente.Telefono
+            });
+            return cliente;
+        }
 
-        cliente.DNI = Dni;
-        return cliente;
-}
         public bool ActualizarCliente(Cliente cliente)
         {
-            var sql = @"UPDATE Cliente SET 
-                            Nombre = @Nombre, 
-                            Telefono = @Telefono
-                        WHERE DNI = @dni";
+        var sql = @"UPDATE Cliente SET 
+                        Nombre = @nombre, 
+                        Telefono = @telefono,
+                        DNI = @dni
+                        WHERE DNI = @dni;";
             var rowsAffected = Conexion.Execute(sql, new
             {
-                
+                nombre = cliente.Nombre,
+                telefono = cliente.Telefono,
+                dni = cliente.DNI
             });
             return rowsAffected > 0;
         }
 
         public bool EliminarCliente(int dni)
         {
-            var sql = "DELETE FROM Cliente WHERE DNI = @DNI";
-            var rowsAffected = Conexion.Execute(sql, new { DNI = dni });
+            var sql = "DELETE FROM Cliente WHERE DNI = @Dni;";
+            var rowsAffected = Conexion.Execute(sql, new { Dni = dni });
             return rowsAffected > 0;
         }
 
@@ -53,7 +54,7 @@ namespace AppQR.Dapper
             return Conexion.Query<Cliente>(sql);
         }
 
-        public Cliente ObtenerClientePorID(int dni)
+        public Cliente ObtenerClientePorDNI(int dni)
         {
             var sql = "SELECT DNI, Nombre, Telefono FROM Cliente WHERE DNI = @DNI";
             var cliente = Conexion.QueryFirstOrDefault<Cliente>(sql, new { DNI = dni });
