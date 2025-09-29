@@ -29,14 +29,12 @@ namespace AppQR.Dapper
         {
         var sql = @"UPDATE Cliente SET 
                         Nombre = @nombre, 
-                        Telefono = @telefono,
-                        DNI = @dni
+                        Telefono = @telefono
                         WHERE DNI = @dni;";
             var rowsAffected = Conexion.Execute(sql, new
             {
                 nombre = cliente.Nombre,
-                telefono = cliente.Telefono,
-                dni = cliente.DNI
+                telefono = cliente.Telefono
             });
             return rowsAffected > 0;
         }

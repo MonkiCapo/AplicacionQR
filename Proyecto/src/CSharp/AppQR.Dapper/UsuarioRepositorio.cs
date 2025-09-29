@@ -52,7 +52,7 @@ namespace AppQR.Dapper
         public IEnumerable<Usuario> ObtenerTodosLosUsuarios()
         {
             var sql = @"SELECT u.IdUsuario, u.NombreUsuario, u.Email, u.Contraseña, u.Rol,
-                               c.DNI, c.Nombre, c.Telefono
+                               c.DNI
                         FROM Usuario u
                         INNER JOIN Cliente c ON u.DNI = c.DNI;";
 
