@@ -19,7 +19,7 @@ namespace AppQR.Core.Servicios
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.IdUsuario.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, usuario.NombreUsuario),
+                new Claim(ClaimTypes.Name, usuario.NombreUsuario),
                 new Claim(ClaimTypes.Role, usuario.Rol),
                 new Claim(JwtRegisteredClaimNames.Email, usuario.Email)
             };

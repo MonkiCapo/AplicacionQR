@@ -10,6 +10,7 @@ namespace AppQR.Core.Servicios
     {
         public IEnumerable<Usuario> ObtenerTodosLosUsuarios();
         public Usuario ObtenerUsuarioPorID(int id);
+        public Usuario ObtenerUsuarioPorEmail(string email);
         public Usuario AgregarUsuario(Usuario usuario);
         public bool ActualizarUsuario(Usuario usuario);
         public bool EliminarUsuario(int id);

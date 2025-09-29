@@ -29,7 +29,7 @@ namespace AppQR.Dapper
 
         public bool ActualizarUsuario(Usuario usuario)
         {
-            var sql = @"UPDATE Usuario NombreUsuario = @nombreUsuario, Email = @email, Contraseña = @contraseña, Rol = @rol, DNI = @Dni
+            var sql = @"UPDATE Usuario SET NombreUsuario = @nombreUsuario, Email = @email, Contraseña = @contraseña, Rol = @rol, DNI = @Dni
             WHERE IdUsuario = @idUsuario;";
             var rowsAffected = Conexion.Execute(sql, new
             {
@@ -71,8 +71,42 @@ namespace AppQR.Dapper
 
         public Usuario ObtenerUsuarioPorID(int id)
         {
-            var sql = "SELECT * FROM Usuario WHERE IdUsuario = @IDUsuario;";
-            var usuario = Conexion.QueryFirstOrDefault<Usuario>(sql, new { IDUsuario = id });
+            var sql = "SELECT u.IdUsuario, u.NombreUsuario, u.Email, u.Contraseña, u.Rol, c.DNI, c.Nombre, c.Telefono FROM Usuario u INNER JOIN Cliente c ON u.DNI = c.DNI WHERE u.IdUsuario = @IdUsuario;";
+
+
+            var usuario = Conexion.Query<Usuario, Cliente, Usuario>(
+                sql,
+                (u, c) =>
+                {
+                    u.cliente = c;
+                    return u;
+                },
+                new { IdUsuario = id },
+                splitOn: "DNI"
+            ).FirstOrDefault();
+
+            return usuario;
+        }
+        
+         public Usuario ObtenerUsuarioPorEmail(string email)
+        {
+            var sql = @"SELECT u.IdUsuario, u.NombreUsuario, u.Email, u.Contraseña, u.Rol,
+                               c.DNI, c.Nombre, c.Telefono
+                        FROM Usuario u
+                        INNER JOIN Cliente c ON u.DNI = c.DNI
+                        WHERE u.Email = @Email;";
+
+            var usuario = Conexion.Query<Usuario, Cliente, Usuario>(
+                sql,
+                (u, c) =>
+                {
+                    u.cliente = c;
+                    return u;
+                },
+                new { Email = email },
+                splitOn: "DNI"
+            ).FirstOrDefault();
+
             return usuario;
         }
     }
