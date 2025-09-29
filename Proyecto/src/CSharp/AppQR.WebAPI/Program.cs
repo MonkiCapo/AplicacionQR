@@ -1,14 +1,15 @@
-using AppQR.Core.Servicios;
-using AppQR.Dapper;
 using System.Data;
+using System.Text;
 using MySql.Data.MySqlClient;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using AppQR.Core.Servicios;
+using AppQR.Dapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// JWT configuration
 var key = builder.Configuration["Jwt:Key"];
 var issuer = builder.Configuration["Jwt:Issuer"];
 
@@ -30,28 +31,27 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Dependency Injection
 builder.Services.AddControllers();
-
-builder.Services.AddScoped<IDbConnection>(provider => {
+builder.Services.AddScoped<IDbConnection>(provider =>
+{
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     return new MySqlConnection(connectionString);
 });
-
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-
+// Middleware
 // app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapControllers();
-
 app.Run();

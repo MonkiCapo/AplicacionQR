@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using AppQR.Core.Entidades;
 using AppQR.Core.Servicios;
+using AppQR.Core.Dto;
 
 namespace AppQR.WebAPI.Controladores
 {
