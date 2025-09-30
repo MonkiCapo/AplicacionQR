@@ -87,8 +87,8 @@ namespace AppQR.Dapper
 
             return usuario;
         }
-        
-         public Usuario ObtenerUsuarioPorEmail(string email)
+
+        public Usuario ObtenerUsuarioPorEmail(string email)
         {
             var sql = @"SELECT u.IdUsuario, u.NombreUsuario, u.Email, u.Contraseña, u.Rol,
                                c.DNI, c.Nombre, c.Telefono
@@ -108,6 +108,26 @@ namespace AppQR.Dapper
             ).FirstOrDefault();
 
             return usuario;
+        }
+
+        public Usuario? Login(string loginMail, string loginContraseña)
+        {
+            var sql = "SELECT u.*, c.* FROM Usuario u JOIN Cliente c ON u.DNI = c.DNI WHERE u.Email = @email AND u.Contraseña = @contraseña;";
+            var usuario = Conexion.Query<Usuario, Cliente, Usuario>(
+                sql,
+                (u, c) =>
+                {
+                    u.cliente = c;
+                    return u;
+                },
+                new { email = loginMail, contraseña = loginContraseña }).FirstOrDefault();
+
+            return usuario;
+        }
+
+        public bool ExisteUsuario(string emailExistente)
+        {
+
         }
     }
 }

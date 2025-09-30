@@ -14,5 +14,9 @@ namespace AppQR.Core.Servicios
         public Usuario AgregarUsuario(Usuario usuario);
         public bool ActualizarUsuario(Usuario usuario);
         public bool EliminarUsuario(int id);
+
+        public Usuario? Login(string loginMail, string loginContraseña);
+
+        public bool ExisteUsuario(string emailExistente);
     }
 }
