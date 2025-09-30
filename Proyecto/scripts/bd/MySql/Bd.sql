@@ -106,3 +106,13 @@ CREATE TABLE Entrada (
     FOREIGN KEY (IdTarifa) REFERENCES Tarifa(IdTarifa),
     FOREIGN KEY (IdOrden) REFERENCES Orden(IdOrden)
 );
+
+-- ======================
+-- TABLA: RefreshToken
+-- ======================
+CREATE TABLE RefreshTokens (
+    IdRefreshTokens INT AUTO_INCREMENT PRIMARY KEY,
+    Token VARCHAR(200) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Expiration DATETIME NOT NULL
+);
