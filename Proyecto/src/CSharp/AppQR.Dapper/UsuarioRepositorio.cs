@@ -127,7 +127,9 @@ namespace AppQR.Dapper
 
         public bool ExisteUsuario(string emailExistente)
         {
-
+            var sql = "SELECT COUNT(1) FROM Usuario WHERE Email = @email;";
+            var count = Conexion.QueryFirstOrDefault<Usuario>(sql, new { email = emailExistente });
+            return count != null;
         }
     }
 }

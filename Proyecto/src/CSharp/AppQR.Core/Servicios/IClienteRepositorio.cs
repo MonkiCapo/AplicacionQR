@@ -13,5 +13,7 @@ namespace AppQR.Core.Servicios
         Cliente AgregarCliente(Cliente cliente);
         bool ActualizarCliente(Cliente cliente);
         bool EliminarCliente(int dni);
+
+        bool ExisteDNIdeCliente(int dniExistente);
     }
 }

@@ -8,15 +8,15 @@ namespace AppQR.Core.Servicios
 {
     public interface IUsuarioRepositorio
     {
-        public IEnumerable<Usuario> ObtenerTodosLosUsuarios();
-        public Usuario ObtenerUsuarioPorID(int id);
-        public Usuario ObtenerUsuarioPorEmail(string email);
-        public Usuario AgregarUsuario(Usuario usuario);
-        public bool ActualizarUsuario(Usuario usuario);
-        public bool EliminarUsuario(int id);
+        IEnumerable<Usuario> ObtenerTodosLosUsuarios();
+        Usuario ObtenerUsuarioPorID(int id);
+        Usuario ObtenerUsuarioPorEmail(string email);
+        Usuario AgregarUsuario(Usuario usuario);
+        bool ActualizarUsuario(Usuario usuario);
+        bool EliminarUsuario(int id);
 
-        public Usuario? Login(string loginMail, string loginContraseña);
+        Usuario? Login(string loginMail, string loginContraseña);
 
-        public bool ExisteUsuario(string emailExistente);
+        bool ExisteUsuario(string emailExistente);
     }
 }

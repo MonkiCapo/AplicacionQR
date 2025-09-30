@@ -19,5 +19,42 @@ namespace AppQR.WebAPI.Controladores
         private readonly IClienteRepositorio _clienteRepo;
         private readonly IConfiguration _config;
         private readonly IRefreshTokenRepositorio _refreshTokenRepo;
+
+        public AuthController(IUsuarioRepositorio usuarioRepo, IClienteRepositorio clienteRepo, IConfiguration config, IRefreshTokenRepositorio refreshTokenRepo)
+        {
+            _usuarioRepo = usuarioRepo;
+            _clienteRepo = clienteRepo;
+            _config = config;
+            _refreshTokenRepo = refreshTokenRepo;
+        }
+
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] RegisterRequestDTO nuevoUsuarioDTO)
+        {
+            if (ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (_usuarioRepo.ExisteUsuario(nuevoUsuarioDTO.Email))
+                return BadRequest("El email ya está en uso.");
+
+            if (!_clienteRepo.ExisteDNIdeCliente(nuevoUsuarioDTO.cliente.DNI))
+            {
+                var nuevoCliente = new Cliente
+                {
+                    Nombre = nuevoUsuarioDTO.cliente.Nombre,
+                    DNI = nuevoUsuarioDTO.cliente.DNI,
+                    Telefono = nuevoUsuarioDTO.cliente.Telefono
+                };
+                _clienteRepo.AgregarCliente(nuevoCliente);
+                nuevoUsuarioDTO.cliente = new ClienteDTO
+                {
+                    Nombre = nuevoCliente.Nombre,
+                    DNI = nuevoCliente.DNI,
+                    Telefono = nuevoCliente.Telefono
+                };
+            }
+
+            var hash = 
+        }
     }
 }

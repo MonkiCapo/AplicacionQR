@@ -4,8 +4,11 @@ using MySql.Data.MySqlClient;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using AppQR.Core.Servicios;
 using AppQR.Dapper;
+using AppQR.Core.Servicios.Validadores;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,12 +35,16 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Dependency Injection
-builder.Services.AddControllers();
+
 builder.Services.AddScoped<IDbConnection>(provider =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     return new MySqlConnection(connectionString);
+
+    builder.Services.AddControllers()
+        .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ClienteFluent>());
 });
+
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 
 // Swagger

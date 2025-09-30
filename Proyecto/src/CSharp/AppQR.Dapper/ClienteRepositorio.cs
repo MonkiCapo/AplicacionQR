@@ -11,11 +11,11 @@ namespace AppQR.Dapper
     {
         public ClienteRepositorio(IDbConnection conexion) : base(conexion) { }
 
-       public Cliente AgregarCliente(Cliente cliente)
+        public Cliente AgregarCliente(Cliente cliente)
         {
             var sql = @"INSERT INTO Cliente (DNI, Nombre, Telefono) 
                         VALUES (@dni, @nombre, @telefono);";
-            
+
             Conexion.Execute(sql, new
             {
                 dni = cliente.DNI,
@@ -27,7 +27,7 @@ namespace AppQR.Dapper
 
         public bool ActualizarCliente(Cliente cliente)
         {
-        var sql = @"UPDATE Cliente SET 
+            var sql = @"UPDATE Cliente SET 
                         Nombre = @nombre, 
                         Telefono = @telefono
                         WHERE DNI = @dni;";
@@ -48,15 +48,27 @@ namespace AppQR.Dapper
 
         public IEnumerable<Cliente> ObtenerClientes()
         {
-            var sql = "SELECT DNI, Nombre, Telefono FROM Cliente";
+            var sql = "SELECT DNI, Nombre, Telefono FROM Cliente;";
             return Conexion.Query<Cliente>(sql);
         }
 
         public Cliente ObtenerClientePorDNI(int dni)
         {
-            var sql = "SELECT DNI, Nombre, Telefono FROM Cliente WHERE DNI = @DNI";
+            var sql = "SELECT DNI, Nombre, Telefono FROM Cliente WHERE DNI = @DNI;";
             var cliente = Conexion.QueryFirstOrDefault<Cliente>(sql, new { DNI = dni });
             return cliente;
         }
+
+        public bool ExisteDNIdeCliente(int dniExistente)
+        {
+            var sql = Conexion.QueryFirstOrDefault("SELECT COUNT(1) FROM Cliente WHERE DNI = @Dni LIMIT 1;", new { Dni = dniExistente });
+            if (sql = null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }
