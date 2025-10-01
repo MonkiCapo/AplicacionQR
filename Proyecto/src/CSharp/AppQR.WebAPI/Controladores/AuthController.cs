@@ -131,7 +131,94 @@ namespace AppQR.WebAPI.Controladores
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); 
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: null,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(30),
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        [HttpPost("refresh")]
+        public IActionResult Refresh([FromBody] RefreshTokenDTO refreshRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var TokenExistente = _refreshTokenRepo.ObtenerToken(refreshRequest.RefreshToken);
+            if (TokenExistente == null || TokenExistente.Expiration < DateTime.UtcNow)
+                return Unauthorized("Token de refresco inválido o expirado.");
+
+            var newToken = GenerateJwtToken(usuario);
+            var newRefreshToken = Guid.NewGuid().ToString();
+            var newRefreshTokenHash = ContraseñaHasher.Hash(newRefreshToken);
+
+            _refreshTokenRepo.ReemplazarToken(usuario.IdUsuario, newRefreshTokenHash, DateTime.UtcNow.AddMinutes(30));
+
+            return Ok(new { token = newToken, refreshToken = newRefreshToken });
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout([FromBody] RefreshTokenDTO refreshTokenDto)
+        {
+            _refreshTokenRepo.EliminarToken(refreshTokenDto.RefreshToken);
+            return Ok(new { Mensaje = "Sesión cerrada correctamente." });
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public IActionResult Me()
+        {
+            var email = User.Identity?.Name;
+            var rol = User.FindFirst(ClaimTypes.Role)?.Value;
+            var nombreUsuario = User.FindFirst("NombreUsuario")?.Value;
+            var dni = User.FindFirst("DNI")?.Value;
+            var nombre = User.FindFirst("Nombre")?.Value;
+
+            return Ok(new
+            {
+                Email = email,
+                Rol = rol,
+                NombreUsuario = nombreUsuario,
+                DNI = dni,
+                Nombre = nombre
+            });
+        }
+
+        [HttpGet("roles")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetRoles()
+        {
+            var roles = new[] { ERoles.Admin, ERoles.Usuario };
+            return Ok(roles);
+        }
+
+        [HttpPost("/api/usuarios/{idUsuario}/roles")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult AsignarRol(int idUsuario, [FromBody] string rol)
+        {
+            var usuario = _usuarioRepo.ObtenerUsuarioPorID(idUsuario);
+            if (usuario == null)
+                return NotFound("Usuario no encontrado.");
+
+            if (ERoles.Usuario.ToString().Trim() != rol.Trim() || ERoles.Admin.ToString().Trim() != rol.Trim())
+                return BadRequest("Rol inválido.");
+
+            if (ERoles.Usuario.ToString().Trim() == rol.Trim())
+                usuario.Rol = ERoles.Usuario;
+            else
+            {
+                usuario.Rol = ERoles.Admin;
+            }
+
+            _usuarioRepo.ActualizarUsuario(usuario);
+
+            return Ok(usuario);
         }
     }
 }
