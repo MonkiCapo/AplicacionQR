@@ -23,7 +23,7 @@ namespace AppQR.Dapper
             {
                 token = token.Token,
                 email = token.Email,
-                expiration = token.Expiration
+                expiratReemplazarTokenion = token.Expiration
             });
 
             return id;

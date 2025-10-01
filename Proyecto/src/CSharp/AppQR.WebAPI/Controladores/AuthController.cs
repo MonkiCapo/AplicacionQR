@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using AppQR.Core.Servicios.Utilidades;
 using AppQR.Dapper;
+using System.Text;
 
 namespace AppQR.WebAPI.Controladores
 {
