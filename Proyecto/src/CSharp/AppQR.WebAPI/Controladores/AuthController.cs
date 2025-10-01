@@ -8,6 +8,12 @@ using AppQR.Core.Servicios;
 using AppQR.Core.Entidades;
 using AppQR.Core.Dto;
 using AppQR.Core.Servicios.Enums;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using AppQR.Core.Servicios.Utilidades;
+using AppQR.Dapper;
 
 namespace AppQR.WebAPI.Controladores
 {
@@ -31,7 +37,7 @@ namespace AppQR.WebAPI.Controladores
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterRequestDTO nuevoUsuarioDTO)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             if (_usuarioRepo.ExisteUsuario(nuevoUsuarioDTO.Email))
@@ -54,7 +60,78 @@ namespace AppQR.WebAPI.Controladores
                 };
             }
 
-            var hash = 
+            var hash = ContraseñaHasher.Hash(nuevoUsuarioDTO.Contraseña);
+            nuevoUsuarioDTO.Contraseña = hash;
+
+            var usuario = new Usuario
+            {
+                NombreUsuario = nuevoUsuarioDTO.NombreUsuario,
+                Contraseña = nuevoUsuarioDTO.Contraseña,
+                Email = nuevoUsuarioDTO.Email,
+                Rol = ERoles.Usuario,
+                cliente = new Cliente
+                {
+                    DNI = nuevoUsuarioDTO.cliente.DNI,
+                    Nombre = nuevoUsuarioDTO.cliente.Nombre,
+                    Telefono = nuevoUsuarioDTO.cliente.Telefono
+                }
+            };
+
+            _usuarioRepo.AgregarUsuario(usuario);
+
+            return Ok(new
+            {
+                Mensaje = "Usuario registrado correctamente",
+                usuario = new
+                {
+                    usuario.IdUsuario,
+                    usuario.NombreUsuario,
+                    usuario.Email,
+                    usuario.Rol,
+                    Cliente = usuario.cliente
+                }
+            });
+        }
+
+        public IActionResult Login([FromServices] RefreshTokenRepositorio refreshTokenRepo, [FromBody] LoginRequestDTO login)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var hash = ContraseñaHasher.Hash(login.Contraseña);
+            login.Contraseña = hash;
+
+            var usuario = _usuarioRepo.Login(login.Email, login.Contraseña);
+            if (usuario == null)
+                return Unauthorized("Credenciales inválidas.");
+
+            var token = GenerateJwtToken(usuario);
+            var refreshToken = Guid.NewGuid().ToString();
+            var refreshTokenEntity = new RefreshToken
+            {
+                Token = refreshToken,
+                Email = usuario.Email,
+                Expiration = DateTime.UtcNow.AddMinutes(30)
+            };
+            refreshTokenRepo.InsertarToken(refreshTokenEntity);
+
+            return Ok(new { token, refreshToken });
+        }
+
+        private string GenerateJwtToken(Usuario usuario)
+        {
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, usuario.Email),
+                new Claim(ClaimTypes.Role, string.IsNullOrEmpty(usuario.Rol.ToString()) ? "Usuario" : usuario.Rol.ToString()),
+                new Claim("NombreUsuario", usuario.NombreUsuario),
+                new Claim("DNI", usuario.cliente.DNI.ToString()),
+                new Claim("Nombre", usuario.cliente.Nombre),
+                new Claim("Telefono", usuario.cliente.Telefono ?? "")
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); 
         }
     }
 }
