@@ -29,6 +29,8 @@ namespace AppQR.Test
                 IdEvento = 150,
                 Nombre = "Concierto Pop",
                 Estado = "Activo",
+                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
+                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
                 local = new Local { IdLocal = 1 }
             };
             _eventoRepositorio.AgregarEvento(evento);
@@ -42,6 +44,8 @@ namespace AppQR.Test
             Assert.Equal(evento.local.IdLocal, eventoAgregado.local.IdLocal);
             Assert.True(eventoAgregado.IdEvento > 0);
         }
+
+
         [Fact]
         public void CuandoAgrego_Un_Evento_Obtengo_UnID()
         {
@@ -50,6 +54,8 @@ namespace AppQR.Test
                 IdEvento = 100,
                 Nombre = "Concierto Rock",
                 Estado = "Activo",
+                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
+                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
                 local = new Local { IdLocal = 1 }
             };
             _eventoRepositorio.AgregarEvento(evento);
@@ -71,6 +77,8 @@ namespace AppQR.Test
                 IdEvento = 200,
                 Nombre = "Concierto Kpop",
                 Estado = "Activo",
+                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
+                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
                 local = new Local { IdLocal = 1 }
             };
             _eventoRepositorio.AgregarEvento(evento);
@@ -80,6 +88,8 @@ namespace AppQR.Test
                 IdEvento = 200,
                 Nombre = "Concierto Actualizado",
                 Estado = "inactivo",
+                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
+                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
                 local = new Local { IdLocal = 1 }
             };
 
@@ -103,6 +113,8 @@ namespace AppQR.Test
                 IdEvento = 208,
                 Nombre = "Concierto de Gatos",
                 Estado = "Activo",
+                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
+                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
                 local = new Local { IdLocal = 1 }
             };
             _eventoRepositorio.AgregarEvento(evento);
@@ -121,6 +133,8 @@ namespace AppQR.Test
                 IdEvento = 202,
                 Nombre = "Concierto Pop",
                 Estado = "Activo",
+                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
+                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
                 local = new Local { IdLocal = 1 }
             };
             _eventoRepositorio.AgregarEvento(evento);
