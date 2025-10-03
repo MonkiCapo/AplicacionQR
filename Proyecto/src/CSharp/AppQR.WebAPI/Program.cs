@@ -118,6 +118,7 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger"; // http://localhost:5096/swagger
     c.DisplayRequestDuration(); // Muestra el tiempo de respuesta
     c.EnableDeepLinking(); // Permite enlaces directos a endpoints
+    c.EnableTryItOutByDefault();
 });
 
 app.MapControllers();

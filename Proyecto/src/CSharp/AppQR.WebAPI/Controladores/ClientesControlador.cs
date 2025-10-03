@@ -2,10 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using AppQR.Core.Entidades;
 using AppQR.Core.Servicios;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace AppQR.WebAPI.Controladores
 {
     [ApiController]
+    [Authorize(Roles = "Usuario")]
     [Route("api/[controller]")]
     public class ClientesController : ControllerBase
     {
@@ -36,6 +40,7 @@ namespace AppQR.WebAPI.Controladores
         // Get de todos los Clientes /api/clientes
 
         [HttpGet]
+       
         public IActionResult ObtenerClientes()
         {
                 var clientes = _clienteRepositorio.ObtenerClientes();

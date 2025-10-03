@@ -13,7 +13,7 @@ namespace AppQR.Dapper
 
         public Local AgregarLocal(Local local)
         {
-            var sql = @"INSERT INTO Local (Nombre, Dirección) VALUES (@nombre, @direccion); 
+            var sql = @"INSERT INTO Local (Nombre, Direccion) VALUES (@nombre, @direccion); 
                 SELECT LAST_INSERT_ID();";
             var id = Conexion.ExecuteScalar<int>(sql, new
             {

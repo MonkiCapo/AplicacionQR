@@ -110,8 +110,6 @@ namespace AppQR.WebAPI.Controladores
             // PASO 2: Verificar contraseña usando Argon2.Verify
             if (!ContraseñaHasher.Verificar(usuario.Contraseña, login.Contraseña))
                 return Unauthorized("Credenciales inválidas.");
-
-            // ✅ SI LLEGA AQUÍ - LOGIN EXITOSO
             
             // Generar token JWT
             var token = GenerateJwtToken(usuario);

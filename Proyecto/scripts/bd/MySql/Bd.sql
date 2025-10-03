@@ -9,8 +9,8 @@ USE AppQR
 -- ======================
 CREATE TABLE Local (
     IdLocal INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    direccion VARCHAR(200) NOT NULL
+    Nombre VARCHAR(100) NOT NULL,
+    Direccion VARCHAR(200) NOT NULL
 );
 
 -- ======================
