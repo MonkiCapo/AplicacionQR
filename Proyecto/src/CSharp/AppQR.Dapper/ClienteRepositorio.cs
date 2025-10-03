@@ -61,14 +61,11 @@ namespace AppQR.Dapper
 
         public bool ExisteDNIdeCliente(int dniExistente)
         {
-            var sql = Conexion.QueryFirstOrDefault("SELECT COUNT(1) FROM Cliente WHERE DNI = @Dni LIMIT 1;", new { Dni = dniExistente });
-            if (sql = null)
-            {
-                return false;
-            }
-
-            return true;
+            var sql = "SELECT COUNT(1) FROM Cliente WHERE DNI = @DNI";
+            var count = Conexion.ExecuteScalar<int>(sql, new { DNI = dniExistente });
+            return count > 0;
         }
+
 
     }
 }

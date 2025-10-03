@@ -40,7 +40,8 @@ CREATE TABLE Evento (
 -- ======================
 CREATE TABLE Funcion (
     IdFuncion INT AUTO_INCREMENT PRIMARY KEY,
-    fecha DATETIME NOT NULL,
+    FechaHora DATETIME NOT NULL,
+    Estado VARCHAR(50) NOT NULL,
     IdEvento INT NOT NULL,
     FOREIGN KEY (IdEvento) REFERENCES Evento(IdEvento)
 );
@@ -50,9 +51,9 @@ CREATE TABLE Funcion (
 -- ======================
 CREATE TABLE Tarifa (
     IdTarifa INT AUTO_INCREMENT PRIMARY KEY,
-    precio DECIMAL(10,2) NOT NULL,
-    stock INT NOT NULL,
-    estado VARCHAR(50) NOT NULL,
+    Precio DECIMAL(10,2) NOT NULL,
+    Stock INT NOT NULL,
+    Estado VARCHAR(50) NOT NULL,
     IdFuncion INT NOT NULL,
     FOREIGN KEY (IdFuncion) REFERENCES Funcion(IdFuncion)
 );

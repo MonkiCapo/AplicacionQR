@@ -11,6 +11,8 @@ namespace AppQR.Core.Entidades
         public int IdEvento { get; set; }
         public string Nombre { get; set; }
         public string Estado { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
         public Local local { get; set; }
 
         public Evento()

@@ -112,7 +112,12 @@ namespace AppQR.Dapper
 
         public Usuario? Login(string loginMail, string loginContraseña)
         {
-            var sql = "SELECT u.*, c.* FROM Usuario u JOIN Cliente c ON u.DNI = c.DNI WHERE u.Email = @email AND u.Contraseña = @contraseña;";
+            var sql = @"SELECT u.IdUsuario, u.NombreUsuario, u.Email, u.Contraseña, u.Rol,
+                       c.DNI, c.Nombre, c.Telefono 
+                FROM Usuario u 
+                JOIN Cliente c ON u.DNI = c.DNI 
+                WHERE u.Email = @email AND u.Contraseña = @contraseña;";
+    
             var usuario = Conexion.Query<Usuario, Cliente, Usuario>(
                 sql,
                 (u, c) =>
@@ -120,7 +125,9 @@ namespace AppQR.Dapper
                     u.cliente = c;
                     return u;
                 },
-                new { email = loginMail, contraseña = loginContraseña }).FirstOrDefault();
+                new { email = loginMail, contraseña = loginContraseña },
+                splitOn: "DNI"
+            ).FirstOrDefault();
 
             return usuario;
         }
@@ -128,8 +135,9 @@ namespace AppQR.Dapper
         public bool ExisteUsuario(string emailExistente)
         {
             var sql = "SELECT COUNT(1) FROM Usuario WHERE Email = @email;";
-            var count = Conexion.QueryFirstOrDefault<Usuario>(sql, new { email = emailExistente });
-            return count != null;
+            var count = Conexion.ExecuteScalar<int>(sql, new { email = emailExistente });
+
+            return count == 1;
         }
     }
 }

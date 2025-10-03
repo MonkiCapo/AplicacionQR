@@ -13,5 +13,7 @@ namespace AppQR.Core.Servicios
         Evento AgregarEvento(Evento evento);
         bool ActualizarEvento(Evento evento);
         bool EliminarEvento(int id);
+
+        bool CancelarEvento(int id);
     }
 }

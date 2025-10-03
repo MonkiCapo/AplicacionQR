@@ -14,7 +14,7 @@ namespace AppQR.Core.Servicios.Validadores
             RuleFor(u => u.NombreUsuario)
                 .NotEmpty().WithMessage("El nombre de usuario no puede estar vacío.")
                 .MinimumLength(3).WithMessage("El nombre de usuario debe tener al menos 3 caracteres.")
-                .WithMaximumLength(50).WithMessage("El nombre de usuario no puede superar los 50 caracteres.");
+                .MaximumLength(50).WithMessage("El nombre de usuario no puede superar los 50 caracteres.");
 
             RuleFor(u => u.Contraseña)
                 .NotEmpty().WithMessage("La contraseña no puede estar vacía.")

@@ -94,29 +94,49 @@ namespace AppQR.WebAPI.Controladores
             });
         }
 
-        public IActionResult Login([FromServices] RefreshTokenRepositorio refreshTokenRepo, [FromBody] LoginRequestDTO login)
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginRequestDTO login)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var hash = ContraseñaHasher.Hash(login.Contraseña);
-            login.Contraseña = hash;
-
-            var usuario = _usuarioRepo.Login(login.Email, login.Contraseña);
+            // PASO 1: Buscar usuario solo por email
+            var usuario = _usuarioRepo.ObtenerUsuarioPorEmail(login.Email);
+            
+            // Si el usuario no existe, login fallido
             if (usuario == null)
                 return Unauthorized("Credenciales inválidas.");
 
+            // PASO 2: Verificar contraseña usando Argon2.Verify
+            if (!ContraseñaHasher.Verificar(usuario.Contraseña, login.Contraseña))
+                return Unauthorized("Credenciales inválidas.");
+
+            // ✅ SI LLEGA AQUÍ - LOGIN EXITOSO
+            
+            // Generar token JWT
             var token = GenerateJwtToken(usuario);
             var refreshToken = Guid.NewGuid().ToString();
+            
+            // Guardar refresh token en la base de datos
             var refreshTokenEntity = new RefreshToken
             {
                 Token = refreshToken,
                 Email = usuario.Email,
                 Expiration = DateTime.UtcNow.AddMinutes(30)
             };
-            refreshTokenRepo.InsertarToken(refreshTokenEntity);
+            _refreshTokenRepo.InsertarToken(refreshTokenEntity);
 
-            return Ok(new { token, refreshToken });
+            // Retornar éxito con tokens e información del usuario
+            return Ok(new { 
+                token, 
+                refreshToken,
+                usuario = new {
+                    usuario.IdUsuario,
+                    usuario.NombreUsuario,
+                    usuario.Email,
+                    usuario.Rol
+                }
+            });
         }
 
         private string GenerateJwtToken(Usuario usuario)
@@ -154,6 +174,8 @@ namespace AppQR.WebAPI.Controladores
             var TokenExistente = _refreshTokenRepo.ObtenerToken(refreshRequest.RefreshToken);
             if (TokenExistente == null || TokenExistente.Expiration < DateTime.UtcNow)
                 return Unauthorized("Token de refresco inválido o expirado.");
+
+            var usuario = _usuarioRepo.ObtenerUsuarioPorEmail(TokenExistente.Email);
 
             var newToken = GenerateJwtToken(usuario);
             var newRefreshToken = Guid.NewGuid().ToString();

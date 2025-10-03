@@ -74,10 +74,10 @@ namespace AppQR.Dapper
             return rowsAffected > 0;
         }
 
-        public bool EliminarSector(int idSECTOR)
+        public bool EliminarSector(int id)
         {
             var sql = @"DELETE FROM Sector WHERE IdSector = @idSector";
-            var rowsAffected = Conexion.Execute(sql, new { IdSector = idSECTOR });
+            var rowsAffected = Conexion.Execute(sql, new { idSector = id });
             return rowsAffected > 0;
         }
 
@@ -87,10 +87,10 @@ namespace AppQR.Dapper
             return Conexion.Query<Sector>(sql, new { IdLocal = idLocal });
         }
 
-        public Sector ObtenerSectorPorID(int idSECTOR)
+        public Sector ObtenerSectorPorID(int id)
         {
             var sql = "SELECT * FROM Sector WHERE IdSector = @idSector";
-            var sector = Conexion.QueryFirstOrDefault<Sector>(sql, new { IdSector = idSECTOR });
+            var sector = Conexion.QueryFirstOrDefault<Sector>(sql, new { idSector = id });
             return sector;
         }
     }

@@ -9,4 +9,6 @@ public interface IFuncionRepositorio
     Funcion AgregarFuncion(Funcion funcion);
     bool ActualizarFuncion(Funcion funcion);
     bool EliminarFuncion(int id);
+
+    bool CancelarFuncion(int id);
 }
