@@ -1,3 +1,4 @@
+-- Active: 1759496215290@@127.0.0.1@3306@mysql
 DROP DATABASE IF EXISTS AppQR
 
 CREATE DATABASE AppQR
@@ -29,8 +30,10 @@ CREATE TABLE Sector (
 -- ======================
 CREATE TABLE Evento (
     IdEvento INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(150) NOT NULL,
-    estado VARCHAR(50) NOT NULL,
+    Nombre VARCHAR(150) NOT NULL,
+    Estado VARCHAR(50) NOT NULL,
+    FechaInicio DATETIME NOT NULL,
+    FechaFin DATETIME NOT NULL,
     IdLocal INT NOT NULL,
     FOREIGN KEY (IdLocal) REFERENCES Local(IdLocal)
 );
