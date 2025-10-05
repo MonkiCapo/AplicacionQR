@@ -9,7 +9,7 @@ public class TestAdo
 
     public TestAdo()
     {
-        string conexionCadena = "Server=localhost;Database=AppQR;Uid=root;Pwd=root;";
+        string conexionCadena = "Server=localhost;Database=AppQR;User=root;Password=corrientes;";
         Conexion = new MySqlConnection(conexionCadena);
     }
 }

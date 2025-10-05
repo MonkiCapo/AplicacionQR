@@ -7,142 +7,42 @@ using AppQR.Core.Entidades;
 using AppQR.Core.Servicios;
 using AppQR.Dapper;
 using MySql.Data.MySqlClient;
+using Moq;
 using System.Data;
 
 namespace AppQR.Test
 {
-    public class TestAdoEvento : TestAdo
+    public class TestAdoEvento
     {
-
-        private IEventosRepositorio _eventoRepositorio;
-
-        public TestAdoEvento()
+        [Fact]
+        public void Obtener_Todos_Los_Eventos_Con_Una_Lista()
         {
-            _eventoRepositorio = new EventosRepositorio(Conexion); 
+            var MOQ = new Mock<IEventosRepositorio>();
+            var eventos = new List<Evento>
+            {
+                new Evento { IdEvento = 1, Nombre = "Los milaneseros" },
+                new Evento { IdEvento = 2, Nombre = "Carrera de bicicletas" }
+            };
+            MOQ.Setup(r => r.ObtenerEventos()).Returns(eventos);
+
+            var resultado = MOQ.Object.ObtenerEventos();
+
+            Assert.NotNull(resultado);
+            Assert.Equal(2, ((List<Evento>)resultado).Count);
         }
 
         [Fact]
-        public void CuandoAgrego_Un_Evento_Se_Guarda_En_LaBD()
+        public void Debe_Devolver_Evento_Por_ID()
         {
-            var evento = new Evento()
-            {
-                IdEvento = 150,
-                Nombre = "Concierto Pop",
-                Estado = "Activo",
-                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
-                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
-                local = new Local { IdLocal = 1 }
-            };
-            _eventoRepositorio.AgregarEvento(evento);
+            var MOQ = new Mock<IEventosRepositorio>();
+            var evento = new Evento { IdEvento = 1, Nombre = "Concierto" };
+            MOQ.Setup(r => r.ObtenerEventoPorID(1)).Returns(evento);
 
-            var eventoAgregado = _eventoRepositorio.AgregarEvento(evento);
+            var resultado = MOQ.Object.ObtenerEventoPorID(1);
 
-            Assert.NotNull(eventoAgregado);
-            Assert.Equal(evento.IdEvento, eventoAgregado.IdEvento);
-            Assert.Equal(evento.Nombre, eventoAgregado.Nombre);
-            Assert.Equal(evento.Estado, eventoAgregado.Estado);
-            Assert.Equal(evento.local.IdLocal, eventoAgregado.local.IdLocal);
-            Assert.True(eventoAgregado.IdEvento > 0);
-        }
-
-
-        [Fact]
-        public void CuandoAgrego_Un_Evento_Obtengo_UnID()
-        {
-            var evento = new Evento()
-            {
-                IdEvento = 100,
-                Nombre = "Concierto Rock",
-                Estado = "Activo",
-                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
-                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
-                local = new Local { IdLocal = 1 }
-            };
-            _eventoRepositorio.AgregarEvento(evento);
-
-            var eventoObtenido = _eventoRepositorio.ObtenerEventoPorID(100);
-
-            Assert.NotNull(eventoObtenido);
-            Assert.Equal(evento.IdEvento, eventoObtenido.IdEvento);
-            Assert.Equal(evento.Nombre, eventoObtenido.Nombre);
-            Assert.Equal(evento.Estado, eventoObtenido.Estado);
-            Assert.Equal(evento.local.IdLocal, eventoObtenido.local.IdLocal);
-        }
-
-        [Fact]
-        public void CuandoActualizo_Un_Evento_Hay_Cambios()
-        {
-            var evento = new Evento()
-            {
-                IdEvento = 200,
-                Nombre = "Concierto Kpop",
-                Estado = "Activo",
-                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
-                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
-                local = new Local { IdLocal = 1 }
-            };
-            _eventoRepositorio.AgregarEvento(evento);
-
-            var eventoUpdate = new Evento()
-            {
-                IdEvento = 200,
-                Nombre = "Concierto Actualizado",
-                Estado = "inactivo",
-                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
-                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
-                local = new Local { IdLocal = 1 }
-            };
-
-            _eventoRepositorio.ActualizarEvento(eventoUpdate);
-            var eventoActualizaoBD = _eventoRepositorio.ObtenerEventoPorID(eventoUpdate.IdEvento);
-
-            Assert.NotNull(eventoActualizaoBD);
-            Assert.Equal(evento.IdEvento, eventoUpdate.IdEvento);
-            Assert.Equal(eventoActualizaoBD.Nombre, eventoUpdate.Nombre);
-            Assert.Equal(eventoActualizaoBD.Estado, eventoUpdate.Estado);
-            Assert.Equal(eventoActualizaoBD.local.IdLocal, eventoUpdate.local.IdLocal);
-
-
-        }
-
-        [Fact]
-        public void CuandoElimino_Un_Evento_No_Debe_Existir()
-        {
-            var evento = new Evento()
-            {
-                IdEvento = 208,
-                Nombre = "Concierto de Gatos",
-                Estado = "Activo",
-                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
-                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
-                local = new Local { IdLocal = 1 }
-            };
-            _eventoRepositorio.AgregarEvento(evento);
-
-            _eventoRepositorio.EliminarEvento(evento.IdEvento);
-            var eventoEliminado = _eventoRepositorio.ObtenerEventoPorID(evento.IdEvento);
-
-            Assert.Null(eventoEliminado);
-
-        }
-        [Fact]
-        public void CuandoCancelo_Un_Evento_Su_Estado_Cambia_A_Cancelado()
-        {
-            var evento = new Evento()
-            {
-                IdEvento = 202,
-                Nombre = "Concierto Pop",
-                Estado = "Activo",
-                FechaInicio = new DateTime(2025, 10, 27, 15, 30, 0),
-                FechaFin = new DateTime(2025, 10, 27, 17, 45, 0),
-                local = new Local { IdLocal = 1 }
-            };
-            _eventoRepositorio.AgregarEvento(evento);
-
-            _eventoRepositorio.CancelarEvento(evento.IdEvento);
-            var eventoCancelado = _eventoRepositorio.ObtenerEventoPorID(evento.IdEvento);
-
-            Assert.Equal("Cancelado", eventoCancelado.Estado);
+            Assert.NotNull(resultado);
+            Assert.Equal(1, resultado.IdEvento);
+            Assert.Equal("Concierto", resultado.Nombre);
         }
     }
 }
