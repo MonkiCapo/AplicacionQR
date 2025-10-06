@@ -66,13 +66,8 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
 
     public string CancelarFuncion(int idFuncion)
     {
-        var funcion = ObtenerPorID(idFuncion);
-        if (funcion == null)
-            return "Funcion no Encontrada";
-
-        if (funcion.Estado == EEstados.Cancelado)
-            return "La función ya está cancelada";
-
-        return string.Empty;
+        var sql = "CALL CancelarFuncion(@idFuncion)";
+        var mensaje = Conexion.QueryFirstOrDefault<string>(sql, new { idFuncion });
+        return mensaje ?? "No se logro cancelar la funcion";
     }
 }

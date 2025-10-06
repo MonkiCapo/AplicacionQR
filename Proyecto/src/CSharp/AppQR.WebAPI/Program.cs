@@ -53,6 +53,7 @@ builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IRefreshTokenRepositorio, RefreshTokenRepositorio>();
 builder.Services.AddScoped<ILocalRepositorio, LocalRepositorio>();
 builder.Services.AddScoped<IEventosRepositorio, EventosRepositorio>();
+builder.Services.AddScoped<IFuncionRepositorio, FuncionRepositorio>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
