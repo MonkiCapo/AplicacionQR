@@ -17,7 +17,7 @@ namespace AppQR.Core.Servicios
         IEnumerable<Sector> ObtenerSectoresPorLocal(int idLocal);
         Sector ObtenerSectorPorID(int id);
         Sector AgregarSector(Sector sector, int id);
-        bool ActualizarSector(Sector sector, int id);
+        bool ActualizarSector(Sector sector);
         bool EliminarSector(int id);
     }
 }

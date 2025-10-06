@@ -19,7 +19,6 @@ CREATE TABLE Local (
 -- ======================
 CREATE TABLE Sector (
     IdSector INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
     capacidad INT NOT NULL,
     IdLocal INT NOT NULL,
     FOREIGN KEY (IdLocal) REFERENCES Local(IdLocal)
@@ -33,9 +32,7 @@ CREATE TABLE Evento (
     Nombre VARCHAR(150) NOT NULL,
     Estado VARCHAR(50) NOT NULL,
     FechaInicio DATETIME NOT NULL,
-    FechaFin DATETIME NOT NULL,
-    IdLocal INT NOT NULL,
-    FOREIGN KEY (IdLocal) REFERENCES Local(IdLocal)
+    FechaFin DATETIME NOT NULL
 );
 
 -- ======================

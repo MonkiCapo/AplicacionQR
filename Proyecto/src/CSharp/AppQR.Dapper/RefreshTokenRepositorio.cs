@@ -49,15 +49,22 @@ namespace AppQR.Dapper
 
         public void ReemplazarToken(int IdUsuario, string nuevoHash, DateTime expiracion)
         {
-            var deleteSql = "DELETE FROM RefreshTokens WHERE IdUsuario = @idusuario";
-            Conexion.Execute(deleteSql, new { idusuario = IdUsuario });
-
-            string TraerUsuario = "SELECT FROM Usuario WHERE IdUsuario = @idusuario";
+            string TraerUsuario = "SELECT * FROM Usuario WHERE IdUsuario = @idusuario";
             var usuario = Conexion.QueryFirstOrDefault<Usuario>(TraerUsuario, new { idusuario = IdUsuario });
 
-            string AgregarSql = @"INSERT INTO RefreshTokens (IdUsuario, Token, Email,  Expiration)
-                                  VALUES (@idusuario, @token, @email, @expiration);";
-            Conexion.Execute(AgregarSql, new { idusuario = IdUsuario, token = nuevoHash, email = usuario?.Email, expiration = expiracion });
+            var deleteSql = "DELETE FROM RefreshTokens WHERE Email = @email";
+            Conexion.Execute(deleteSql, new { email = usuario.Email });
+
+            
+
+            string InsertSql = @"INSERT INTO RefreshTokens (Token, Email, Expiration)
+                                  VALUES (@token, @email, @expiration);";
+            Conexion.Execute(InsertSql, new
+            {
+                token = nuevoHash,
+                email = usuario?.Email,
+                expiration = expiracion
+            });
         }
     }
 }

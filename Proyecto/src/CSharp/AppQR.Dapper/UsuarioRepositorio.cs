@@ -20,7 +20,7 @@ namespace AppQR.Dapper
                 nombreUsuario = usuario.NombreUsuario,
                 email = usuario.Email,
                 contraseña = usuario.Contraseña,
-                rol = usuario.Rol,
+                rol = usuario.Rol.ToString(),
                 Dni = usuario.cliente.DNI
             });
             usuario.IdUsuario = id;
@@ -36,7 +36,7 @@ namespace AppQR.Dapper
                 nombreUsuario = usuario.NombreUsuario,
                 email = usuario.Email,
                 contraseña = usuario.Contraseña,
-                rol = usuario.Rol,
+                rol = usuario.Rol.ToString(),
                 Dni = usuario.cliente.DNI
             });
             return rowsAffected > 0;

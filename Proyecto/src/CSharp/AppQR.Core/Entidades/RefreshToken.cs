@@ -7,7 +7,7 @@ namespace AppQR.Core.Entidades
 {
     public class RefreshToken
     {
-        public int IdToken { get; set; }
+        public int IdRefreshTokens { get; set; }
         public string Token { get; set; } = null!;
         public string Email { get; set; } = null!;
         public DateTime Expiration { get; set; }

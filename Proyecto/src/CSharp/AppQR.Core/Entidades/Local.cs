@@ -24,7 +24,7 @@ namespace AppQR.Core.Entidades
         {
             foreach (var sector in Sectores)
             {
-                Console.WriteLine($"Sector ID: {sector.IdSector}, Nombre: {sector.Nombre}, Capacidad: {sector.Capacidad}");
+                Console.WriteLine($"Sector ID: {sector.IdSector}, Capacidad: {sector.Capacidad}");
             }
             
         }

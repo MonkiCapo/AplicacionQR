@@ -27,11 +27,12 @@ namespace AppQR.Dapper
         public bool ActualizarLocal(Local local)
         {
             var sql = @"UPDATE Local SET Nombre = @nombre, Direccion = @direccion
-            WHERE IdLocal = @IdLocal";
+            WHERE IdLocal = @idLocal";
             var rowsAffected = Conexion.Execute(sql, new
             {
                 nombre = local.Nombre,
-                direccion = local.Direccion
+                direccion = local.Direccion,
+                idlocal = local.IdLocal
             });
             return rowsAffected > 0;
         }
@@ -58,19 +59,23 @@ namespace AppQR.Dapper
 
         public Sector AgregarSector(Sector sector, int id)
         {
-            var sql = @"INSERT INTO Sector (Nombre, Capacidad, IdLocal) 
-                        VALUES (@nombre, @capacidad, @idLocal); 
+            var sql = @"INSERT INTO Sector (Capacidad, IdLocal) 
+                        VALUES (@capacidad, @idLocal); 
                         SELECT LAST_INSERT_ID();";
-            var ID = Conexion.ExecuteScalar<int>(sql, new { nombre = sector.Nombre, capacidad = sector.Capacidad, idLocal = id });
+            var ID = Conexion.ExecuteScalar<int>(sql, new { capacidad = sector.Capacidad, idLocal = id });
             sector.IdSector = ID;
             return sector;
         }
 
-        public bool ActualizarSector(Sector sector, int id)
+        public bool ActualizarSector(Sector sector)
         {
-            var sql = @"UPDATE Sector SET Nombre = @nombre, Capacidad = @capacidad, IdLocal = @idLocal
+            var sql = @"UPDATE Sector SET Capacidad = @capacidad
                         WHERE IdSector = @idSector";
-            var rowsAffected = Conexion.Execute(sql, new { nombre = sector.Nombre, capacidad = sector.Capacidad, idLocal = id });
+            var rowsAffected = Conexion.Execute(sql, new
+            {
+                capacidad = sector.Capacidad,
+                idSector = sector.IdSector
+            });
             return rowsAffected > 0;
         }
 

@@ -4,6 +4,7 @@ using System.Data;
 using Dapper;
 using AppQR.Core.Entidades;
 using AppQR.Core.Servicios;
+using AppQR.Core.Servicios.Enums;
 
 namespace AppQR.Dapper
 {
@@ -21,7 +22,7 @@ namespace AppQR.Dapper
                 idTarifa = entrada.tarifa?.IdTarifa,
                 idOrden = entrada.orden?.IdOrden,
                 codigoQR = entrada.CodigoQR,
-                estado = entrada.Estado
+                estado = entrada.Estado.ToString()
             });
             entrada.IdEntrada = id;
             return entrada;
@@ -40,7 +41,7 @@ namespace AppQR.Dapper
                 idTarifa = entrada.tarifa?.IdTarifa,
                 idOrden = entrada.orden?.IdOrden,
                 codigoQR = entrada.CodigoQR,
-                estado = entrada.Estado
+                estado = entrada.Estado.ToString()
             });
             return rowsAffected > 0;
         }

@@ -20,7 +20,7 @@ namespace AppQR.Dapper
             {
                 precio = tarifa.Precio,
                 stock = tarifa.Stock,
-                estado = tarifa.Estado,
+                estado = tarifa.Estado.ToString(),
                 idFuncion = tarifa.funcion.IdFuncion
             });
             tarifa.IdTarifa = id;
@@ -39,7 +39,7 @@ namespace AppQR.Dapper
             {
                 precio = tarifa.Precio,
                 stock = tarifa.Stock,
-                estado = tarifa.Estado,
+                estado = tarifa.Estado.ToString(),
                 idFuncion = tarifa.funcion.IdFuncion
             });
             return rowsAffected > 0;
