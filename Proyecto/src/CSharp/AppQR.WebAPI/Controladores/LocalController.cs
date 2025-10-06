@@ -3,10 +3,12 @@ using AppQR.Core.Entidades;
 using AppQR.Core.Servicios;
 using AppQR.Core.Dto;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppQR.WebAPI.Controladores
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class LocalController : ControllerBase
     {
@@ -114,7 +116,7 @@ namespace AppQR.WebAPI.Controladores
 
             sector.Capacidad = Dto.Capacidad;
 
-            var ok = _LocalRepo.ActualizarSector(sector, id);
+            var ok = _LocalRepo.ActualizarSector(sector);
             return ok ? NoContent() : NotFound();
         }
 

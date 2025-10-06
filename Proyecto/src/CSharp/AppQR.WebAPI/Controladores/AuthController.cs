@@ -100,14 +100,14 @@ namespace AppQR.WebAPI.Controladores
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // PASO 1: Buscar usuario solo por email
+            // Buscar usuario solo por email
             var usuario = _usuarioRepo.ObtenerUsuarioPorEmail(login.Email);
             
             // Si el usuario no existe, login fallido
             if (usuario == null)
                 return Unauthorized("Credenciales inválidas.");
 
-            // PASO 2: Verificar contraseña usando Argon2.Verify
+            
             if (!ContraseñaHasher.Verificar(usuario.Contraseña, login.Contraseña))
                 return Unauthorized("Credenciales inválidas.");
             
@@ -171,9 +171,11 @@ namespace AppQR.WebAPI.Controladores
 
             var TokenExistente = _refreshTokenRepo.ObtenerToken(refreshRequest.RefreshToken);
             if (TokenExistente == null || TokenExistente.Expiration < DateTime.UtcNow)
-                return Unauthorized("Token de refresco inválido o expirado.");
+                return Unauthorized("El refresh de este token es inválido o esta expirado.");
 
             var usuario = _usuarioRepo.ObtenerUsuarioPorEmail(TokenExistente.Email);
+             if (usuario == null)
+                return Unauthorized("Usuario no encontrado");
 
             var newToken = GenerateJwtToken(usuario);
             var newRefreshToken = Guid.NewGuid().ToString();

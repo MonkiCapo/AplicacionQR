@@ -12,7 +12,6 @@ using AppQR.Core.Servicios.Validadores;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// JWT configuration
 var key = builder.Configuration["Jwt:Key"];
 var issuer = builder.Configuration["Jwt:Issuer"];
 
@@ -40,7 +39,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Dependency Injection
 builder.Services.AddScoped<IDbConnection>(provider =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -54,8 +52,8 @@ builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IRefreshTokenRepositorio, RefreshTokenRepositorio>();
 builder.Services.AddScoped<ILocalRepositorio, LocalRepositorio>();
+builder.Services.AddScoped<IEventosRepositorio, EventosRepositorio>();
 
-// Swagger con configuración JWT
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -106,7 +104,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-// 👇 EL ORDEN ES CRÍTICO - Authentication antes de Authorization
+//Authentication antes de Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
