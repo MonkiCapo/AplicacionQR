@@ -35,19 +35,19 @@ namespace AppQR.WebAPI.Controladores
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var evento = _eventoRepo.ObtenerPorID(dto.idEvento);
+            var evento = _eventorepo.ObtenerEventoPorID(DTO.idEvento);
             if (evento == null)
-                return NotFound($"El evento con ID {dto.idEvento} no existe.");
+                return NotFound($"El evento con ID {DTO.idEvento} no existe.");
 
             var funcion = new Funcion
             {
-                Nombre = dto.Nombre,
-                FechaHora = dto.FechaHora,
-                Estado = Enum.TryParse<EEstados>(dto.Estado, true, out var estado) ? estado : EEstados.Creado,
+                Nombre = DTO.Nombre,
+                FechaHora = DTO.FechaHora,
+                Estado = Enum.TryParse<EEstados>(DTO.Estado, true, out var estado) ? estado : EEstados.Creado,
                 evento = evento
             };
 
-            var nuevaFuncion = _funcionRepo.AgregarFuncion(funcion);
+            var nuevaFuncion = _funcionrepo.AgregarFuncion(funcion);
             return CreatedAtAction(nameof(ObtenerFuncionPorId), new { id = nuevaFuncion.IdFuncion }, nuevaFuncion);
         }
 
@@ -66,11 +66,11 @@ namespace AppQR.WebAPI.Controladores
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var funcionExistente = _funcionRepo.ObtenerPorID(id);
+            var funcionExistente = _funcionrepo.ObtenerPorID(id);
             if (funcionExistente == null)
                 return NotFound($"No se encontró la función con ID {id}.");
 
-            var evento = _eventoRepo.ObtenerPorID(dto.idEvento);
+            var evento = _eventorepo.ObtenerEventoPorID(dto.idEvento);
             if (evento == null)
                 return NotFound($"El evento con ID {dto.idEvento} no existe.");
 
@@ -79,7 +79,7 @@ namespace AppQR.WebAPI.Controladores
             funcionExistente.Estado = Enum.TryParse<EEstados>(dto.Estado, true, out var estado) ? estado : funcionExistente.Estado;
             funcionExistente.evento = evento;
 
-            var actualizado = _funcionRepo.ActualizarFuncion(funcionExistente);
+            var actualizado = _funcionrepo.ActualizarFuncion(funcionExistente);
             if (!actualizado)
                 return StatusCode(500, "No se pudo actualizar la función.");
 
@@ -90,7 +90,7 @@ namespace AppQR.WebAPI.Controladores
         public IActionResult CancelarFuncion(int id)
         {
             var resultado = _funcionrepo.CancelarFuncion(id);
-            return ok(resultado);
+            return Ok(resultado);
         }
     }
 }

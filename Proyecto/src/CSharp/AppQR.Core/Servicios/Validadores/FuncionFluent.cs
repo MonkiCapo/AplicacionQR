@@ -12,7 +12,7 @@ namespace AppQR.Core.Servicios.Validadores
     {
         public FuncionFluent()
         {
-            RuleFor(f => f.IdEvento)
+            RuleFor(f => f.idEvento)
                 .NotNull().WithMessage("El evento asociado es obligatorio");
             RuleFor(f => f.FechaHora)
                 .GreaterThan(DateTime.Now).WithMessage("La fecha debe ser mayor a la actual");
