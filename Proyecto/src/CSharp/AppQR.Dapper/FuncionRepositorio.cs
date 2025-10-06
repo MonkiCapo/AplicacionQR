@@ -12,11 +12,12 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
 
     public Funcion AgregarFuncion(Funcion funcion)
     {
-        var sql = @"INSERT INTO Funcion (FechaHora, Estado, IdEvento) 
-                VALUES (@fechaHora, @estado, @idEvento);
+        var sql = @"INSERT INTO Funcion (Nombre,FechaHora, Estado, IdEvento) 
+                VALUES (@nombre, @fechaHora, @estado, @idEvento);
                 SELECT LAST_INSERT_ID();";
         var id = Conexion.ExecuteScalar<int>(sql, new
         {
+            nombre = funcion.Nombre,
             fechaHora = funcion.FechaHora,
             estado = funcion.Estado,
             idEvento = funcion.evento.IdEvento
@@ -27,10 +28,11 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
 
     public bool ActualizarFuncion(Funcion funcion)
     {
-        var sql = @"UPDATE Funcion SET FechaHora = @fechaHora, Estado = @estado, IdEvento = @idEvento
+        var sql = @"UPDATE Funcion SET Nombre = @nombre, FechaHora = @fechaHora, Estado = @estado, IdEvento = @idEvento
                     WHERE IdFuncion = @idFuncion";
         var rowsAffected = Conexion.Execute(sql, new
         {
+            nombre = funcion.Nombre,
             fechaHora = funcion.FechaHora,
             estado = funcion.Estado,
             idEvento = funcion.evento.IdEvento
@@ -58,10 +60,10 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
         return funcion;
     }
 
-    public bool CancelarFuncion(int id)
+    public string CancelarFuncion(int idFuncion)
     {
-        var sql = @"UPDATE Funcion SET Estado = 'Cancelado ' WHERE IdFuncion = @Id";
-        var rowsAffected = Conexion.Execute(sql, new { Id = id });
-        return rowsAffected > 0;
+        var funcion = ObtenerPorID(idFuncion);
+        if (funcion == null)
+            return "Funcion no Encontrada"
     }
 }
