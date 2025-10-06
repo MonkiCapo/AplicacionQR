@@ -88,9 +88,9 @@ CREATE TABLE Usuario (
 CREATE TABLE Orden (
     IdOrden INT AUTO_INCREMENT PRIMARY KEY,
     IdUsuario INT NOT NULL,
-    estado VARCHAR(50) NOT NULL,
-    precioTotal DECIMAL(10,2) NOT NULL,
-    fechaHora DATETIME NOT NULL,
+    Estado VARCHAR(50) NOT NULL,
+    PrecioTotal DECIMAL(10,2) NOT NULL,
+    Fecha DATETIME NOT NULL,
     FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
 );
 

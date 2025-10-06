@@ -1,8 +1,12 @@
+using System.Data;
 using Dapper;
+using MySql.Data.MySqlClient;
 using AppQR.Core;
 using AppQR.Core.Servicios;
 using AppQR.Core.Entidades;
-using System.Data;
+using System.Reflection.Metadata;
+using AppQR.Core.Servicios.Enums;
+using AppQR.Core.Dto;
 
 namespace AppQR.Dapper;
 
@@ -64,6 +68,11 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
     {
         var funcion = ObtenerPorID(idFuncion);
         if (funcion == null)
-            return "Funcion no Encontrada"
+            return "Funcion no Encontrada";
+
+        if (funcion.Estado == EEstados.Cancelado)
+            return "La función ya está cancelada";
+
+        return string.Empty;
     }
 }
