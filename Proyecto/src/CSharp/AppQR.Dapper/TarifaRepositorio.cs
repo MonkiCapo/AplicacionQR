@@ -13,11 +13,12 @@ namespace AppQR.Dapper
 
         public Tarifa AgregarTarifa(Tarifa tarifa)
         {
-            var sql = @"INSERT INTO Tarifa (Precio, Stock, Estado, IdFuncion) 
-                VALUES (@precio, @stock, @estado, @idFuncion);
+            var sql = @"INSERT INTO Tarifa (Tipo, Precio, Stock, Estado, IdFuncion) 
+                VALUES (@tipo, @precio, @stock, @estado, @idFuncion);
                 SELECT LAST_INSERT_ID();";
             var id = Conexion.ExecuteScalar<int>(sql, new
             {
+                tipo = tarifa.Tipo.ToString(),
                 precio = tarifa.Precio,
                 stock = tarifa.Stock,
                 estado = tarifa.Estado.ToString(),
@@ -30,17 +31,19 @@ namespace AppQR.Dapper
         public bool ActualizarTarifa(Tarifa tarifa)
         {
             var sql = @"UPDATE Tarifa SET 
-                            Precio = @precio, 
-                            Stock = @stock, 
-                            Estado = @estado, 
-                            IdFuncion = @idFuncion
-                        WHERE IdTarifa = @idTarifa";
+                Tipo = @tipo, 
+                Precio = @precio, 
+                Stock = @stock, 
+                Estado = @estado
+            WHERE IdTarifa = @idTarifa";
+
             var rowsAffected = Conexion.Execute(sql, new
             {
+                tipo = tarifa.Tipo.ToString(),
                 precio = tarifa.Precio,
                 stock = tarifa.Stock,
                 estado = tarifa.Estado.ToString(),
-                idFuncion = tarifa.funcion.IdFuncion
+                idTarifa = tarifa.IdTarifa
             });
             return rowsAffected > 0;
         }
@@ -62,6 +65,13 @@ namespace AppQR.Dapper
         {
             var sql = "SELECT * FROM Tarifa WHERE IdTarifa = @Id";
             var tarifa = Conexion.QueryFirstOrDefault<Tarifa>(sql, new { Id = id });
+            return tarifa;
+        }
+
+        public IEnumerable<Tarifa> ObtenerTarifasPorFuncion(int idFuncion)
+        {
+            var sql = "SELECT * FROM Tarifa WHERE IdFuncion = @Id";
+            var tarifa = Conexion.Query<Tarifa>(sql, new { Id = idFuncion });
             return tarifa;
         }
     }

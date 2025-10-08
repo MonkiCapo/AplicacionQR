@@ -40,6 +40,7 @@ CREATE TABLE Evento (
 -- ======================
 CREATE TABLE Funcion (
     IdFuncion INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
     FechaHora DATETIME NOT NULL,
     Estado VARCHAR(50) NOT NULL,
     IdEvento INT NOT NULL,
@@ -51,6 +52,7 @@ CREATE TABLE Funcion (
 -- ======================
 CREATE TABLE Tarifa (
     IdTarifa INT AUTO_INCREMENT PRIMARY KEY,
+    Tipo VARCHAR(50) NOT NULL,
     Precio DECIMAL(10,2) NOT NULL,
     Stock INT NOT NULL,
     Estado VARCHAR(50) NOT NULL,

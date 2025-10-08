@@ -9,6 +9,7 @@ namespace AppQR.Core.Entidades
     public class Tarifa
     {
         public int IdTarifa { get; set; }
+        public ETipoTarifa Tipo { get; set; }
         public decimal Precio { get; set; }
         public int Stock { get; set; }
         public EEstados Estado { get; set; }

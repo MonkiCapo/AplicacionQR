@@ -16,7 +16,7 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
 
     public Funcion AgregarFuncion(Funcion funcion)
     {
-        var sql = @"INSERT INTO Funcion (Nombre,FechaHora, Estado, IdEvento) 
+        var sql = @"INSERT INTO Funcion (Nombre, FechaHora, Estado, IdEvento) 
                 VALUES (@nombre, @fechaHora, @estado, @idEvento);
                 SELECT LAST_INSERT_ID();";
         var id = Conexion.ExecuteScalar<int>(sql, new
@@ -36,6 +36,7 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
                     WHERE IdFuncion = @idFuncion";
         var rowsAffected = Conexion.Execute(sql, new
         {
+            idFuncion = funcion.IdFuncion,
             nombre = funcion.Nombre,
             fechaHora = funcion.FechaHora,
             estado = funcion.Estado,

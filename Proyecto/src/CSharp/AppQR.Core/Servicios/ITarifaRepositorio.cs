@@ -10,6 +10,7 @@ namespace AppQR.Core.Servicios
     {
         public IEnumerable<Tarifa> ObtenerTodasLasTarifas();
         Tarifa ObtenerTarifaPorID(int id);
+        IEnumerable<Tarifa> ObtenerTarifasPorFuncion(int idFuncion);
         Tarifa AgregarTarifa(Tarifa tarifa);
         bool ActualizarTarifa(Tarifa tarifa);
         bool EliminarTarifa(int id);
