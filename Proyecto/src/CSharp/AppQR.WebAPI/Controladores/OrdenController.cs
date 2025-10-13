@@ -56,5 +56,18 @@ namespace AppQR.WebAPI.Controladores
             var ordenEspecifica = _OrdenRepo.ObtenerOrdenPorID(id);
             return ordenEspecifica != null ? Ok(ordenEspecifica) : NotFound();
         }
+
+        [HttpGet]
+        public IActionResult ConseguirOrdenes()
+        {
+            var ordenes = _OrdenRepo.ObtenerOrdenes();
+            return Ok(ordenes);
+        }
+
+        [HttpPost]
+        public IActionResult PagarOrden(int id)
+        {
+            
+        }
     }
 }
