@@ -6,13 +6,16 @@ using AppQR.Core.Servicios.Enums;
 
 namespace AppQR.Core.Entidades
 {
-    public class Entrada
+    public class QR
     {
+        public int IdQR { get; set; }
         public int IdEntrada { get; set; }
-        public Tarifa tarifa { get; set; }
-        public Orden orden { get; set; }
+        public string url { get; set; }
         public EEstados Estado { get; set; }
-        public Entrada()
-        {}
+
+        public QR()
+        {
+            
+        }
     }
 }

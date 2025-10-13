@@ -102,8 +102,6 @@ CREATE TABLE Orden (
 CREATE TABLE Entrada (
     IdEntrada INT AUTO_INCREMENT PRIMARY KEY,
     IdTarifa INT NOT NULL,
-    fechaValida DATETIME NOT NULL,
-    QR VARCHAR(255) NOT NULL,
     IdOrden INT NOT NULL,
     estado VARCHAR(50) NOT NULL,
     FOREIGN KEY (IdTarifa) REFERENCES Tarifa(IdTarifa),
@@ -119,3 +117,10 @@ CREATE TABLE RefreshTokens (
     Email VARCHAR(100) NOT NULL,
     Expiration DATETIME NOT NULL
 );
+
+CREATE TABLE QR (
+    IdQR INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    IdEntrada INT NOT NULL,
+    url VARCHAR(200) NOT NULL,
+    FOREIGN KEY (IdEntrada) REFERENCES Entrada(IdEntrada)
+)

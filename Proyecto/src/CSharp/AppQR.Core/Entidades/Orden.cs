@@ -9,11 +9,10 @@ namespace AppQR.Core.Entidades
     public class Orden
     {
         public int IdOrden { get; set; }
-        public Usuario usuario { get; set; }
+        public Usuario? usuario { get; set; }
         public EEstados Estado { get; set; }
         public decimal PrecioTotal { get; set; }
         public DateTime Fecha { get; set; }
-        public List<Entrada> Entradas { get; set; }
 
         public Orden()
         { }
