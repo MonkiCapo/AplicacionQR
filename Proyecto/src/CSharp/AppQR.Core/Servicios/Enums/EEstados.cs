@@ -10,6 +10,6 @@ namespace AppQR.Core.Servicios.Enums
         Expirada,
         Activo,
         Inactivo,
-        Anulada,
+        Anulada
     }
 }

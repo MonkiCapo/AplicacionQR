@@ -1,11 +1,3 @@
-using System.Data;
-using System.Text;
-using MySql.Data.MySqlClient;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using AppQR.Core.Servicios;
 using AppQR.Dapper;
 using AppQR.Core.Servicios.Validadores;

@@ -15,12 +15,14 @@ namespace AppQR.WebAPI.Controladores
         private readonly IOrdenRepositorio _OrdenRepo;
         private readonly IEntradaRepositorio _EntradaRepo;
         private readonly IUsuarioRepositorio _UsuarioRepo;
+        private readonly ITarifaRepositorio _TarifaRepo;
 
-        public OrdenController(IOrdenRepositorio ordenRepo, IEntradaRepositorio entradaRepo, IUsuarioRepositorio usuarioRepo)
+        public OrdenController(IOrdenRepositorio ordenRepo, IEntradaRepositorio entradaRepo, IUsuarioRepositorio usuarioRepo, ITarifaRepositorio tarifaRepo)
         {
             _OrdenRepo = ordenRepo;
             _EntradaRepo = entradaRepo;
             _UsuarioRepo = usuarioRepo;
+            _TarifaRepo = tarifaRepo;
         }
 
         [HttpPost]
@@ -65,9 +67,16 @@ namespace AppQR.WebAPI.Controladores
         }
 
         [HttpPost]
-        public IActionResult PagarOrden(int id)
+        public IActionResult PagarOrden(int id, int IDTARIFA)
         {
-            
+            var orden = _OrdenRepo.ObtenerOrdenPorID(id);
+            if (orden == null)
+            {
+                return NotFound("Orden no encontrada");
+            }
+            _OrdenRepo.PagarOrden(id);
+
+            var tarifa = _
         }
     }
 }
