@@ -13,6 +13,6 @@ namespace AppQR.Core.Entidades
         public Orden orden { get; set; }
         public EEstados Estado { get; set; }
         public Entrada()
-        {}
+        { }
     }
 }

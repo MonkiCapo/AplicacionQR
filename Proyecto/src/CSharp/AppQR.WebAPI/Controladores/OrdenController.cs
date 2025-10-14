@@ -67,8 +67,10 @@ namespace AppQR.WebAPI.Controladores
         }
 
         [HttpPost]
-        public IActionResult PagarOrden(int id, int IDTARIFA)
+        public IActionResult PagarOrden_EmitirEntrada(int id, [FromBody] EntradaDTO dto)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var orden = _OrdenRepo.ObtenerOrdenPorID(id);
             if (orden == null)
             {
@@ -76,7 +78,29 @@ namespace AppQR.WebAPI.Controladores
             }
             _OrdenRepo.PagarOrden(id);
 
-            var tarifa = _
+            var tarifaObtenida = _TarifaRepo.ObtenerTarifaPorID(dto.IdTarifa);
+
+            if (tarifaObtenida?.funcion = null)
+            {
+                return BadRequest("La tarifa o la función asociada no existen.");
+            }
+
+            var ordenObtenida = _OrdenRepo.ObtenerOrdenPorID(dto.IdOrden);
+            if (ordenObtenida?.usuario == null)
+            {
+                return BadRequest("No se logro encontrar la orden de compra o su usuario");
+            }
+
+            var entrada = new Entrada
+            {
+                tarifa = tarifaObtenida,
+                orden = ordenObtenida,
+                Estado = EEstados.Creado
+            };
+
+            _EntradaRepo.AgregarEntrada(entrada);
+
+            return Created(); 
         }
     }
 }
