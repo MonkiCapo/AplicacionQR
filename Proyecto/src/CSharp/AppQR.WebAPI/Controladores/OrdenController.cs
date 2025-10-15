@@ -66,7 +66,7 @@ namespace AppQR.WebAPI.Controladores
             return Ok(ordenes);
         }
 
-        [HttpPost]
+        [HttpPost("{id}/pagar")]
         public IActionResult PagarOrden_EmitirEntrada(int id, [FromBody] EntradaDTO dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -103,7 +103,7 @@ namespace AppQR.WebAPI.Controladores
             return Created();
         }
 
-        [HttpPost]
+        [HttpPost("{id}/cancelar")]
         public IActionResult CancelarOrden(int id)
         {
             var resultado = _OrdenRepo.CancelarOrden(id);

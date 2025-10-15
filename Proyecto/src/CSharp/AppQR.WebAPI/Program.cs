@@ -1,6 +1,14 @@
 using AppQR.Core.Servicios;
 using AppQR.Dapper;
 using AppQR.Core.Servicios.Validadores;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
+using System.Data;
+using MySql.Data.MySqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 

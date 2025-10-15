@@ -8,7 +8,7 @@ using AppQR.Core.Dto;
 
 namespace AppQR.Core.Servicios.Validadores
 {
-    public class EntradasFluent : AbstractValidator<EntradaDto>
+    public class EntradasFluent : AbstractValidator<EntradaDTO>
     {
         public EntradasFluent()
         {
