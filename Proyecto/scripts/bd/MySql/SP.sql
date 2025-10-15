@@ -167,9 +167,6 @@ main: BEGIN
     -- Actualizar estado de la orden a Cancelado
     UPDATE Orden SET Estado = 'Cancelado' WHERE IdOrden = p_IdOrden;
 
-    -- Actualizar estado de las entradas a Cancelado
-    UPDATE Entrada SET Estado = 'Cancelado' WHERE IdOrden = p_IdOrden;
-
     COMMIT;
 
     SELECT 'Orden cancelada exitosamente' AS Mensaje;

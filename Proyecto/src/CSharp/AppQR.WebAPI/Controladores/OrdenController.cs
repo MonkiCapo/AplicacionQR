@@ -80,7 +80,7 @@ namespace AppQR.WebAPI.Controladores
 
             var tarifaObtenida = _TarifaRepo.ObtenerTarifaPorID(dto.IdTarifa);
 
-            if (tarifaObtenida?.funcion = null)
+            if (tarifaObtenida?.funcion == null)
             {
                 return BadRequest("La tarifa o la función asociada no existen.");
             }
@@ -100,7 +100,14 @@ namespace AppQR.WebAPI.Controladores
 
             _EntradaRepo.AgregarEntrada(entrada);
 
-            return Created(); 
+            return Created();
+        }
+
+        [HttpPost]
+        public IActionResult CancelarOrden(int id)
+        {
+            var resultado = _OrdenRepo.CancelarOrden(id);
+            return Ok(resultado);
         }
     }
 }
