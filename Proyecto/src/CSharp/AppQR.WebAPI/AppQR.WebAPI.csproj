@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AppQR.Core\AppQR.Core.csproj" />
     <ProjectReference Include="..\AppQR.Dapper\AppQR.Dapper.csproj" />
+    <ProjectReference Include="..\AppQR.Services\AppQR.Services.csproj" />
   </ItemGroup>
 
 </Project>
