@@ -4,6 +4,7 @@ using AppQR.Core.Servicios;
 using AppQR.Core.Dto;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using AppQR.Core.Servicios.Repositorios;
 
 namespace AppQR.WebAPI.Controladores
 {

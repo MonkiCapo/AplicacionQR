@@ -1,4 +1,5 @@
-using AppQR.Core.Servicios;
+
+using AppQR.Core.Servicios.Repositorios;
 using AppQR.Dapper;
 using AppQR.Core.Servicios.Validadores;
 using FluentValidation;

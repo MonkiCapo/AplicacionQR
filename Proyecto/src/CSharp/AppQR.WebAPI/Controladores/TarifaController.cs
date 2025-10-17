@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AppQR.Core.Entidades;
 using AppQR.Core.Dto;
-using AppQR.Core.Servicios;
 using AppQR.Core.Servicios.Enums;
+using AppQR.Core.Servicios.Repositorios;
 
 namespace AppQR.WebAPI.Controladores
 {

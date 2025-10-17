@@ -1,0 +1,23 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AppQR.Core.Entidades;
+
+namespace AppQR.Core.Servicios.IServicios
+{
+    public interface ILocalService
+    {
+        IEnumerable<Local> ObtenerLocales();
+        Local ObtenerLocalPorID(int id);
+        Local AgregarLocal(Local local);
+        bool ActualizarLocal(Local local);
+        bool EliminarLocal(int id);
+
+        IEnumerable<Sector> ObtenerSectoresPorLocal(int idLocal);
+        Sector ObtenerSectorPorID(int id);
+        Sector AgregarSector(Sector sector, int id);
+        bool ActualizarSector(Sector sector);
+        bool EliminarSector(int id);
+    }
+}

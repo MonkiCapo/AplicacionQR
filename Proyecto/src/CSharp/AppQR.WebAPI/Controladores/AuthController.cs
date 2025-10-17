@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AppQR.Core;
-using AppQR.Core.Servicios;
+using AppQR.Core.Servicios.Repositorios;
 using AppQR.Core.Entidades;
 using AppQR.Core.Dto;
 using AppQR.Core.Servicios.Enums;

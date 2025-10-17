@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using AppQR.Core.Servicios.Repositorios;
 
 namespace AppQR.WebAPI.Controladores
 {

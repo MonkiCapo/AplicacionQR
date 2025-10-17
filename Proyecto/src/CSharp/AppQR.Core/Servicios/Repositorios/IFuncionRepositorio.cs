@@ -1,6 +1,6 @@
 using AppQR.Core.Entidades;
 
-namespace AppQR.Core.Servicios;
+namespace AppQR.Core.Servicios.Repositorios
 
 public interface IFuncionRepositorio
 {
