@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AppQR.Core.Entidades;
 using AppQR.Core.Servicios.IServicios;
 using FluentValidation;
-using AppQR.Core.Dto;
 using AppQR.Core.Servicios.Repositorios;
 using AppQR.Core.Servicios.Validadores;
 
@@ -30,19 +25,44 @@ namespace AppQR.Services.Servicios
             if (_ClienteRepo.ExisteDNIdeCliente(clienteDto.DNI))
                 throw new InvalidOperationException($"Ya existe un cliente con el DNI: {clienteDto.DNI}");
 
-            var cliente = new Cliente
+            var clienteNuevo = new Cliente
             {
                 DNI = clienteDto.DNI,
                 Nombre = clienteDto.Nombre,
                 Telefono = clienteDto.Telefono ?? ""
             };
 
-            return _ClienteRepo.AgregarCliente(cliente);
+            var resultado = _ClienteValidador.Validate(clienteNuevo);
+            if (!resultado.IsValid)
+            {
+                var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException($"Error de validación: {errores}");
+            }
+
+            return _ClienteRepo.AgregarCliente(clienteNuevo);
         }
 
         public bool ActualizarCliente(Cliente cliente)
         {
-            
+            var resultado = _ClienteValidador.Validate(cliente);
+            if (!resultado.IsValid)
+            {
+                var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException($"Error de validación: {errores}");
+            }
+
+            if (!_ClienteRepo.ExisteDNIdeCliente(cliente.DNI))
+                throw new KeyNotFoundException($"No existe un cliente con el DNI {cliente.DNI}.");
+
+            return _ClienteRepo.ActualizarCliente(cliente);
+        }
+
+        public bool EliminarCliente(int dni)
+        {
+            if (!_ClienteRepo.ExisteDNIdeCliente(dni))
+                throw new KeyNotFoundException($"No existe un cliente con el DNI: {dni}");
+
+            return _ClienteRepo.EliminarCliente(dni);
         }
 
         public bool ExisteDNIdeCliente(int dniExistente) => _ClienteRepo.ExisteDNIdeCliente(dniExistente);

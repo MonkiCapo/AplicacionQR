@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
 using Dapper;
 using AppQR.Core.Entidades;
-using AppQR.Core.Servicios;
+using AppQR.Core.Servicios.Repositorios;
 
 namespace AppQR.Dapper
 {

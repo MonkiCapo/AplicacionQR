@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using AppQR.Core.Entidades;
-using AppQR.Core.Servicios;
+using AppQR.Core.Servicios.Repositorios;
 using AppQR.Dapper;
 using MySql.Data.MySqlClient;
 using Moq;

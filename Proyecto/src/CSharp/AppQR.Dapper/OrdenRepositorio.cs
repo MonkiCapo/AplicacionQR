@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Dapper;
 using AppQR.Core.Entidades;
-using AppQR.Core.Servicios;
+using AppQR.Core.Servicios.Repositorios;
 using AppQR.Core.Servicios.Enums;
 
 namespace AppQR.Dapper

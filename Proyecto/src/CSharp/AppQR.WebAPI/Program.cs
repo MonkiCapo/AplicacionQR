@@ -2,7 +2,6 @@
 using AppQR.Core.Servicios.Repositorios;
 using AppQR.Dapper;
 using AppQR.Core.Servicios.Validadores;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +9,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Data;
 using MySql.Data.MySqlClient;
+using AppQR.Core.Servicios.IServicios;
+using AppQR.Services.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,8 +47,8 @@ builder.Services.AddScoped<IDbConnection>(provider =>
     return new MySqlConnection(connectionString);
 });
 
-builder.Services.AddControllers()
-    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ClienteFluent>());
+// builder.Services.AddControllers()
+//     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ClienteFluent>());
 
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
@@ -58,6 +59,8 @@ builder.Services.AddScoped<IFuncionRepositorio, FuncionRepositorio>();
 builder.Services.AddScoped<ITarifaRepositorio, TarifaRepositorio>();
 builder.Services.AddScoped<IOrdenRepositorio, OrdenRepositorio>();
 builder.Services.AddScoped<IEntradaRepositorio, EntradaRepositorio>();
+
+builder.Services.AddScoped<IClienteService, ClienteService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -101,13 +104,13 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Middleware pipeline
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
+// // Middleware pipeline
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseDeveloperExceptionPage();
+// }
 
-app.UseRouting();
+//app.UseRouting();
 
 //Authentication antes de Authorization
 app.UseAuthentication();
@@ -124,6 +127,6 @@ app.UseSwaggerUI(c =>
     c.EnableTryItOutByDefault();
 });
 
-app.MapControllers();
+//app.MapControllers();
 
 app.Run();

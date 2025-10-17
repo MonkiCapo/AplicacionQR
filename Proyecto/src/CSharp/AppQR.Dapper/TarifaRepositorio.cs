@@ -2,7 +2,7 @@ using System.Data;
 using Dapper;
 using MySql.Data.MySqlClient;
 using AppQR.Core;
-using AppQR.Core.Servicios;
+using AppQR.Core.Servicios.Repositorios;
 using AppQR.Core.Entidades;
 
 namespace AppQR.Dapper

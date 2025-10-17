@@ -8,7 +8,7 @@ using FluentValidation;
 
 namespace AppQR.Core.Servicios.Validadores
 {
-    public class ClienteFluent : AbstractValidator<ClienteDTO>
+    public class ClienteFluent : AbstractValidator<Cliente>
     {
         public ClienteFluent()
         {
