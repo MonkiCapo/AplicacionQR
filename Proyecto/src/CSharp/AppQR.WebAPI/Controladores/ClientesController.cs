@@ -24,18 +24,7 @@ namespace AppQR.WebAPI.Controladores
 
 
         // Post de Clientes /api/clientes
-        [HttpPost]
-        public IActionResult CrearCliente([FromBody] Cliente cliente)
-        {
-            var clienteExistente = clienteService.ObtenerClientePorDNI(cliente.DNI);
-            if (clienteExistente != null)
-            {
-                return Conflict("Ya existe un cliente con ese DNI.");
-            }
-
-            var clienteCreado = clienteService.AgregarCliente(cliente);
-            return CreatedAtAction(nameof(ObtenerClientePorDNI), new { dni = clienteCreado.DNI }, clienteCreado);
-        }
+       
 
         // Get de todos los Clientes /api/clientes
 

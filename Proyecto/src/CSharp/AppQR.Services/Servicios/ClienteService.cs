@@ -43,19 +43,27 @@ namespace AppQR.Services.Servicios
             return _ClienteRepo.AgregarCliente(clienteNuevo);
         }
 
-        public bool ActualizarCliente(ClienteDTO cliente)
+        public bool ActualizarCliente(ClienteDTO dto)
         {
-            var resultado = _ClienteValidador.Validate(cliente);
+            var clienteActualizado = new Cliente
+            {
+                DNI = dto.DNI,
+                Nombre = dto.Nombre,
+                Telefono = dto.Telefono ?? ""
+            };
+
+            var resultado = _ClienteValidador.Validate(clienteActualizado);
+            
             if (!resultado.IsValid)
             {
                 var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
                 throw new ValidationException($"Error de validación: {errores}");
             }
 
-            if (!_ClienteRepo.ExisteDNIdeCliente(cliente.DNI))
-                throw new KeyNotFoundException($"No existe un cliente con el DNI {cliente.DNI}.");
+            if (!_ClienteRepo.ExisteDNIdeCliente(dto.DNI))
+                throw new KeyNotFoundException($"No existe un cliente con el DNI {dto.DNI}.");
 
-            return _ClienteRepo.ActualizarCliente(cliente);
+            return _ClienteRepo.ActualizarCliente(clienteActualizado);
         }
 
         public bool EliminarCliente(int dni)

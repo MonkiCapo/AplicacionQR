@@ -2,8 +2,6 @@
 using AppQR.Core.Servicios.Repositorios;
 using AppQR.Dapper;
 using AppQR.Core.Servicios.Validadores;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -12,6 +10,7 @@ using MySql.Data.MySqlClient;
 using AppQR.Core.Servicios.IServicios;
 using AppQR.Services.Servicios;
 using AppQR.Core.Dto;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -117,7 +116,7 @@ var app = builder.Build();
 //     app.UseDeveloperExceptionPage();
 // }
 
-//app.UseRouting();
+//app.UseRouting();>
 
 //Authentication antes de Authorization
 app.UseAuthentication();
@@ -128,10 +127,9 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "AppQR API V1");
-    c.RoutePrefix = "swagger"; // http://localhost:5096/swagger
+    c.RoutePrefix = "/swagger"; // http://localhost:5096/swagger
     c.DisplayRequestDuration(); // Muestra el tiempo de respuesta
-    c.EnableDeepLinking(); // Permite enlaces directos a endpoints
-    c.EnableTryItOutByDefault();
+    c.EnableDeepLinking(); // Permite enlaces directos a endpoints>
 });
 
 app.UseHttpsRedirection();
@@ -158,6 +156,8 @@ app.UseHttpsRedirection();
         service.AgregarCliente(dto);
         return Results.Created();
     }).WithTags("Cliente");
+
+    app.MapPut("/api", ())
 
 #endregion
 
