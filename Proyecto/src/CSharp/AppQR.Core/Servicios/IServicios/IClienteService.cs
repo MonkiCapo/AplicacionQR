@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppQR.Core.Entidades;
+using AppQR.Core.Dto;
 
 namespace AppQR.Core.Servicios.IServicios
 {
@@ -10,8 +11,8 @@ namespace AppQR.Core.Servicios.IServicios
     {
         IEnumerable<Cliente> ObtenerClientes();
         Cliente ObtenerClientePorDNI(int dni);
-        Cliente AgregarCliente(Cliente cliente);
-        bool ActualizarCliente(Cliente cliente);
+        Cliente AgregarCliente(ClienteDTO cliente);
+        bool ActualizarCliente(ClienteDTO cliente);
         bool EliminarCliente(int dni);
         bool ExisteDNIdeCliente(int dniExistente);
     }

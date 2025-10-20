@@ -3,6 +3,7 @@ using AppQR.Core.Servicios.IServicios;
 using FluentValidation;
 using AppQR.Core.Servicios.Repositorios;
 using AppQR.Core.Servicios.Validadores;
+using AppQR.Core.Dto;
 
 namespace AppQR.Services.Servicios
 {
@@ -20,7 +21,7 @@ namespace AppQR.Services.Servicios
 
         public Cliente? ObtenerClientePorDNI(int dni) => _ClienteRepo.ObtenerClientePorDNI(dni);
 
-        public Cliente AgregarCliente(Cliente clienteDto)
+        public Cliente AgregarCliente(ClienteDTO clienteDto)
         {
             if (_ClienteRepo.ExisteDNIdeCliente(clienteDto.DNI))
                 throw new InvalidOperationException($"Ya existe un cliente con el DNI: {clienteDto.DNI}");
@@ -42,7 +43,7 @@ namespace AppQR.Services.Servicios
             return _ClienteRepo.AgregarCliente(clienteNuevo);
         }
 
-        public bool ActualizarCliente(Cliente cliente)
+        public bool ActualizarCliente(ClienteDTO cliente)
         {
             var resultado = _ClienteValidador.Validate(cliente);
             if (!resultado.IsValid)
