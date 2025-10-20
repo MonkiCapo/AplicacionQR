@@ -135,12 +135,24 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 
-//app.MapControllers();
+#region EndPoints
 
+//app.MapControllers();
+#region CLientes
 app.MapGet("/api/Cliente", (IClienteService service) =>
 {
     var clientes = service.ObtenerClientes();
     return Results.Ok(clientes);
-}).WithTags("Cliente")
+}).WithTags("Cliente");
+
+app.MapGet("/api/Cliente/{DNI}", (int DNI, IClienteService service) =>
+{
+    var clientes = service.ObtenerClientePorDNI(DNI);
+    return clientes is not null ? Results.Ok(clientes) : Results.NotFound();
+}).WithTags("Cliente");
+
+#endregion
+
+#endregion
 
 app.Run();
