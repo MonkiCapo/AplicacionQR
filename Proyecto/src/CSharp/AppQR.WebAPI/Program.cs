@@ -40,12 +40,15 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
     };
 });
+builder.Services.AddAuthorization();
 
+#region Agregando conexión a BD
 builder.Services.AddScoped<IDbConnection>(provider =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     return new MySqlConnection(connectionString);
 });
+#endregion
 
 // builder.Services.AddControllers()
 //     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ClienteFluent>());
@@ -60,7 +63,10 @@ builder.Services.AddScoped<ITarifaRepositorio, TarifaRepositorio>();
 builder.Services.AddScoped<IOrdenRepositorio, OrdenRepositorio>();
 builder.Services.AddScoped<IEntradaRepositorio, EntradaRepositorio>();
 
+builder.Services.AddScoped<ClienteFluent>();
+
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -127,6 +133,14 @@ app.UseSwaggerUI(c =>
     c.EnableTryItOutByDefault();
 });
 
+app.UseHttpsRedirection();
+
 //app.MapControllers();
+
+app.MapGet("/api/Cliente", (IClienteService service) =>
+{
+    var clientes = service.ObtenerClientes();
+    return Results.Ok(clientes);
+}).WithTags("Cliente")
 
 app.Run();
