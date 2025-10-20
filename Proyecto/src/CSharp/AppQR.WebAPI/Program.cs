@@ -127,7 +127,7 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "AppQR API V1");
-    c.RoutePrefix = "/swagger"; // http://localhost:5096/swagger
+    c.RoutePrefix = "swagger"; // http://localhost:5096/swagger
     c.DisplayRequestDuration(); // Muestra el tiempo de respuesta
     c.EnableDeepLinking(); // Permite enlaces directos a endpoints>
 });
@@ -151,13 +151,17 @@ app.UseHttpsRedirection();
         return clientes is not null ? Results.Ok(clientes) : Results.NotFound();
     }).WithTags("Cliente");
 
-    app.MapPost("/api/Cliente", (ClienteDTO dto, IClienteService service) =>
+    app.MapPost("/api/Cliente", (int dni, ClienteDTO dto, IClienteService service) =>
     {
         service.AgregarCliente(dto);
         return Results.Created();
     }).WithTags("Cliente");
 
-    app.MapPut("/api", ())
+app.MapPut("/api/Cliente/{dni}", (int dni, IClienteService service, ClienteDTO dto) =>
+{
+    service.ActualizarCliente(dto, dni);
+    return Results.Ok();
+}).WithTags("Cliente");
 
 #endregion
 

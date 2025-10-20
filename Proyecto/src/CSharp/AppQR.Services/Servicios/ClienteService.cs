@@ -26,12 +26,7 @@ namespace AppQR.Services.Servicios
             if (_ClienteRepo.ExisteDNIdeCliente(clienteDto.DNI))
                 throw new InvalidOperationException($"Ya existe un cliente con el DNI: {clienteDto.DNI}");
 
-            var clienteNuevo = new Cliente
-            {
-                DNI = clienteDto.DNI,
-                Nombre = clienteDto.Nombre,
-                Telefono = clienteDto.Telefono ?? ""
-            };
+            var clienteNuevo = ConvertirDtoClase(clienteDto);
 
             var resultado = _ClienteValidador.Validate(clienteNuevo);
             if (!resultado.IsValid)
@@ -43,17 +38,12 @@ namespace AppQR.Services.Servicios
             return _ClienteRepo.AgregarCliente(clienteNuevo);
         }
 
-        public bool ActualizarCliente(ClienteDTO dto)
+        public bool ActualizarCliente(ClienteDTO dto, int dni)
         {
-            var clienteActualizado = new Cliente
-            {
-                DNI = dto.DNI,
-                Nombre = dto.Nombre,
-                Telefono = dto.Telefono ?? ""
-            };
+            var clienteActualizado = ConvertirDtoClase(dto);
 
             var resultado = _ClienteValidador.Validate(clienteActualizado);
-            
+
             if (!resultado.IsValid)
             {
                 var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
@@ -63,7 +53,7 @@ namespace AppQR.Services.Servicios
             if (!_ClienteRepo.ExisteDNIdeCliente(dto.DNI))
                 throw new KeyNotFoundException($"No existe un cliente con el DNI {dto.DNI}.");
 
-            return _ClienteRepo.ActualizarCliente(clienteActualizado);
+            return _ClienteRepo.ActualizarCliente(clienteActualizado, dni);
         }
 
         public bool EliminarCliente(int dni)
@@ -75,6 +65,16 @@ namespace AppQR.Services.Servicios
         }
 
         public bool ExisteDNIdeCliente(int dniExistente) => _ClienteRepo.ExisteDNIdeCliente(dniExistente);
+        
+        Cliente ConvertirDtoClase(ClienteDTO clienteDto)
+    {
+        return new Cliente
+        {
+            DNI = clienteDto.DNI,
+            Nombre = clienteDto.Nombre,
+            Telefono = clienteDto.Telefono
+        };
+    }
 
     }
 }

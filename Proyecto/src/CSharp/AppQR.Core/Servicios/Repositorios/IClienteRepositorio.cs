@@ -11,7 +11,7 @@ namespace AppQR.Core.Servicios.Repositorios
         IEnumerable<Cliente> ObtenerClientes();
         Cliente ObtenerClientePorDNI(int dni);
         Cliente AgregarCliente(Cliente cliente);
-        bool ActualizarCliente(Cliente cliente);
+        bool ActualizarCliente(Cliente cliente, int dni);
         bool EliminarCliente(int dni);
 
         bool ExisteDNIdeCliente(int dniExistente);
