@@ -11,6 +11,7 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using AppQR.Core.Servicios.IServicios;
 using AppQR.Services.Servicios;
+using AppQR.Core.Dto;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -139,17 +140,24 @@ app.UseHttpsRedirection();
 
 //app.MapControllers();
 #region CLientes
-app.MapGet("/api/Cliente", (IClienteService service) =>
-{
-    var clientes = service.ObtenerClientes();
-    return Results.Ok(clientes);
-}).WithTags("Cliente");
 
-app.MapGet("/api/Cliente/{DNI}", (int DNI, IClienteService service) =>
-{
-    var clientes = service.ObtenerClientePorDNI(DNI);
-    return clientes is not null ? Results.Ok(clientes) : Results.NotFound();
-}).WithTags("Cliente");
+    app.MapGet("/api/Cliente", (IClienteService service) =>
+    {
+        var clientes = service.ObtenerClientes();
+        return Results.Ok(clientes);
+    }).WithTags("Cliente");
+
+    app.MapGet("/api/Cliente/{dni}", (int dni, IClienteService service) =>
+    {
+        var clientes = service.ObtenerClientePorDNI(dni);
+        return clientes is not null ? Results.Ok(clientes) : Results.NotFound();
+    }).WithTags("Cliente");
+
+    app.MapPost("/api/Cliente", (ClienteDTO dto, IClienteService service) =>
+    {
+        service.AgregarCliente(dto);
+        return Results.Created();
+    }).WithTags("Cliente");
 
 #endregion
 
