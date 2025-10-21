@@ -23,17 +23,17 @@ namespace AppQR.Dapper
             return cliente;
         }
 
-        public bool ActualizarCliente(Cliente cliente, int dni)
+        public bool ActualizarCliente(Cliente cliente, int id)
         {
             var sql = @"UPDATE Cliente
                         SET Nombre = @nombre,
                             Telefono = @telefono
-                        WHERE DNI = @dniExistente;";
+                        WHERE DNI = @DNI;";
             var rowsAffected = Conexion.Execute(sql, new
             {
                 nombre = cliente.Nombre,
                 telefono = cliente.Telefono,
-                dniExistente = dni
+                DNI = id
             });
             return rowsAffected > 0;
         }

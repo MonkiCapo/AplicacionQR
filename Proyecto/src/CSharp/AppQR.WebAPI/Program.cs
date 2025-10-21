@@ -11,6 +11,7 @@ using AppQR.Core.Servicios.IServicios;
 using AppQR.Services.Servicios;
 using AppQR.Core.Dto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -157,11 +158,11 @@ app.UseHttpsRedirection();
         return Results.Created();
     }).WithTags("Cliente");
 
-app.MapPut("/api/Cliente/{dni}", (int dni, IClienteService service, ClienteDTO dto) =>
-{
-    service.ActualizarCliente(dto, dni);
-    return Results.Ok();
-}).WithTags("Cliente");
+    app.MapPut("/api/Cliente/{dni}", (int dni, IClienteService service, ClienteDTO dto) =>
+    {
+        service.ActualizarCliente(dto, dni);
+        return Results.Ok();
+    }).WithTags("Cliente");
 
 #endregion
 
