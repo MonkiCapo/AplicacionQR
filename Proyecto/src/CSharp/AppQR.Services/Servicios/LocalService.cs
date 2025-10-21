@@ -76,15 +76,23 @@ namespace AppQR.Services.Servicios
 
         public Sector? ObtenerSectorPorID(int id) => _LocalRepo.ObtenerSectorPorID(id);
 
-        public Sector AgregarSector(Sector sector, int id)
+        public Sector AgregarSector(SectorDTO sectorDTO, int id)
         {
             if(_LocalRepo.ObtenerSectorPorID(sector.IdSector) != null)
                 throw new InvalidOperationException($"Ya existe un sector con ese ID: {sector.IdSector}");
 
+        
+            var local = _LocalRepo.ObtenerLocalPorID(id);
+
             var sectorNuevo = new Sector
             {
-                Capacidad
-            }
+                Capacidad = sectorDTO.Capacidad,
+                local = local
+            };
+
+    
+
+
         }
 
 
