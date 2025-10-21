@@ -47,7 +47,7 @@ namespace AppQR.Services.Servicios
             if (!resultado.IsValid)
             {
                 var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
-                throw new ValidationException($"Error de validación: {errores}");
+                throw new ValidationException($"Error de validacion: {errores}");
             }
 
             if (!_ClienteRepo.ExisteDNIdeCliente(dto.DNI))

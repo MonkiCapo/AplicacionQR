@@ -13,16 +13,16 @@ namespace AppQR.Core.Servicios.Validadores
         public ClienteFluent()
         {
             RuleFor(c => c.DNI)
-                .GreaterThan(0).WithMessage("El DNI debe ser un número positivo.");
+                .GreaterThan(0).WithMessage("El DNI debe ser un numero positivo.");
 
 
             RuleFor(c => c.Nombre)
-                .NotEmpty().WithMessage("El nombre no puede estar vacío.")
+                .NotEmpty().WithMessage("El nombre no puede estar vacio.")
                 .MaximumLength(100).WithMessage("El nombre no puede superar los 100 caracteres.");
 
             RuleFor(c => c.Telefono)
-                .NotEmpty().WithMessage("El teléfono no puede estar vacío.")
-                .Matches(@"^\+?\d{7,15}$").WithMessage("El teléfono debe ser un número válido.");
+                .NotEmpty().WithMessage("El telefono no puede estar vacío.")
+                .Matches(@"^\+?\d{7,15}$").WithMessage("El telefono debe ser un numero valido.");
         }
     }
 }
