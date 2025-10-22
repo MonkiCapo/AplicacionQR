@@ -56,23 +56,7 @@ namespace AppQR.WebAPI.Controladores
             return Ok(evento);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult ActualizarEvento(int id, [FromBody] EventoDTO dto)
-        {
-            var existente = _eventoRepo.ObtenerEventoPorID(id);
-            if (existente == null)
-                return NotFound($"No se encontró el evento con ID {id}");
-
-            existente.Nombre = dto.Nombre;
-            existente.FechaInicio = dto.FechaInicio;
-            existente.FechaFin = dto.FechaFin;
-
-            var actualizado = _eventoRepo.ActualizarEvento(existente);
-            if (!actualizado)
-                return StatusCode(500, "No se pudo actualizar el evento");
-
-            return Ok(existente);
-        }
+        
         
         [HttpPost("{id}/publicar")]
         public IActionResult PublicarEvento(int id)

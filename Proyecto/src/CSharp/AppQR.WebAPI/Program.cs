@@ -65,8 +65,11 @@ builder.Services.AddScoped<IOrdenRepositorio, OrdenRepositorio>();
 builder.Services.AddScoped<IEntradaRepositorio, EntradaRepositorio>();
 
 builder.Services.AddScoped<ClienteFluent>();
+builder.Services.AddScoped<EventoFluent>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IEventoService, EventoService>();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -163,6 +166,34 @@ app.UseHttpsRedirection();
         service.ActualizarCliente(dto, dni);
         return Results.Ok();
     }).WithTags("Cliente");
+
+#endregion
+
+#region Eventos
+
+    app.MapGet("/api/Evento", (IEventoService service) =>
+    {
+        var eventos = service.ObtenerEventos();
+        return Results.Ok(eventos);
+    }).WithTags("Evento");
+
+    app.MapGet("/api/Evento/{id}", (int id, IEventoService service) =>
+    {
+        var eventos = service.ObtenerEventoPorID(id);
+        return eventos is not null ? Results.Ok(eventos) : Results.NotFound();
+    }).WithTags("Evento");
+
+    app.MapPost("/api/Evento", (EventoDTO dto, IEventoService service) =>
+    {
+        service.AgregarEvento(dto);
+        return Results.Created();
+    }).WithTags("Evento");
+
+    app.MapPut("/api/Evento/{id}", (int id, IEventoService service, EventoDTO dto) =>
+    {
+        service.ActualizarEvento(dto, id);
+        return Results.Ok();
+    }).WithTags("Evento");
 
 #endregion
 

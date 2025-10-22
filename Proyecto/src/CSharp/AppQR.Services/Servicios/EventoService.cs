@@ -52,6 +52,12 @@ namespace AppQR.Services.Servicios
             return _eventoRepo.ActualizarEvento(eventoActualizado, id);
         }
 
+        public bool EliminarEvento(int id) => _eventoRepo.EliminarEvento(id);
+
+        public string CancelarEvento(int id) => _eventoRepo.CancelarEvento(id);
+
+        public string PublicarEvento(int id) => _eventoRepo.PublicarEvento(id);
+
         Evento ConvertirDtoAClase(EventoDTO dto)
         {
             return new Evento
