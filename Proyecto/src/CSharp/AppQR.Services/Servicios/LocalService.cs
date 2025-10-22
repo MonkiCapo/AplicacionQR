@@ -73,7 +73,7 @@ namespace AppQR.Services.Servicios
         public bool EliminarLocal (int id)
         {
             if(_LocalRepo.ObtenerLocalPorID(id) == null)
-                throw new KeyNotFoundException($"No existe un local con ese ID: {id}");
+                throw new KeyNotFoundException($"No existe un local con ese Id: {id}");
 
             return _LocalRepo.EliminarLocal(id);
         }
@@ -104,7 +104,7 @@ namespace AppQR.Services.Servicios
             return _LocalRepo.AgregarSector(sectorNuevo, id);
         }
 
-        public bool ActualizarSector(SectorDTO sectorDTO, int id)
+        public bool ActualizarSector(SectorDTO sectorDTO)
         {
             var sectorActualizado = new Sector
             {
@@ -121,14 +121,13 @@ namespace AppQR.Services.Servicios
             return _LocalRepo.ActualizarSector(sectorActualizado);
         }
 
-            
+        public bool EliminarSector(int id)
+        {
+            if (_LocalRepo.ObtenerSectorPorID(id) == null)
+                throw new KeyNotFoundException($"No existe un sector con ese Id:{id}");
 
-
-    
-
-
+            return _LocalRepo.EliminarSector(id);
         }
-
 
 
     }

@@ -11,6 +11,7 @@ using AppQR.Core.Servicios.IServicios;
 using AppQR.Services.Servicios;
 using AppQR.Core.Dto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using AppQR.Services.Validadores;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,8 +65,12 @@ builder.Services.AddScoped<IOrdenRepositorio, OrdenRepositorio>();
 builder.Services.AddScoped<IEntradaRepositorio, EntradaRepositorio>();
 
 builder.Services.AddScoped<ClienteFluent>();
+builder.Services.AddScoped<LocalFluent>();
+builder.Services.AddScoped<SectorFluent>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<ILocalService, LocalService>();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -162,6 +167,30 @@ app.MapPut("/api/Cliente/{dni}", (int dni, IClienteService service, ClienteDTO d
     service.ActualizarCliente(dto, dni);
     return Results.Ok();
 }).WithTags("Cliente");
+
+#endregion
+
+#region Locales
+
+app.MapGet("/api/Local", (ILocalService service) =>
+{
+    var locales = service.ObtenerLocales();
+    return Results.Ok(locales);
+}).WithTags("Local");
+
+app.MapGet("/api/Local/{id}", (int id, ILocalService service) =>
+{
+    var locales = service.ObtenerLocalPorID(id);
+    return locales is not null ? Results.Ok(locales) : Results.NotFound();
+}).WithTags("Local");
+
+app.MapPost("/api/Local", (LocalDTO dto, ILocalService service) =>
+{
+    service.AgregarLocal(dto);
+    retu
+})
+
+
 
 #endregion
 
