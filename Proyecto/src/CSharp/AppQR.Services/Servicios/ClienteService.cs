@@ -38,8 +38,11 @@ namespace AppQR.Services.Servicios
             return _ClienteRepo.AgregarCliente(clienteNuevo);
         }
 
-        public bool ActualizarCliente(ClienteDTO dto, int id)
+        public bool ActualizarCliente(ClienteActualizadoDTO dto, int id)
         {
+            if (!_ClienteRepo.ExisteDNIdeCliente(id))
+                throw new KeyNotFoundException($"No existe un cliente con el DNI: {id}");
+
             var clienteActualizado = new Cliente
             {
                 DNI = id,
@@ -48,15 +51,11 @@ namespace AppQR.Services.Servicios
             };
 
             var resultado = _ClienteValidador.Validate(clienteActualizado);
-
             if (!resultado.IsValid)
             {
                 var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
                 throw new ValidationException($"Error de validación: {errores}");
             }
-
-            if (!_ClienteRepo.ExisteDNIdeCliente(id))
-                throw new KeyNotFoundException($"No existe un cliente con el DNI {id}.");
 
             return _ClienteRepo.ActualizarCliente(clienteActualizado, id);
         }

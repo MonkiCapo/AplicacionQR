@@ -155,13 +155,13 @@ app.UseHttpsRedirection();
         return clientes is not null ? Results.Ok(clientes) : Results.NotFound();
     }).WithTags("Cliente");
 
-    app.MapPost("/api/Cliente", (int dni, ClienteDTO dto, IClienteService service) =>
+    app.MapPost("/api/Cliente", (ClienteDTO dto, IClienteService service) =>
     {
         service.AgregarCliente(dto);
         return Results.Created();
     }).WithTags("Cliente");
 
-    app.MapPut("/api/Cliente/{dni}", (int dni, IClienteService service, ClienteDTO dto) =>
+    app.MapPut("/api/Cliente/{dni}", (int dni, IClienteService service, ClienteActualizadoDTO dto) =>
     {
         service.ActualizarCliente(dto, dni);
         return Results.Ok();
