@@ -24,7 +24,7 @@ namespace AppQR.Dapper
             return local;
         }
 
-        public bool ActualizarLocal(Local local)
+        public bool ActualizarLocal(Local local, int id)
         {
             var sql = @"UPDATE Local SET Nombre = @nombre, Direccion = @direccion
             WHERE IdLocal = @idLocal";
@@ -32,7 +32,7 @@ namespace AppQR.Dapper
             {
                 nombre = local.Nombre,
                 direccion = local.Direccion,
-                idlocal = local.IdLocal
+                idlocal = id
             });
             return rowsAffected > 0;
         }
@@ -67,14 +67,14 @@ namespace AppQR.Dapper
             return sector;
         }
 
-        public bool ActualizarSector(Sector sector)
+        public bool ActualizarSector(Sector sector, int id)
         {
             var sql = @"UPDATE Sector SET Capacidad = @capacidad
                         WHERE IdSector = @idSector";
             var rowsAffected = Conexion.Execute(sql, new
             {
                 capacidad = sector.Capacidad,
-                idSector = sector.IdSector
+                idSector = id
             });
             return rowsAffected > 0;
         }

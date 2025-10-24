@@ -12,6 +12,7 @@ using AppQR.Services.Servicios;
 using AppQR.Core.Dto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using AppQR.Services.Validadores;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,9 +73,12 @@ builder.Services.AddScoped<IEntradaRepositorio, EntradaRepositorio>();
 
 builder.Services.AddScoped<ClienteFluent>();
 builder.Services.AddScoped<EventoFluent>();
+builder.Services.AddScoped<LocalFluent>();
+builder.Services.AddScoped<SectorFluent>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddScoped<ILocalService, LocalService>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -120,12 +124,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// // Middleware pipeline
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseDeveloperExceptionPage();
-// }
-
 //app.UseRouting();>
 
 //Authentication antes de Authorization
@@ -147,7 +145,7 @@ app.UseHttpsRedirection();
 #region EndPoints
 
 //app.MapControllers();
-#region CLientes
+#region Clientes
 
     app.MapGet("/api/Cliente", (IClienteService service) =>
     {
@@ -177,29 +175,110 @@ app.UseHttpsRedirection();
 
 #region Eventos
 
-    app.MapGet("/api/Evento", (IEventoService service) =>
-    {
-        var eventos = service.ObtenerEventos();
-        return Results.Ok(eventos);
-    }).WithTags("Evento");
+app.MapGet("/api/Evento", (IEventoService service) =>
+{
+    var eventos = service.ObtenerEventos();
+    return Results.Ok(eventos);
+}).WithTags("Evento");
 
-    app.MapGet("/api/Evento/{id}", (int id, IEventoService service) =>
-    {
-        var eventos = service.ObtenerEventoPorID(id);
-        return eventos is not null ? Results.Ok(eventos) : Results.NotFound();
-    }).WithTags("Evento");
+app.MapGet("/api/Evento/{id}", (int id, IEventoService service) =>
+{
+    var eventos = service.ObtenerEventoPorID(id);
+    return eventos is not null ? Results.Ok(eventos) : Results.NotFound();
+}).WithTags("Evento");
 
-    app.MapPost("/api/Evento", (EventoDTO dto, IEventoService service) =>
-    {
-        service.AgregarEvento(dto);
-        return Results.Created();
-    }).WithTags("Evento");
+app.MapPost("/api/Evento", (EventoDTO dto, IEventoService service) =>
+{
+    service.AgregarEvento(dto);
+    return Results.Created();
+}).WithTags("Evento");
 
-    app.MapPut("/api/Evento/{id}", (int id, IEventoService service, EventoDTO dto) =>
-    {
-        service.ActualizarEvento(dto, id);
-        return Results.Ok();
-    }).WithTags("Evento");
+app.MapPut("/api/Evento/{id}", (int id, IEventoService service, EventoDTO dto) =>
+{
+    service.ActualizarEvento(dto, id);
+    return Results.Ok();
+}).WithTags("Evento");
+
+app.MapPut("/api/Evento/{id}/publicar", (int id, IEventoService service) =>
+{
+    service.PublicarEvento(id);
+    return Results.Ok();
+}).WithTags("Evento");
+
+app.MapPut("/api/Evento/{id}/cancelar", (int id, IEventoService service) =>
+{
+    service.CancelarEvento(id);
+    return Results.Ok();
+}).WithTags("Evento");
+
+#endregion
+
+#region Locales
+
+// Local
+
+app.MapGet("/api/Local", (ILocalService service) =>
+{
+    var locales = service.ObtenerLocales();
+    return Results.Ok(locales);
+}).WithTags("Local");
+
+app.MapGet("/api/Local/{id}", (int id, ILocalService service) =>
+{
+    var local = service.ObtenerLocalPorID(id);
+    return local is not null ? Results.Ok(local) : Results.NotFound();
+}).WithTags("Local");
+
+app.MapPost("/api/Local", (LocalDTO dto, ILocalService service) =>
+{
+    service.AgregarLocal(dto);
+    return Results.Created();
+}).WithTags("Local");
+
+app.MapPut("/api/Local/{id}", (int id, LocalDTO dto, ILocalService service) =>
+{
+    service.ActualizarLocal(dto, id);
+    return Results.Ok();
+}).WithTags("Local");
+
+app.MapDelete("/api/Local/{id}", (int id, ILocalService service) =>
+{
+    service.EliminarLocal(id);
+    return Results.Ok();
+}).WithTags("Local");
+
+// Sector
+
+app.MapGet("/api/Local/{idLocal}/Sector", (int idLocal, ILocalService service) =>
+{
+    var sectores = service.ObtenerSectoresPorLocal(idLocal);
+    return Results.Ok(sectores);
+}).WithTags("Sector de local");
+
+app.MapGet("/api/Sector/{id}", (int id, ILocalService service) =>
+{
+    var sector = service.ObtenerSectorPorID(id);
+    return sector is not null ? Results.Ok(sector) : Results.NotFound();
+}).WithTags("Sector de local");
+
+app.MapPost("/api/Local/{id}/Sector", (int id, SectorDTO dto, ILocalService service) =>
+{
+    service.AgregarSector(dto, id);
+    return Results.Created();
+}).WithTags("Sector de local");
+
+app.MapPut("api/Sector/{id}", (int id, SectorDTO dto, ILocalService service) =>
+{
+    service.ActualizarSector(dto, id);
+    return Results.Ok();
+}).WithTags("Sector de local");
+
+app.MapDelete("/api/Sector({id}", (int id, ILocalService service) =>
+{
+    service.EliminarSector(id);
+    return Results.Ok();
+}).WithTags("Sector de local");
+
 
 #endregion
 

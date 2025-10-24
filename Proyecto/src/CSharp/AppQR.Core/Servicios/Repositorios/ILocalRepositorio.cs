@@ -11,13 +11,13 @@ namespace AppQR.Core.Servicios.Repositorios
         IEnumerable<Local> ObtenerLocales();
         Local ObtenerLocalPorID(int id);
         Local AgregarLocal(Local local);
-        bool ActualizarLocal(Local local);
+        bool ActualizarLocal(Local local, int id);
         bool EliminarLocal(int id);
 
         IEnumerable<Sector> ObtenerSectoresPorLocal(int idLocal);
         Sector ObtenerSectorPorID(int id);
         Sector AgregarSector(Sector sector, int id);
-        bool ActualizarSector(Sector sector);
+        bool ActualizarSector(Sector sector, int id);
         bool EliminarSector(int id);
     }
 }
