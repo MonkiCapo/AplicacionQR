@@ -49,7 +49,7 @@ namespace AppQR.Services.Servicios
             return _LocalRepo.AgregarLocal(localNuevo);
         }
 
-        public bool ActualizarLocal (LocalDTO localDTO)
+        public bool ActualizarLocal (LocalDTO localDTO , int id)
         {
             var localActualizado = new Local
             {
@@ -67,7 +67,7 @@ namespace AppQR.Services.Servicios
             //if(_LocalRepo.ObtenerLocalPorID(IdLocal) == null)
             // throw new KeyNotFoundException($"No existe un local con ese ID {local.IdLocal}");
 
-            return _LocalRepo.ActualizarLocal(localActualizado);
+            return _LocalRepo.ActualizarLocal(localActualizado, id);
         }
 
         public bool EliminarLocal (int id)
@@ -104,7 +104,7 @@ namespace AppQR.Services.Servicios
             return _LocalRepo.AgregarSector(sectorNuevo, id);
         }
 
-        public bool ActualizarSector(SectorDTO sectorDTO)
+        public bool ActualizarSector(SectorDTO sectorDTO, int id)
         {
             var sectorActualizado = new Sector
             {
@@ -118,7 +118,7 @@ namespace AppQR.Services.Servicios
                 throw new ValidationException($"Error de validacion: {errores}");
             }
 
-            return _LocalRepo.ActualizarSector(sectorActualizado);
+            return _LocalRepo.ActualizarSector(sectorActualizado, id);
         }
 
         public bool EliminarSector(int id)
