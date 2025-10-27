@@ -12,6 +12,7 @@ using AppQR.Services.Servicios;
 using AppQR.Core.Dto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AppQR.Services.Validadores;
+using AppQR.Core.Entidades;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,10 +69,12 @@ builder.Services.AddScoped<ClienteFluent>();
 builder.Services.AddScoped<LocalFluent>();
 builder.Services.AddScoped<SectorFluent>();
 builder.Services.AddScoped<FuncionFluent>();
+builder.Services.AddScoped<UsuarioFluent>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<ILocalService, LocalService>();
 builder.Services.AddScoped<IFuncionService, FuncionService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -278,6 +281,46 @@ app.MapPut("/api/Funcion/{idFuncion}/Cancelar", (int idFuncion, IFuncionService 
 
 #endregion
 
+#region Usuarios
+
+app.MapGet("/api/Usuario", (IUsuarioService service) =>
+{
+    var usuarios = service.ObtenerTodosLosUsuarios();
+    return Results.Ok(usuarios);
+}).WithTags("Usuario");
+
+app.MapGet("/api/Usuario/{id}", (int id, IUsuarioService service) =>
+{
+    var usuario = service.ObtenerUsuarioPorID(id);
+    return usuario is not null ? Results.Ok(usuario) : Results.NotFound();
+}).WithTags("Usuario");
+
+app.MapPost("/api/Usuario", (Usuario usuario, IUsuarioService service) =>
+{
+    service.AgregarUsuario(usuario);
+    return Results.Created();
+}).WithTags("Usuario");
+
+app.MapPut("/api/Usuario/{id}", (int id, Usuario usuario, IUsuarioService service) =>
+{
+    service.ActualizarUsuario(usuario, id);
+    return Results.Ok();
+}).WithTags("Usuario");
+
+app.MapDelete("/api/Usuario/{id}", (int id, IUsuarioService service) =>
+{
+    service.EliminarUsuario(id);
+    return Results.Ok();
+}).WithTags("Usuario");
+
+app.MapPost("/api/Usuario/Login", (string loginMail, string loginContraseña, IUsuarioService service) =>
+{
+    var usuario = service.Login(loginMail, loginContraseña);
+    return usuario is not null ? Results.Ok(usuario) : Results.Unauthorized();
+}).WithTags("Usuario");
+
+
+#endregion
 
 #endregion
 

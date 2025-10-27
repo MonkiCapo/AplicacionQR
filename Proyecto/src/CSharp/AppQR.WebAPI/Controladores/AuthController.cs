@@ -239,7 +239,7 @@ namespace AppQR.WebAPI.Controladores
                 usuario.Rol = ERoles.Admin;
             }
 
-            _usuarioRepo.ActualizarUsuario(usuario);
+            // _usuarioRepo.ActualizarUsuario(usuario);
 
             return Ok(usuario);
         }

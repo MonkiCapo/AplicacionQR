@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using AppQR.Core.Entidades;
 
-namespace AppQR.Core.Servicios.Repositorios
+namespace AppQR.Core.Servicios.IServicios
 {
-    public interface IUsuarioRepositorio
+    public interface IUsuarioService
     {
         IEnumerable<Usuario> ObtenerTodosLosUsuarios();
         Usuario ObtenerUsuarioPorID(int id);
@@ -14,9 +15,8 @@ namespace AppQR.Core.Servicios.Repositorios
         Usuario AgregarUsuario(Usuario usuario);
         bool ActualizarUsuario(Usuario usuario, int id);
         bool EliminarUsuario(int id);
-
         Usuario? Login(string loginMail, string loginContraseña);
-
         bool ExisteUsuario(string emailExistente);
+
     }
 }

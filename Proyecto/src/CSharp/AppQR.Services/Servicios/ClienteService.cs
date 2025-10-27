@@ -19,7 +19,7 @@ namespace AppQR.Services.Servicios
 
         public IEnumerable<Cliente> ObtenerClientes() => _ClienteRepo.ObtenerClientes();
 
-        public Cliente? ObtenerClientePorDNI(int dni) => _ClienteRepo.ObtenerClientePorDNI(dni);
+        public Cliente ObtenerClientePorDNI(int dni) => _ClienteRepo.ObtenerClientePorDNI(dni);
 
         public Cliente AgregarCliente(ClienteDTO clienteDto)
         {

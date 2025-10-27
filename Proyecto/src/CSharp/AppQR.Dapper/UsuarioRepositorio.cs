@@ -27,7 +27,7 @@ namespace AppQR.Dapper
             return usuario;
         }
 
-        public bool ActualizarUsuario(Usuario usuario)
+        public bool ActualizarUsuario(Usuario usuario, int id)
         {
             var sql = @"UPDATE Usuario SET NombreUsuario = @nombreUsuario, Email = @email, Contraseña = @contraseña, Rol = @rol, DNI = @Dni
             WHERE IdUsuario = @idUsuario;";
