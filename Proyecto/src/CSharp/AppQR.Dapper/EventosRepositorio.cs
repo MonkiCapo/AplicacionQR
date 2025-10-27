@@ -42,7 +42,7 @@ namespace AppQR.Dapper
                 estado = evento.Estado.ToString(),
                 fechaInicio = evento.FechaInicio,
                 fechaFin = evento.FechaFin,
-                IdEvento = id
+                idEvento = id
             });
             return rowsAffected > 0;
         }

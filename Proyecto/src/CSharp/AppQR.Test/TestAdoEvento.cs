@@ -44,5 +44,12 @@ namespace AppQR.Test
             Assert.Equal(1, resultado.IdEvento);
             Assert.Equal("Concierto", resultado.Nombre);
         }
+
+        [Fact]
+
+        public void Debe_Dar_De_Alta_Evento()
+        {
+            var MOQ = new Mock<IEventosRepositorio>();
+        }
     }
 }
