@@ -27,6 +27,8 @@ namespace AppQR.Services.Servicios
         public Funcion ObtenerPorID(int id) => _FuncionRepo.ObtenerPorID(id);
         public Funcion AgregarFuncion(FuncionDTO funcionDTO)
         {
+            _FuncionValidador.ValidateAndThrow(funcionDTO);
+
             if (_EventoRepo.ObtenerEventoPorID(funcionDTO.idEvento) == null)
                 throw new ValidationException($"El evento con ese Id {funcionDTO.idEvento} no existe");
 
@@ -38,17 +40,14 @@ namespace AppQR.Services.Servicios
                 evento = _EventoRepo.ObtenerEventoPorID(funcionDTO.idEvento)
             };
 
-            var resultado = _FuncionValidador.Validate(funcionNueva);
-            if (!resultado.IsValid)
-            {
-                var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
-                throw new ValidationException($"Error de validacion: {errores}");
-            }
             return _FuncionRepo.AgregarFuncion(funcionNueva);
         }
 
         public bool ActualizarFuncion(FuncionDTO funcionDTO, int id)
         {
+
+            _FuncionValidador.ValidateAndThrow(funcionDTO);
+            
             if (_FuncionRepo.ObtenerPorID(id) == null)
                 throw new InvalidOperationException($"No existe una funcion con ese Id {id}");
 
@@ -62,13 +61,6 @@ namespace AppQR.Services.Servicios
                 Estado = Enum.TryParse<EEstados>(funcionDTO.Estado, true, out var estado) ? estado : EEstados.Creado,
                 evento = _EventoRepo.ObtenerEventoPorID(funcionDTO.idEvento)
             };
-
-            var resultado = _FuncionValidador.Validate(funcionActualizada);
-            if (!resultado.IsValid)
-            {
-                var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
-                throw new ValidationException($"Error de validacion: {errores}");
-            }
 
             return _FuncionRepo.ActualizarFuncion(funcionActualizada, id);
         }

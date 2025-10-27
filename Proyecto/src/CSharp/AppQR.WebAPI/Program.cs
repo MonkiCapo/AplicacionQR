@@ -67,9 +67,11 @@ builder.Services.AddScoped<IEntradaRepositorio, EntradaRepositorio>();
 builder.Services.AddScoped<ClienteFluent>();
 builder.Services.AddScoped<LocalFluent>();
 builder.Services.AddScoped<SectorFluent>();
+builder.Services.AddScoped<FuncionFluent>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<ILocalService, LocalService>();
+builder.Services.AddScoped<IFuncionService, FuncionService>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -208,33 +210,31 @@ app.MapGet("/api/Local/{idLocal}/Sector", (int idLocal, ILocalService service) =
 {
     var sectores = service.ObtenerSectoresPorLocal(idLocal);
     return Results.Ok(sectores);
-}).WithTags("Sector de local");
+}).WithTags("Sector");
 
 app.MapGet("/api/Sector/{id}", (int id, ILocalService service) =>
 {
     var sector = service.ObtenerSectorPorID(id);
     return sector is not null ? Results.Ok(sector) : Results.NotFound();
-}).WithTags("Sector de local");
+}).WithTags("Sector");
 
 app.MapPost("/api/Local/{id}/Sector", (int id, SectorDTO dto, ILocalService service) =>
 {
     service.AgregarSector(dto, id);
     return Results.Created();
-}).WithTags("Sector de local");
+}).WithTags("Sector");
 
 app.MapPut("api/Sector/{id}", (int id, SectorDTO dto, ILocalService service) =>
 {
     service.ActualizarSector(dto, id);
     return Results.Ok();
-}).WithTags("Sector de local");
+}).WithTags("Sector");
 
 app.MapDelete("/api/Sector({id}", (int id, ILocalService service) =>
 {
     service.EliminarSector(id);
     return Results.Ok();
-}).WithTags("Sector de local");
-
-
+}).WithTags("Sector");
 
 #endregion
 
@@ -267,6 +267,12 @@ app.MapPut("/api/Funcion/{id}", (int id, FuncionDTO dto, IFuncionService service
 app.MapDelete("/api/Funcion/{id}", (int id, IFuncionService service) =>
 {
     service.EliminarFuncion(id);
+    return Results.Ok();
+}).WithTags("Funcion");
+
+app.MapPut("/api/Funcion/{idFuncion}/Cancelar", (int idFuncion, IFuncionService service) =>
+{
+    service.CancelarFuncion(idFuncion);
     return Results.Ok();
 }).WithTags("Funcion");
 
