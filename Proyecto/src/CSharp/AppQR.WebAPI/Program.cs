@@ -75,10 +75,12 @@ builder.Services.AddScoped<ClienteFluent>();
 builder.Services.AddScoped<EventoFluent>();
 builder.Services.AddScoped<LocalFluent>();
 builder.Services.AddScoped<SectorFluent>();
+builder.Services.AddScoped<FuncionFluent>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<ILocalService, LocalService>();
+builder.Services.AddScoped<IFuncionService, FuncionService>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -215,7 +217,7 @@ app.MapPut("/api/Evento/{id}/cancelar", (int id, IEventoService service) =>
 
 #region Locales
 
-// Local
+
 
 app.MapGet("/api/Local", (ILocalService service) =>
 {
@@ -247,41 +249,84 @@ app.MapDelete("/api/Local/{id}", (int id, ILocalService service) =>
     return Results.Ok();
 }).WithTags("Local");
 
-// Sector
+
+
+#endregion
+
+#region Sectores
 
 app.MapGet("/api/Local/{idLocal}/Sector", (int idLocal, ILocalService service) =>
 {
     var sectores = service.ObtenerSectoresPorLocal(idLocal);
     return Results.Ok(sectores);
-}).WithTags("Sector de local");
+}).WithTags("Sector");
 
 app.MapGet("/api/Sector/{id}", (int id, ILocalService service) =>
 {
     var sector = service.ObtenerSectorPorID(id);
     return sector is not null ? Results.Ok(sector) : Results.NotFound();
-}).WithTags("Sector de local");
+}).WithTags("Sector");
 
 app.MapPost("/api/Local/{id}/Sector", (int id, SectorDTO dto, ILocalService service) =>
 {
     service.AgregarSector(dto, id);
     return Results.Created();
-}).WithTags("Sector de local");
+}).WithTags("Sector");
 
 app.MapPut("api/Sector/{id}", (int id, SectorDTO dto, ILocalService service) =>
 {
     service.ActualizarSector(dto, id);
     return Results.Ok();
-}).WithTags("Sector de local");
+}).WithTags("Sector");
 
 app.MapDelete("/api/Sector({id}", (int id, ILocalService service) =>
 {
     service.EliminarSector(id);
     return Results.Ok();
-}).WithTags("Sector de local");
+}).WithTags("Sector");
 
 
 #endregion
 
+#region Funcion
+
+app.MapGet("/api/Funcion", (IFuncionService service) =>
+{
+    var funciones = service.ObtenerTodasLasFunciones();
+    return Results.Ok(funciones);
+}).WithTags("Funcion");
+
+app.MapGet("/api/Funcion/{id}", (int id, IFuncionService service) =>
+{
+    var funcion = service.ObtenerPorID(id);
+    return funcion is not null ? Results.Ok(funcion) : Results.NotFound();
+}).WithTags("Funcion");
+
+app.MapPost("/api/Funcion", (FuncionDTO dto, IFuncionService service) =>
+{
+    service.AgregarFuncion(dto);
+    return Results.Created();
+}).WithTags("Funcion");
+
+app.MapPut("/api/Funcion/{id}", (int id, FuncionDTO dto, IFuncionService service) =>
+{
+    service.ActualizarFuncion(dto, id);
+    return Results.Ok();
+}).WithTags("Funcion");
+
+app.MapDelete("/api/Funcion/{id}", (int id, IFuncionService service) =>
+{
+    service.EliminarFuncion(id);
+    return Results.Ok();
+}).WithTags("Funcion");
+
+app.MapPut("/api/Funcion/{idFuncion}/Cancelar", (int idFuncion, IFuncionService service) =>
+{
+    service.CancelarFuncion(idFuncion);
+    return Results.Ok();
+}).WithTags("Funcion");
+
+#endregion
 #endregion
 
 app.Run();

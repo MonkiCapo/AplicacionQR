@@ -37,24 +37,24 @@ namespace AppQR.WebAPI.Controladores
             return Ok(local);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult ActualizarLocal(int id, [FromBody] LocalDTO DTO)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        // [HttpPut("{id}")]
+        // public IActionResult ActualizarLocal(int id, [FromBody] LocalDTO DTO)
+        // {
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return BadRequest(ModelState);
+        //     }
 
-            var local = new Local
-            {
-                IdLocal = id,
-                Nombre = DTO.Nombre,
-                Direccion = DTO.Direccion
-            };
-            local.IdLocal = id;
-            var ok = _LocalRepo.ActualizarLocal(local);
-            return ok ? NoContent() : NotFound();
-        }
+        //     var local = new Local
+        //     {
+        //         IdLocal = id,
+        //         Nombre = DTO.Nombre,
+        //         Direccion = DTO.Direccion
+        //     };
+        //     local.IdLocal = id;
+        //     var ok = _LocalRepo.ActualizarLocal(local);
+        //     return ok ? NoContent() : NotFound();
+        // }
 
         [HttpPost]
         public IActionResult CrearLocal([FromBody] LocalDTO DTO)
@@ -105,21 +105,21 @@ namespace AppQR.WebAPI.Controladores
         [HttpPut("sectores/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult ActualizarSector(int id, [FromBody] SectorDTO Dto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        // public IActionResult ActualizarSector(int id, [FromBody] SectorDTO Dto)
+        // {
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return BadRequest(ModelState);
+        //     }
 
-            var sector = _LocalRepo.ObtenerSectorPorID(id);
-            if (sector == null) return NotFound("Este sector no fue encontrado");
+        //     var sector = _LocalRepo.ObtenerSectorPorID(id);
+        //     if (sector == null) return NotFound("Este sector no fue encontrado");
 
-            sector.Capacidad = Dto.Capacidad;
+        //     sector.Capacidad = Dto.Capacidad;
 
-            var ok = _LocalRepo.ActualizarSector(sector);
-            return ok ? NoContent() : NotFound();
-        }
+        //     var ok = _LocalRepo.ActualizarSector(sector);
+        //     return ok ? NoContent() : NotFound();
+        // }
 
         [HttpDelete("sectores/{IDSECTOR}")]
         public IActionResult EliminarUnSector(int IDSECTOR) =>

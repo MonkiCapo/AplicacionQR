@@ -61,31 +61,31 @@ namespace AppQR.WebAPI.Controladores
             return Ok(funcion);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult ActualizarFuncion(int id, [FromBody] FuncionDTO dto)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        // [HttpPut("{id}")]
+        // public IActionResult ActualizarFuncion(int id, [FromBody] FuncionDTO dto)
+        // {
+        //     if (!ModelState.IsValid)
+        //         return BadRequest(ModelState);
 
-            var funcionExistente = _funcionrepo.ObtenerPorID(id);
-            if (funcionExistente == null)
-                return NotFound($"No se encontró la función con ID {id}.");
+        //     var funcionExistente = _funcionrepo.ObtenerPorID(id);
+        //     if (funcionExistente == null)
+        //         return NotFound($"No se encontró la función con ID {id}.");
 
-            var evento = _eventorepo.ObtenerEventoPorID(dto.idEvento);
-            if (evento == null)
-                return NotFound($"El evento con ID {dto.idEvento} no existe.");
+        //     var evento = _eventorepo.ObtenerEventoPorID(dto.idEvento);
+        //     if (evento == null)
+        //         return NotFound($"El evento con ID {dto.idEvento} no existe.");
 
-            funcionExistente.Nombre = dto.Nombre;
-            funcionExistente.FechaHora = dto.FechaHora;
-            funcionExistente.Estado = Enum.TryParse<EEstados>(dto.Estado, true, out var estado) ? estado : funcionExistente.Estado;
-            funcionExistente.evento = evento;
+        //     funcionExistente.Nombre = dto.Nombre;
+        //     funcionExistente.FechaHora = dto.FechaHora;
+        //     funcionExistente.Estado = Enum.TryParse<EEstados>(dto.Estado, true, out var estado) ? estado : funcionExistente.Estado;
+        //     funcionExistente.evento = evento;
 
-            var actualizado = _funcionrepo.ActualizarFuncion(funcionExistente);
-            if (!actualizado)
-                return StatusCode(500, "No se pudo actualizar la función.");
+        //     var actualizado = _funcionrepo.ActualizarFuncion(funcionExistente);
+        //     if (!actualizado)
+        //         return StatusCode(500, "No se pudo actualizar la función.");
 
-            return Ok("Función actualizada correctamente.");
-        }
+        //     return Ok("Función actualizada correctamente.");
+        // }
 
         [HttpPost("{id}/cancelar")]
         public IActionResult CancelarFuncion(int id)
