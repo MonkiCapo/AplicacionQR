@@ -12,7 +12,7 @@ namespace AppQR.Core.Servicios.IServicios
         IEnumerable<Funcion> ObtenerTodasLasFunciones();
         Funcion ObtenerPorID(int id);
         Funcion AgregarFuncion(FuncionDTO funcion);
-        Funcion ActualizarFuncion(FuncionDTO funcion, int id);
+        bool ActualizarFuncion(FuncionDTO funcion, int id);
         bool EliminarFuncion(int id);
         string CancelarFuncion(int idFuncion);
         

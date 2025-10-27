@@ -238,6 +238,41 @@ app.MapDelete("/api/Sector({id}", (int id, ILocalService service) =>
 
 #endregion
 
+#region Funciones
+
+app.MapGet("/api/Funcion", (IFuncionService service) =>
+{
+    var funciones = service.ObtenerTodasLasFunciones();
+    return Results.Ok(funciones);
+}).WithTags("Funcion");
+
+app.MapGet("/api/Funcion/{id}", (int id, IFuncionService service) =>
+{
+    var funcion = service.ObtenerPorID(id);
+    return funcion is not null ? Results.Ok(funcion) : Results.NotFound();
+}).WithTags("Funcion");
+
+app.MapPost("/api/Funcion", (FuncionDTO dto, IFuncionService service) =>
+{
+    service.AgregarFuncion(dto);
+    return Results.Created();
+}).WithTags("Funcion");
+
+app.MapPut("/api/Funcion/{id}", (int id, FuncionDTO dto, IFuncionService service) =>
+{
+    service.ActualizarFuncion(dto, id);
+    return Results.Ok();
+}).WithTags("Funcion");
+
+app.MapDelete("/api/Funcion/{id}", (int id, IFuncionService service) =>
+{
+    service.EliminarFuncion(id);
+    return Results.Ok();
+}).WithTags("Funcion");
+
+#endregion
+
+
 #endregion
 
 app.Run();

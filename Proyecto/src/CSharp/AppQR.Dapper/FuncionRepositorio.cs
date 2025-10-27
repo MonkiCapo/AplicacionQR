@@ -30,7 +30,7 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
         return funcion;
     }
 
-    public bool ActualizarFuncion(Funcion funcion)
+    public bool ActualizarFuncion(Funcion funcion, int id)
     {
         var sql = @"UPDATE Funcion SET Nombre = @nombre, FechaHora = @fechaHora, Estado = @estado, IdEvento = @idEvento
                     WHERE IdFuncion = @idFuncion";

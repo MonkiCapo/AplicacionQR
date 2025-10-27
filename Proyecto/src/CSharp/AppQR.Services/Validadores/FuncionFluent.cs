@@ -8,11 +8,11 @@ using FluentValidation;
 
 namespace AppQR.Core.Servicios.Validadores
 {
-    public class FuncionFluent : AbstractValidator<FuncionDTO>
+    public class FuncionFluent : AbstractValidator<Funcion>
     {
         public FuncionFluent()
         {
-            RuleFor(f => f.idEvento)
+            RuleFor(f => f.evento)
                 .NotNull().WithMessage("El evento asociado es obligatorio");
             RuleFor(f => f.FechaHora)
                 .GreaterThan(DateTime.Now).WithMessage("La fecha debe ser mayor a la actual");

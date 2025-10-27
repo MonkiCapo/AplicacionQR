@@ -7,7 +7,7 @@ public interface IFuncionRepositorio
     IEnumerable<Funcion> ObtenerTodasLasFunciones();
     Funcion ObtenerPorID(int id);
     Funcion AgregarFuncion(Funcion funcion);
-    bool ActualizarFuncion(Funcion funcion);
+    bool ActualizarFuncion(Funcion funcion, int id);
     bool EliminarFuncion(int id);
     string CancelarFuncion(int idFuncion);
 }
