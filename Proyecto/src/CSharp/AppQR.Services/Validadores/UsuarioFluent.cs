@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AppQR.Core.Dto;
 using AppQR.Core.Entidades;
 using FluentValidation;
 
 namespace AppQR.Core.Servicios.Validadores
 {
-    public class UsuarioFluent : AbstractValidator<Usuario>
+    public class UsuarioFluent : AbstractValidator<RegisterRequestDTO>
     {
         public UsuarioFluent()
         {
@@ -24,8 +25,8 @@ namespace AppQR.Core.Servicios.Validadores
                 .NotEmpty().WithMessage("El email no puede estar vacío.")
                 .EmailAddress().WithMessage("El email debe ser una dirección válida.");
 
-            RuleFor(u => u.Rol)
-                .NotEmpty().WithMessage("El rol no puede estar vacío.");
+            // RuleFor(u => u.Rol)
+            //     .NotEmpty().WithMessage("El rol no puede estar vacío.");
                 
         }
     }

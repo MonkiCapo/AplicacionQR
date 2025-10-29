@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using AppQR.Core.Dto;
 using AppQR.Core.Entidades;
 
 namespace AppQR.Core.Servicios.IServicios
@@ -12,8 +13,8 @@ namespace AppQR.Core.Servicios.IServicios
         IEnumerable<Usuario> ObtenerTodosLosUsuarios();
         Usuario ObtenerUsuarioPorID(int id);
         Usuario ObtenerUsuarioPorEmail(string email);
-        Usuario AgregarUsuario(Usuario usuario);
-        bool ActualizarUsuario(Usuario usuario, int id);
+        Usuario AgregarUsuario(RegisterRequestDTO registerDTO);
+        bool ActualizarUsuario(RegisterRequestDTO registerDTO, int id);
         bool EliminarUsuario(int id);
         Usuario? Login(string loginMail, string loginContraseña);
         bool ExisteUsuario(string emailExistente);

@@ -295,15 +295,15 @@ app.MapGet("/api/Usuario/{id}", (int id, IUsuarioService service) =>
     return usuario is not null ? Results.Ok(usuario) : Results.NotFound();
 }).WithTags("Usuario");
 
-app.MapPost("/api/Usuario", (Usuario usuario, IUsuarioService service) =>
+app.MapPost("/api/Usuario", (RegisterRequestDTO registerDTO, IUsuarioService service) =>
 {
-    service.AgregarUsuario(usuario);
+    service.AgregarUsuario(registerDTO);
     return Results.Created();
 }).WithTags("Usuario");
 
-app.MapPut("/api/Usuario/{id}", (int id, Usuario usuario, IUsuarioService service) =>
+app.MapPut("/api/Usuario/{id}", (int id,RegisterRequestDTO registerDTO, IUsuarioService service) =>
 {
-    service.ActualizarUsuario(usuario, id);
+    service.ActualizarUsuario(registerDTO, id);
     return Results.Ok();
 }).WithTags("Usuario");
 
