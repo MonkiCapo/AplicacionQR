@@ -356,6 +356,12 @@ app.MapPost("/api/Tarifa", (TarifaDTO dto, ITarifaService service) =>
     return Results.Created();
 }).WithTags("Tarifa");
 
+app.MapDelete("/api/tarifas/{idTarifa}", (int id, ITarifaService service) =>
+{
+    var tarifas = service.EliminarTarifa(id);
+    return Results.Ok();
+}).WithTags("Tarifa");
+
 #endregion
 
 #endregion
