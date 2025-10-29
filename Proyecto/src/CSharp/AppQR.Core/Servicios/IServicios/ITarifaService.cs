@@ -13,7 +13,7 @@ namespace AppQR.Core.Servicios.IServicios
         Tarifa ObtenerTarifaPorID(int id);
         IEnumerable<Tarifa> ObtenerTarifasPorFuncion(int idFuncion);
         Tarifa AgregarTarifa(TarifaDTO tarifaDto);
-        bool ActualizarTarifa(TarifaDTO tarifaDto);
+        bool ActualizarTarifa(TarifaDTO tarifaDto, int id);
         bool EliminarTarifa(int id);
     }
 }

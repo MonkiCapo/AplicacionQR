@@ -62,27 +62,5 @@ namespace AppQR.WebAPI.Controladores
 
             return Ok(tarifas);
         }
-        
-         [HttpPut("{tarifaId}")]
-        public IActionResult ActualizarTarifa(int tarifaId, [FromBody] TarifaDTO dto)
-        {
-            var tarifaExistente = _tarifaRepo.ObtenerTarifaPorID(tarifaId);
-            if (tarifaExistente == null)
-                return NotFound("La tarifa especificada no existe.");
-
-            tarifaExistente.Precio = dto.Precio;
-            tarifaExistente.Stock = dto.Stock;
-
-            if (Enum.TryParse<ETipoTarifa>(dto.Tipo, true, out var tipo))
-                tarifaExistente.Tipo = tipo;
-
-            tarifaExistente.Estado = dto.Stock > 0 ? EEstados.Activo : EEstados.Inactivo;
-
-            var actualizado = _tarifaRepo.ActualizarTarifa(tarifaExistente);
-            if (!actualizado)
-                return StatusCode(500, "No se pudo actualizar la tarifa.");
-
-            return Ok(tarifaExistente);
-        }
     }
 }

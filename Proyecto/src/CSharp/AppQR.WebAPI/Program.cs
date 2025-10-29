@@ -76,11 +76,13 @@ builder.Services.AddScoped<EventoFluent>();
 builder.Services.AddScoped<LocalFluent>();
 builder.Services.AddScoped<SectorFluent>();
 builder.Services.AddScoped<FuncionFluent>();
+builder.Services.AddScoped<TarifaFluent>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<ILocalService, LocalService>();
 builder.Services.AddScoped<IFuncionService, FuncionService>();
+builder.Services.AddScoped<ITarifaService, TarifaService>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -327,6 +329,35 @@ app.MapPut("/api/Funcion/{idFuncion}/Cancelar", (int idFuncion, IFuncionService 
 }).WithTags("Funcion");
 
 #endregion
+
+#region Tarifa
+
+app.MapGet("/api/Tarifa", (ITarifaService service) =>
+{
+    var tarifas = service.ObtenerTodasLasTarifas();
+    return Results.Ok(tarifas);
+}).WithTags("Tarifa");
+
+app.MapGet("/api/Tarifa/{id}", (int id, ITarifaService service) =>
+{
+    var tarifa = service.ObtenerTarifaPorID(id);
+    return tarifa is not null ? Results.Ok(tarifa) : Results.NotFound();
+}).WithTags("Tarifa");
+
+app.MapGet("/api/funciones/{idFuncion}/Tarifa", (int idFuncion, ITarifaService service) =>
+{
+    var tarifas = service.ObtenerTarifasPorFuncion(idFuncion);
+    return Results.Ok(tarifas);
+}).WithTags("Tarifa");
+
+app.MapPost("/api/Tarifa", (TarifaDTO dto, ITarifaService service) =>
+{
+    service.AgregarTarifa(dto);
+    return Results.Created();
+}).WithTags("Tarifa");
+
+#endregion
+
 #endregion
 
 app.Run();

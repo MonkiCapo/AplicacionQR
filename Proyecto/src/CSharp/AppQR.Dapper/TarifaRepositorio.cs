@@ -28,7 +28,7 @@ namespace AppQR.Dapper
             return tarifa;
         }
 
-        public bool ActualizarTarifa(Tarifa tarifa)
+        public bool ActualizarTarifa(Tarifa tarifa, int id)
         {
             var sql = @"UPDATE Tarifa SET 
                 Tipo = @tipo, 
@@ -43,7 +43,7 @@ namespace AppQR.Dapper
                 precio = tarifa.Precio,
                 stock = tarifa.Stock,
                 estado = tarifa.Estado.ToString(),
-                idTarifa = tarifa.IdTarifa
+                idTarifa = id
             });
             return rowsAffected > 0;
         }
