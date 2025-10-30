@@ -17,11 +17,13 @@ namespace AppQR.Services.Servicios
         readonly ITarifaRepositorio _TarifaRepo;
         readonly OrdenFluent _OrdenValidador;
 
-        public OrdenService(IOrdenRepositorio ordenRepo, OrdenFluent ordenValidador, IUsuarioRepositorio usuarioRepo)
+        public OrdenService(IOrdenRepositorio ordenRepo, OrdenFluent ordenValidador, IUsuarioRepositorio usuarioRepo, ITarifaRepositorio tarifaRepo, IEntradaRepositorio entradaRepo)
         {
             _OrdenRepo = ordenRepo;
             _OrdenValidador = ordenValidador;
             _UsuarioRepo = usuarioRepo;
+            _TarifaRepo = tarifaRepo;
+            _EntradaRepo = entradaRepo;
         }
 
         public Orden AgregarOrden(OrdenDTO ordenDto)
@@ -48,9 +50,37 @@ namespace AppQR.Services.Servicios
         public Orden ObtenerOrdenPorID(int id) => _OrdenRepo.ObtenerOrdenPorID(id);
 
 
-        public string PagarOrden(int id)
+        public string PagarOrden(int id, EntradaDTO entradaDto)
         {
-            throw new NotImplementedException();
+            var orden = _OrdenRepo.ObtenerOrdenPorID(id);
+            if (orden == null)
+                throw new ValidationException($"La orden con el id {id} no existe");
+
+            if (orden.Estado == EEstados.Pagado)
+                throw new ValidationException("La orden ya está pagada");
+
+            if (orden.Estado == EEstados.Cancelado || orden.Estado == EEstados.Anulada)
+                throw new ValidationException("No se puede pagar una orden cancelada o anulada");
+
+            var tarifa = _TarifaRepo.ObtenerTarifaPorID(entradaDto.IdTarifa);
+
+            if (tarifa == null)
+                throw new ValidationException($"La tarifa con ID {entradaDto.IdTarifa} no existe");
+
+            if (tarifa.Stock <= 0)
+                throw new ValidationException("No hay stock disponible para la tarifa seleccionada");
+
+            var entradaEmitida = new Entrada
+            {
+                orden = orden,
+                tarifa = tarifa,
+                Estado = EEstados.Activo
+            };
+
+            _EntradaRepo.AgregarEntrada(entradaEmitida);
+
+            var resultado = _OrdenRepo.PagarOrden(id);
+            return resultado;
         }
     }
 }

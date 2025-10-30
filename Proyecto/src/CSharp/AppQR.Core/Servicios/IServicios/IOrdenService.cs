@@ -13,6 +13,6 @@ namespace AppQR.Core.Servicios.IServicios
         Orden ObtenerOrdenPorID(int id);
         Orden AgregarOrden(OrdenDTO ordenDto);
         string CancelarOrden(int id);
-        string PagarOrden(int id);
+        string PagarOrden(int id, EntradaDTO entradaDto);
     }
 }
