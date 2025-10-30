@@ -74,7 +74,7 @@ namespace AppQR.Services.Servicios
             {
                 orden = orden,
                 tarifa = tarifa,
-                Estado = EEstados.Activo
+                Estado = EEstados.Pagado
             };
 
             _EntradaRepo.AgregarEntrada(entradaEmitida);
