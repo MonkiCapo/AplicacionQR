@@ -30,7 +30,7 @@ namespace AppQR.Dapper
             return entrada;
         }
 
-        public bool ActualizarEntrada(Entrada entrada)
+        public bool ActualizarEntrada(Entrada entrada, int id)
         {
             var sql = @"
                 UPDATE Entrada SET 

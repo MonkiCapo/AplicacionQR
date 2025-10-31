@@ -16,7 +16,7 @@ namespace AppQR.Core.Servicios.IServicios
         Usuario AgregarUsuario(RegisterRequestDTO registerDTO);
         bool ActualizarUsuario(RegisterRequestDTO registerDTO, int id);
         bool EliminarUsuario(int id);
-        Usuario? Login(string loginMail, string loginContraseña);
+        Usuario? Login(LoginRequestDTO loginDTO);
         bool ExisteUsuario(string emailExistente);
 
     }

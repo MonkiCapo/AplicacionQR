@@ -13,6 +13,8 @@ using AppQR.Core.Dto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AppQR.Services.Validadores;
 using AppQR.Core.Entidades;
+using MySqlX.XDevAPI.Common;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,11 +72,13 @@ builder.Services.AddScoped<LocalFluent>();
 builder.Services.AddScoped<SectorFluent>();
 builder.Services.AddScoped<FuncionFluent>();
 builder.Services.AddScoped<UsuarioFluent>();
+builder.Services.AddScoped<EntradasFluent>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<ILocalService, LocalService>();
 builder.Services.AddScoped<IFuncionService, FuncionService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IEntradaService, EntradaService>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -313,12 +317,45 @@ app.MapDelete("/api/Usuario/{id}", (int id, IUsuarioService service) =>
     return Results.Ok();
 }).WithTags("Usuario");
 
-app.MapPost("/api/Usuario/Login", (string loginMail, string loginContraseña, IUsuarioService service) =>
+app.MapPost("/api/Usuario/Login", (LoginRequestDTO loginDTO, IUsuarioService service) =>
 {
-    var usuario = service.Login(loginMail, loginContraseña);
+    var usuario = service.Login(loginDTO);
     return usuario is not null ? Results.Ok(usuario) : Results.Unauthorized();
 }).WithTags("Usuario");
 
+#endregion
+
+#region Entradas
+
+app.MapGet("/api/Entrada", (IEntradaService service) =>
+{
+    var entradas = service.ObtenerEntradas();
+    return Results.Ok(entradas);
+}).WithTags("Entrada");
+
+app.MapGet("/api/Entrada/{id}", (int id, IEntradaService service) =>
+{
+    var entrada = service.ObtenerEntradaPorID(id);
+    return entrada is not null ? Results.Ok(entrada) : Results.NotFound();
+}).WithTags("Entrada");
+
+app.MapPost("/api/Entrada", (EntradaDTO dto, IEntradaService service) =>
+{
+    service.AgregarEntrada(dto);
+    return Results.Created();
+}).WithTags("Entrada");
+
+app.MapPut("/api/Entrada/{id}", (int id, EntradaDTO dto, IEntradaService service) =>
+{
+    service.ActualizarEntrada(dto, id);
+    return Results.Ok();
+}).WithTags("Entrada");
+
+app.MapDelete("/api/Entrada/{id}", (int id, IEntradaService service) =>
+{
+    service.EliminarEntrada(id);
+    return Results.Ok();
+}).WithTags("Entrada");
 
 #endregion
 

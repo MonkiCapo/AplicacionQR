@@ -116,9 +116,9 @@ namespace AppQR.Services.Servicios
             return _UsuarioRepo.EliminarUsuario(id);
         }
 
-        public Usuario? Login(string loginMail, string loginContraseña)
+        public Usuario? Login(LoginRequestDTO loginDto)
         {
-            var usuario = _UsuarioRepo.Login(loginMail, loginContraseña);
+            var usuario = _UsuarioRepo.Login(loginDto.Email, loginDto.Contraseña);
             return usuario;
         }
 
