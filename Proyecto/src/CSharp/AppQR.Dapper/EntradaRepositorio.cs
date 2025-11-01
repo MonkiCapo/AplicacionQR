@@ -67,8 +67,7 @@ namespace AppQR.Dapper
                     t.Tipo AS TipoTarifa,
                     t.Precio,
                     t.Estado AS EstadoTarifa,
-                    t.IdFuncion,
-
+                    t.IdFuncion.
                     o.IdOrden,
                     o.Estado AS EstadoOrden,
                     o.PrecioTotal,
@@ -102,7 +101,6 @@ namespace AppQR.Dapper
                     t.Precio,
                     t.Estado AS EstadoTarifa,
                     t.IdFuncion,
-
                     o.IdOrden,
                     o.Estado AS EstadoOrden,
                     o.PrecioTotal,
@@ -125,6 +123,13 @@ namespace AppQR.Dapper
             ).FirstOrDefault();
 
             return entrada;
+        }
+
+        public string AnularEntrada(int id)
+        {
+            var sql = "CALL AnularEntrada(@id)";
+            var mensaje = Conexion.QueryFirstOrDefault<string>(sql, new { id });
+            return mensaje ?? "No se pudo anular la entrada";
         }
     }
 }

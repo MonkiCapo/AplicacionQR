@@ -129,7 +129,7 @@ DELIMITER ;
 
 DELIMITER //
 
-/*Stored Procedure para Cancelar Orden*/
+/*Stored ProcNO DIJE NADA, TEMON TEMONedure para Cancelar Orden*/
 
 CREATE PROCEDURE CancelarOrden(IN p_IdOrden INT)
 main: BEGIN
@@ -173,3 +173,42 @@ main: BEGIN
 END//
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE AnularEntrada(IN p_IdEntrada INT)
+main: BEGIN
+    DECLARE v_Estado VARCHAR(45);
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
+
+    SELECT Estado INTO v_Estado FROM Entrada WHERE IdEntrada = p_IdEntrada LIMIT 1;
+    IF ROW_COUNT() = 0 THEN
+        SELECT 'Entrada no encontrada' AS Mensaje;
+        LEAVE main;
+    END IF;
+
+    IF v_Estado = 'Anulada' THEN
+        SELECT 'La entrada ya esta anulada' AS Mensaje;
+        LEAVE main;
+    END IF;
+
+    START TRANSACTION;
+
+    UPDATE Entrada SET Estado = 'Anulada' WHERE IdEntrada = p_IdEntrada;
+
+    IF Estado = 'Pagado' THEN
+        UPDATE Tarifa t
+        INNER JOIN Entrada e ON t.IdTarifa = e.IdTarifa
+        SET t.Stock = t.Stock + 1
+        WHERE e.IdEntrada = p_IdEntrada;
+    END IF;
+
+    COMMIT;
+
+    SELECT 'Entrada anulada exitosamente' AS Mensaje;
+END//
