@@ -11,8 +11,10 @@ namespace AppQR.Core.Entidades
         public int IdEntrada { get; set; }
         public Tarifa tarifa { get; set; }
         public Orden orden { get; set; }
+        
         public EEstados Estado { get; set; }
         public Entrada()
+    
         { }
     }
 }
