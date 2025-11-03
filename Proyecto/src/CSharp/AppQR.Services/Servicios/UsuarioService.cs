@@ -4,6 +4,8 @@ using FluentValidation;
 using AppQR.Core.Servicios.Repositorios;
 using AppQR.Core.Servicios.Validadores;
 using AppQR.Core.Dto;
+using AppQR.Core.Servicios.Utilidades;
+using AppQR.Core.Servicios.Enums;
 
 namespace AppQR.Services.Servicios
 {
@@ -55,11 +57,20 @@ namespace AppQR.Services.Servicios
 
             var usuarioNuevo = new Usuario
             {
-                Email = registerDTO.NombreUsuario,
                 NombreUsuario = registerDTO.NombreUsuario,
                 Contraseña = registerDTO.Contraseña,
-                cliente = _ClienteRepo.ObtenerClientePorDNI(registerDTO.cliente.DNI)
+                Email = registerDTO.Email,
+                Rol =  Enum.TryParse<ERoles>(registerDTO.Rol, true, out var estado) ? estado : ERoles.Usuario,
+                cliente = new Cliente
+                {
+                    DNI = registerDTO.cliente.DNI,
+                    Nombre = registerDTO.cliente.Nombre,
+                    Telefono = registerDTO.cliente.Telefono
+                }
             };
+
+            var hash = ContraseñaHasher.Hash(registerDTO.Contraseña);
+            registerDTO.Contraseña = hash;
 
             return _UsuarioRepo.AgregarUsuario(usuarioNuevo);
         }
@@ -85,7 +96,7 @@ namespace AppQR.Services.Servicios
 
         //     return _UsuarioRepo.ActualizarUsuario(usuarioActualizado, id);
         // }
-        
+
         public bool ActualizarUsuario(RegisterRequestDTO registerDTO, int id)
         {
             _UsuarioValidador.ValidateAndThrow(registerDTO);
@@ -105,8 +116,8 @@ namespace AppQR.Services.Servicios
             };
 
             return _UsuarioRepo.ActualizarUsuario(usuarioActualizado, id);
-            
-        } 
+
+        }
 
         public bool EliminarUsuario(int id)
         {

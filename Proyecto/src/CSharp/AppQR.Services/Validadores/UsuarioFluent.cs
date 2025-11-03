@@ -25,8 +25,8 @@ namespace AppQR.Core.Servicios.Validadores
                 .NotEmpty().WithMessage("El email no puede estar vacío.")
                 .EmailAddress().WithMessage("El email debe ser una dirección válida.");
 
-            // RuleFor(u => u.Rol)
-            //     .NotEmpty().WithMessage("El rol no puede estar vacío.");
+            RuleFor(u => u.Rol)
+                .NotEmpty().WithMessage("El rol no puede estar vacío.");
                 
         }
     }
