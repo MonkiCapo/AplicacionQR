@@ -22,7 +22,7 @@ namespace AppQR.Services.Servicios
             _configuration = configuration;
         }
 
-        public string GenerateJwtToken(Usuario usuario)
+        public string GenerarToken(Usuario usuario)
         {
             var claims = new[]
             {
@@ -52,7 +52,7 @@ namespace AppQR.Services.Servicios
 
         public RefreshTokenDTO GenerarTokens(Usuario usuario)
         {
-            var Token = GenerateJwtToken(usuario);
+            var Token = GenerarToken(usuario);
             var RefreshToken = GenerarRefreshToken();
 
             return new RefreshTokenDTO

@@ -7,10 +7,10 @@ using AppQR.Core.Dto;
 
 namespace AppQR.Core.Servicios.IServicios
 {
-    public interface IEntradaService
+    public interface IUsuarioService
     {
-        IEnumerable<Entrada> ObtenerEntradas();
-        Entrada ObtenerEntradaPorID(int id);
-        string AnularEntrada(int id);
+        Usuario AgregarUsuario(RegisterRequestDTO request);
+        Usuario ObtenerUsuarioPorEmail(string email);
+        Usuario ObtenerUsuarioPorID(int id);
     }
 }

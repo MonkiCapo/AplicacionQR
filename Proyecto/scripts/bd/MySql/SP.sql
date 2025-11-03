@@ -129,7 +129,7 @@ DELIMITER ;
 
 DELIMITER //
 
-/*Stored ProcNO DIJE NADA, TEMON TEMONedure para Cancelar Orden*/
+/*Stored Procedure para Cancelar Orden*/
 
 CREATE PROCEDURE CancelarOrden(IN p_IdOrden INT)
 main: BEGIN
