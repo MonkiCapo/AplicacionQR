@@ -14,6 +14,7 @@ namespace AppQR.Core.Servicios.Repositorios
         Usuario AgregarUsuario(Usuario usuario);
         bool ActualizarUsuario(Usuario usuario);
         bool EliminarUsuario(int id);
+        bool ActualizarRol(int id, string rol);
 
         Usuario? Login(string loginMail, string loginContraseña);
 

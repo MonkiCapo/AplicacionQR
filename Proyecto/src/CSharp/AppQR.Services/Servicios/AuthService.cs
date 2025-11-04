@@ -1,9 +1,16 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AppQR.Core.Dto;
 using AppQR.Core.Entidades;
-using AppQR.Core.Servicios.Enums;
 using AppQR.Core.Servicios.Repositorios;
+using AppQR.Core.Servicios.Validadores;
+using FluentValidation;
 using AppQR.Core.Servicios.Utilidades;
+using AppQR.Core.Servicios.Enums;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace AppQR.Services.Servicios
 {
@@ -13,21 +20,27 @@ namespace AppQR.Services.Servicios
         readonly IRefreshTokenRepositorio _refreshTokenRepo;
         readonly RefreshTokenService _refreshTokenService;
         readonly IClienteRepositorio _clienteRepo;
+        readonly UsuarioFluent _usuarioValidador;
+        readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthService(IUsuarioRepositorio usuarioRepo, IRefreshTokenRepositorio refreshTokenRepo, RefreshTokenService refreshTokenService, IClienteRepositorio clienteRepo)
+        public AuthService(IUsuarioRepositorio usuarioRepo, IRefreshTokenRepositorio refreshTokenRepo, RefreshTokenService refreshTokenService, IClienteRepositorio clienteRepo, UsuarioFluent usuarioFluent, IHttpContextAccessor httpContextAccessor)
         {
             _usuarioRepo = usuarioRepo;
             _refreshTokenRepo = refreshTokenRepo;
             _refreshTokenService = refreshTokenService;
             _clienteRepo = clienteRepo;
+            _usuarioValidador = usuarioFluent;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public Usuario RegistrarUsuario(RegisterRequestDTO nuevoUsuarioDTO)
+        public object RegistrarUsuario(RegisterRequestDTO nuevoUsuarioDTO)
         {
-            if (_usuarioRepo.ExisteUsuario(nuevoUsuarioDTO.Email))
-                throw new Exception("El email ya está en uso.");
+            ((IValidator<RegisterRequestDTO>)_usuarioValidador).ValidateAndThrow(nuevoUsuarioDTO);
 
-            if (!_clienteRepo.ExisteDNIdeCliente(nuevoUsuarioDTO.cliente.DNI))
+            if (_usuarioRepo.ExisteUsuario(nuevoUsuarioDTO.Email))
+                throw new Exception("El email ya esta en uso");
+
+            if (_clienteRepo.ExisteDNIdeCliente(nuevoUsuarioDTO.cliente.DNI))
             {
                 var nuevoCliente = new Cliente
                 {
@@ -36,12 +49,6 @@ namespace AppQR.Services.Servicios
                     Telefono = nuevoUsuarioDTO.cliente.Telefono
                 };
                 _clienteRepo.AgregarCliente(nuevoCliente);
-                nuevoUsuarioDTO.cliente = new ClienteDTO
-                {
-                    Nombre = nuevoCliente.Nombre,
-                    DNI = nuevoCliente.DNI,
-                    Telefono = nuevoCliente.Telefono
-                };
             }
 
             var hash = ContraseñaHasher.Hash(nuevoUsuarioDTO.Contraseña);
@@ -52,7 +59,7 @@ namespace AppQR.Services.Servicios
                 NombreUsuario = nuevoUsuarioDTO.NombreUsuario,
                 Contraseña = nuevoUsuarioDTO.Contraseña,
                 Email = nuevoUsuarioDTO.Email,
-                Rol = ERoles.Usuario,
+                Rol = Enum.TryParse<ERoles>(nuevoUsuarioDTO.Rol, true, out var rol) ? rol : ERoles.Usuario,
                 cliente = new Cliente
                 {
                     DNI = nuevoUsuarioDTO.cliente.DNI,
@@ -60,32 +67,47 @@ namespace AppQR.Services.Servicios
                     Telefono = nuevoUsuarioDTO.cliente.Telefono
                 }
             };
+
             _usuarioRepo.AgregarUsuario(usuario);
-            return usuario;
+
+            return new
+            {
+                Mensaje = "Usuario registrado correctamente",
+                usuario = new
+                {
+                    usuario.IdUsuario,
+                    usuario.NombreUsuario,
+                    usuario.Email,
+                    usuario.Rol,
+                    Cliente = usuario.cliente
+                }
+            };
         }
 
         public object LoginUsuario(LoginRequestDTO loginDTO)
         {
+             ((IValidator<LoginRequestDTO>)_usuarioValidador).ValidateAndThrow(loginDTO);
+
             var usuario = _usuarioRepo.ObtenerUsuarioPorEmail(loginDTO.Email);
+
             if (usuario == null || !ContraseñaHasher.Verificar(usuario.Contraseña, loginDTO.Contraseña))
                 throw new Exception("Credenciales inválidas.");
 
-            var token = _refreshTokenService.GenerarToken(usuario);
-            var refreshToken = Guid.NewGuid().ToString();
+            var tokens = _refreshTokenService.GenerarTokens(usuario);
 
-            var EntidadRefreshToken = new RefreshToken
+            var refreshTokenEntidad = new RefreshToken
             {
-                Token = refreshToken,
+                Token = tokens.RefreshToken,
                 Email = usuario.Email,
                 Expiration = DateTime.UtcNow.AddMinutes(30)
             };
 
-            _refreshTokenRepo.InsertarToken(EntidadRefreshToken);
+            _refreshTokenRepo.InsertarToken(refreshTokenEntidad);
 
             return new
             {
-                token,
-                refreshToken,
+                tokens.Token,
+                tokens.RefreshToken,
                 usuario = new
                 {
                     usuario.IdUsuario,
@@ -96,22 +118,41 @@ namespace AppQR.Services.Servicios
             };
         }
 
-        public object RefreshToken(RefreshTokenDTO refreshToken)
+        public object RefreshTokens(RefreshTokenDTO refreshDTO)
         {
-            
-            var tokenExistente = _refreshTokenRepo.ObtenerToken(refreshToken.RefreshToken);
-            if (tokenExistente == null || tokenExistente.Expiration < DateTime.UtcNow)
-                throw new Exception("Token inválido o expirado.");
+            var TokenExistente = _refreshTokenRepo.ObtenerToken(refreshDTO.RefreshToken);
+            if (TokenExistente == null || TokenExistente.Expiration < DateTime.Now)
+                throw new Exception("EL refresh de este token no se puede realizar porque es invalido o esta expirado");
 
-             var usuario = _usuarioRepo.ObtenerUsuarioPorEmail(tokenExistente.Email);
+            var usuario = _usuarioRepo.ObtenerUsuarioPorEmail(TokenExistente.Email);
             if (usuario == null)
-                throw new Exception("Usuario no encontrado.");
+                throw new Exception("Usuario no encontrado");
 
             var nuevosTokens = _refreshTokenService.GenerarTokens(usuario);
 
             _refreshTokenRepo.ReemplazarToken(usuario.IdUsuario, nuevosTokens.RefreshToken, DateTime.UtcNow.AddMinutes(30));
 
             return nuevosTokens;
+        }
+
+        public object AsignarRol(int idUsuario, string rol)
+        {
+            var usuarioActual = _httpContextAccessor.HttpContext?.User;
+
+            if (usuarioActual == null || !usuarioActual.IsInRole("Admin"))
+                throw new Exception("Solo usuarios con el rol Admin pueden cambiar los roles");
+
+            var usuario = _usuarioRepo.ObtenerUsuarioPorID(idUsuario);
+            if (usuario == null)
+                throw new Exception("Usuario no encontrado");
+
+            if (!Enum.TryParse<ERoles>(rol, out var nuevoRol))
+                throw new Exception("");
+
+            usuario.Rol = nuevoRol;
+            _usuarioRepo.ActualizarRol(usuario.IdUsuario, nuevoRol.ToString());
+
+            return usuario;
         }
     }
 }
