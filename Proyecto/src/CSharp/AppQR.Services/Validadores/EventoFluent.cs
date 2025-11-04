@@ -8,7 +8,7 @@ using FluentValidation;
 
 namespace AppQR.Core.Servicios.Validadores
 {
-    public class EventoFluent : AbstractValidator<EventoDTO>
+    public class EventoFluent : AbstractValidator<Evento>
     {
         public EventoFluent()
         {

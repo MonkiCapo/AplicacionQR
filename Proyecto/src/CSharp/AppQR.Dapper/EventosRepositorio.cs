@@ -30,7 +30,7 @@ namespace AppQR.Dapper
             return evento;
         }
 
-        public bool ActualizarEvento(Evento evento)
+        public bool ActualizarEvento(Evento evento, int id)
         {
             var sql = @"UPDATE Evento 
                         SET Nombre = @nombre, Estado = @estado, FechaInicio = @fechaInicio, FechaFin = @fechaFin
@@ -38,11 +38,11 @@ namespace AppQR.Dapper
 
             var rowsAffected = Conexion.Execute(sql, new
             {
-                idEvento = evento.IdEvento,
                 nombre = evento.Nombre,
                 estado = evento.Estado.ToString(),
                 fechaInicio = evento.FechaInicio,
-                fechaFin = evento.FechaFin
+                fechaFin = evento.FechaFin,
+                idEvento = id
             });
             return rowsAffected > 0;
         }
