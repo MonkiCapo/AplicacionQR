@@ -118,6 +118,10 @@ CREATE TABLE RefreshTokens (
     Expiration DATETIME NOT NULL
 );
 
+
+-- ====================
+-- TABLA: QR
+-- ====================
 CREATE TABLE QR (
     IdQR INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     IdEntrada INT NOT NULL,

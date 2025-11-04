@@ -158,53 +158,23 @@ app.UseHttpsRedirection();
 #region EndPoints
 
 //app.MapControllers();
-#region Clientes
+
 
 app.MapClienteEndpoints();
 
-#endregion
-
-#region Eventos
-
 app.MapEventoEndpoints();
-
-#endregion
-
-#region Locales
 
 app.MapLocalEndpoints();
 
-#endregion
-
-#region Sectores
-
 app.MapSectorEndpoints();
-
-#endregion
-
-#region Funcion
 
 app.MapFuncionEndpoints();
 
-#endregion
-
-#region Tarifa
-
 app.MapTarifaEndpoints();
-
-#endregion
-
-#region Orden
 
 app.MapOrdenEndpoints();
 
-#endregion
-
-#region Entrada
-
 app.MapEntradaEndpoints();
-
-#endregion
 
 #endregion
 

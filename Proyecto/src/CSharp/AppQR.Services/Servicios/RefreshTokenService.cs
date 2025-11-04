@@ -27,7 +27,7 @@ namespace AppQR.Services.Servicios
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, usuario.Email),
-                new Claim(ClaimTypes.Role, string.IsNullOrEmpty(usuario.Rol.ToString()) ? "Usuario" : usuario.Rol.ToString()),
+                new Claim(ClaimTypes.Role, string.IsNullOrEmpty(usuario.Rol.ToString()) ? "Cliente" : usuario.Rol.ToString()),
                 new Claim("NombreUsuario", usuario.NombreUsuario),
                 new Claim("DNI", usuario.cliente.DNI.ToString()),
                 new Claim("Nombre", usuario.cliente.Nombre),
