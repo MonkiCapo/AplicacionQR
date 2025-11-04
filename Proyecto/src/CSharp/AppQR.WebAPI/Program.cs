@@ -11,8 +11,8 @@ using AppQR.Core.Servicios.IServicios;
 using AppQR.Services.Servicios;
 using AppQR.Core.Dto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
 using AppQR.Services.Validadores;
+using AppQR.WebAPI.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,7 +60,7 @@ builder.Services.AddScoped<IDbConnection>(provider =>
 
 // builder.Services.AddControllers()
 //     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ClienteFluent>());
-
+#region Repositorios
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IRefreshTokenRepositorio, RefreshTokenRepositorio>();
@@ -70,19 +70,24 @@ builder.Services.AddScoped<IFuncionRepositorio, FuncionRepositorio>();
 builder.Services.AddScoped<ITarifaRepositorio, TarifaRepositorio>();
 builder.Services.AddScoped<IOrdenRepositorio, OrdenRepositorio>();
 builder.Services.AddScoped<IEntradaRepositorio, EntradaRepositorio>();
+#endregion
 
+#region Validadores
 builder.Services.AddScoped<ClienteFluent>();
 builder.Services.AddScoped<EventoFluent>();
 builder.Services.AddScoped<LocalFluent>();
 builder.Services.AddScoped<SectorFluent>();
 builder.Services.AddScoped<FuncionFluent>();
 builder.Services.AddScoped<TarifaFluent>();
+#endregion
 
+#region Servicios
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<ILocalService, LocalService>();
 builder.Services.AddScoped<IFuncionService, FuncionService>();
 builder.Services.AddScoped<ITarifaService, TarifaService>();
+#endregion
 
 builder.Services.AddHttpContextAccessor();
 
@@ -151,29 +156,7 @@ app.UseHttpsRedirection();
 //app.MapControllers();
 #region Clientes
 
-    app.MapGet("/api/Cliente", (IClienteService service) =>
-    {
-        var clientes = service.ObtenerClientes();
-        return Results.Ok(clientes);
-    }).WithTags("Cliente");
-
-    app.MapGet("/api/Cliente/{dni}", (int dni, IClienteService service) =>
-    {
-        var clientes = service.ObtenerClientePorDNI(dni);
-        return clientes is not null ? Results.Ok(clientes) : Results.NotFound();
-    }).WithTags("Cliente");
-
-    app.MapPost("/api/Cliente", (ClienteDTO dto, IClienteService service) =>
-    {
-        service.AgregarCliente(dto);
-        return Results.Created();
-    }).WithTags("Cliente");
-
-    app.MapPut("/api/Cliente/{dni}", (int dni, IClienteService service, ClienteActualizadoDTO dto) =>
-    {
-        service.ActualizarCliente(dto, dni);
-        return Results.Ok();
-    }).WithTags("Cliente");
+    app.MapClienteEndpoints();
 
 #endregion
 

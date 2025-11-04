@@ -59,7 +59,7 @@ namespace AppQR.Services.Servicios
                 NombreUsuario = nuevoUsuarioDTO.NombreUsuario,
                 Contraseña = nuevoUsuarioDTO.Contraseña,
                 Email = nuevoUsuarioDTO.Email,
-                Rol = Enum.TryParse<ERoles>(nuevoUsuarioDTO.Rol, true, out var rol) ? rol : ERoles.Usuario,
+                Rol = Enum.TryParse<ERoles>(nuevoUsuarioDTO.Rol, true, out var rol) ? rol : ERoles.Cliente,
                 cliente = new Cliente
                 {
                     DNI = nuevoUsuarioDTO.cliente.DNI,
@@ -152,7 +152,17 @@ namespace AppQR.Services.Servicios
             usuario.Rol = nuevoRol;
             _usuarioRepo.ActualizarRol(usuario.IdUsuario, nuevoRol.ToString());
 
-            return usuario;
+            return new
+            {
+                Mensaje = "Rol actualizado correctamente",
+                Usuario = new
+                {
+                    usuario.IdUsuario,
+                    usuario.NombreUsuario,
+                    usuario.Email,
+                    Rol = usuario.Rol.ToString()
+                }
+            };
         }
     }
 }

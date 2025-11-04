@@ -69,7 +69,7 @@ namespace AppQR.WebAPI.Controladores
                 NombreUsuario = nuevoUsuarioDTO.NombreUsuario,
                 Contraseña = nuevoUsuarioDTO.Contraseña,
                 Email = nuevoUsuarioDTO.Email,
-                Rol = ERoles.Usuario,
+                Rol = ERoles.Cliente,
                 cliente = new Cliente
                 {
                     DNI = nuevoUsuarioDTO.cliente.DNI,
@@ -217,7 +217,7 @@ namespace AppQR.WebAPI.Controladores
         [Authorize(Roles = "Admin")]
         public IActionResult GetRoles()
         {
-            var roles = new[] { ERoles.Admin, ERoles.Usuario };
+            var roles = new[] { ERoles.Admin, ERoles.Cliente };
             return Ok(roles);
         }
 
@@ -229,11 +229,11 @@ namespace AppQR.WebAPI.Controladores
             if (usuario == null)
                 return NotFound("Usuario no encontrado.");
 
-            if (ERoles.Usuario.ToString().Trim() != rol.Trim() || ERoles.Admin.ToString().Trim() != rol.Trim())
+            if (ERoles.Cliente.ToString().Trim() != rol.Trim() || ERoles.Admin.ToString().Trim() != rol.Trim())
                 return BadRequest("Rol inválido.");
 
-            if (ERoles.Usuario.ToString().Trim() == rol.Trim())
-                usuario.Rol = ERoles.Usuario;
+            if (ERoles.Cliente.ToString().Trim() == rol.Trim())
+                usuario.Rol = ERoles.Cliente;
             else
             {
                 usuario.Rol = ERoles.Admin;
