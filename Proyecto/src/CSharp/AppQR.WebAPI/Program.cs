@@ -80,6 +80,7 @@ builder.Services.AddScoped<SectorFluent>();
 builder.Services.AddScoped<FuncionFluent>();
 builder.Services.AddScoped<TarifaFluent>();
 builder.Services.AddScoped<OrdenFluent>();
+builder.Services.AddScoped<UsuarioFluent>();
 #endregion
 
 #region Servicios
@@ -89,6 +90,7 @@ builder.Services.AddScoped<ILocalService, LocalService>();
 builder.Services.AddScoped<IFuncionService, FuncionService>();
 builder.Services.AddScoped<ITarifaService, TarifaService>();
 builder.Services.AddScoped<IOrdenService, OrdenService>();
+builder.Services.AddScoped<IEntradaService, EntradaService>();
 #endregion
 
 builder.Services.AddHttpContextAccessor();
