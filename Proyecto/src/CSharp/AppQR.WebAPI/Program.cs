@@ -79,6 +79,7 @@ builder.Services.AddScoped<LocalFluent>();
 builder.Services.AddScoped<SectorFluent>();
 builder.Services.AddScoped<FuncionFluent>();
 builder.Services.AddScoped<TarifaFluent>();
+builder.Services.AddScoped<OrdenFluent>();
 #endregion
 
 #region Servicios
@@ -87,6 +88,7 @@ builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<ILocalService, LocalService>();
 builder.Services.AddScoped<IFuncionService, FuncionService>();
 builder.Services.AddScoped<ITarifaService, TarifaService>();
+builder.Services.AddScoped<IOrdenService, OrdenService>();
 #endregion
 
 builder.Services.AddHttpContextAccessor();
@@ -156,194 +158,49 @@ app.UseHttpsRedirection();
 //app.MapControllers();
 #region Clientes
 
-    app.MapClienteEndpoints();
+app.MapClienteEndpoints();
 
 #endregion
 
 #region Eventos
 
-app.MapGet("/api/Evento", (IEventoService service) =>
-{
-    var eventos = service.ObtenerEventos();
-    return Results.Ok(eventos);
-}).WithTags("Evento");
-
-app.MapGet("/api/Evento/{id}", (int id, IEventoService service) =>
-{
-    var eventos = service.ObtenerEventoPorID(id);
-    return eventos is not null ? Results.Ok(eventos) : Results.NotFound();
-}).WithTags("Evento");
-
-app.MapPost("/api/Evento", (EventoDTO dto, IEventoService service) =>
-{
-    service.AgregarEvento(dto);
-    return Results.Created();
-}).WithTags("Evento");
-
-app.MapPut("/api/Evento/{id}", (int id, IEventoService service, EventoDTO dto) =>
-{
-    service.ActualizarEvento(dto, id);
-    return Results.Ok();
-}).WithTags("Evento");
-
-app.MapPut("/api/Evento/{id}/publicar", (int id, IEventoService service) =>
-{
-    service.PublicarEvento(id);
-    return Results.Ok();
-}).WithTags("Evento");
-
-app.MapPut("/api/Evento/{id}/cancelar", (int id, IEventoService service) =>
-{
-    service.CancelarEvento(id);
-    return Results.Ok();
-}).WithTags("Evento");
+app.MapEventoEndpoints();
 
 #endregion
 
 #region Locales
 
-
-
-app.MapGet("/api/Local", (ILocalService service) =>
-{
-    var locales = service.ObtenerLocales();
-    return Results.Ok(locales);
-}).WithTags("Local");
-
-app.MapGet("/api/Local/{id}", (int id, ILocalService service) =>
-{
-    var local = service.ObtenerLocalPorID(id);
-    return local is not null ? Results.Ok(local) : Results.NotFound();
-}).WithTags("Local");
-
-app.MapPost("/api/Local", (LocalDTO dto, ILocalService service) =>
-{
-    service.AgregarLocal(dto);
-    return Results.Created();
-}).WithTags("Local");
-
-app.MapPut("/api/Local/{id}", (int id, LocalDTO dto, ILocalService service) =>
-{
-    service.ActualizarLocal(dto, id);
-    return Results.Ok();
-}).WithTags("Local");
-
-app.MapDelete("/api/Local/{id}", (int id, ILocalService service) =>
-{
-    service.EliminarLocal(id);
-    return Results.Ok();
-}).WithTags("Local");
-
-
+app.MapLocalEndpoints();
 
 #endregion
 
 #region Sectores
 
-app.MapGet("/api/Local/{idLocal}/Sector", (int idLocal, ILocalService service) =>
-{
-    var sectores = service.ObtenerSectoresPorLocal(idLocal);
-    return Results.Ok(sectores);
-}).WithTags("Sector");
-
-app.MapGet("/api/Sector/{id}", (int id, ILocalService service) =>
-{
-    var sector = service.ObtenerSectorPorID(id);
-    return sector is not null ? Results.Ok(sector) : Results.NotFound();
-}).WithTags("Sector");
-
-app.MapPost("/api/Local/{id}/Sector", (int id, SectorDTO dto, ILocalService service) =>
-{
-    service.AgregarSector(dto, id);
-    return Results.Created();
-}).WithTags("Sector");
-
-app.MapPut("api/Sector/{id}", (int id, SectorDTO dto, ILocalService service) =>
-{
-    service.ActualizarSector(dto, id);
-    return Results.Ok();
-}).WithTags("Sector");
-
-app.MapDelete("/api/Sector({id}", (int id, ILocalService service) =>
-{
-    service.EliminarSector(id);
-    return Results.Ok();
-}).WithTags("Sector");
-
+app.MapSectorEndpoints();
 
 #endregion
 
 #region Funcion
 
-app.MapGet("/api/Funcion", (IFuncionService service) =>
-{
-    var funciones = service.ObtenerTodasLasFunciones();
-    return Results.Ok(funciones);
-}).WithTags("Funcion");
-
-app.MapGet("/api/Funcion/{id}", (int id, IFuncionService service) =>
-{
-    var funcion = service.ObtenerPorID(id);
-    return funcion is not null ? Results.Ok(funcion) : Results.NotFound();
-}).WithTags("Funcion");
-
-app.MapPost("/api/Funcion", (FuncionDTO dto, IFuncionService service) =>
-{
-    service.AgregarFuncion(dto);
-    return Results.Created();
-}).WithTags("Funcion");
-
-app.MapPut("/api/Funcion/{id}", (int id, FuncionDTO dto, IFuncionService service) =>
-{
-    service.ActualizarFuncion(dto, id);
-    return Results.Ok();
-}).WithTags("Funcion");
-
-app.MapDelete("/api/Funcion/{id}", (int id, IFuncionService service) =>
-{
-    service.EliminarFuncion(id);
-    return Results.Ok();
-}).WithTags("Funcion");
-
-app.MapPut("/api/Funcion/{idFuncion}/Cancelar", (int idFuncion, IFuncionService service) =>
-{
-    service.CancelarFuncion(idFuncion);
-    return Results.Ok();
-}).WithTags("Funcion");
+app.MapFuncionEndpoints();
 
 #endregion
 
 #region Tarifa
 
-app.MapGet("/api/Tarifa", (ITarifaService service) =>
-{
-    var tarifas = service.ObtenerTodasLasTarifas();
-    return Results.Ok(tarifas);
-}).WithTags("Tarifa");
+app.MapTarifaEndpoints();
 
-app.MapGet("/api/Tarifa/{id}", (int id, ITarifaService service) =>
-{
-    var tarifa = service.ObtenerTarifaPorID(id);
-    return tarifa is not null ? Results.Ok(tarifa) : Results.NotFound();
-}).WithTags("Tarifa");
+#endregion
 
-app.MapGet("/api/funciones/{idFuncion}/Tarifa", (int idFuncion, ITarifaService service) =>
-{
-    var tarifas = service.ObtenerTarifasPorFuncion(idFuncion);
-    return Results.Ok(tarifas);
-}).WithTags("Tarifa");
+#region Orden
 
-app.MapPost("/api/Tarifa", (TarifaDTO dto, ITarifaService service) =>
-{
-    service.AgregarTarifa(dto);
-    return Results.Created();
-}).WithTags("Tarifa");
+app.MapOrdenEndpoints();
 
-app.MapDelete("/api/tarifas/{idTarifa}", (int id, ITarifaService service) =>
-{
-    var tarifas = service.EliminarTarifa(id);
-    return Results.Ok();
-}).WithTags("Tarifa");
+#endregion
+
+#region Entrada
+
+app.MapEntradaEndpoints();
 
 #endregion
 
