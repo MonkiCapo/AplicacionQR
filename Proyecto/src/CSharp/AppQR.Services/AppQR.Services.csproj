@@ -8,7 +8,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.21" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.3.0" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -19,6 +24,8 @@
      <NoWarn>CS8601</NoWarn>
      <NoWarn>CS8604</NoWarn>
      <NoWarn>CS8766</NoWarn>
+     <NoWarn>CS8602</NoWarn>
+     <NoWarn>CS8603</NoWarn>
   </PropertyGroup>
 
 </Project>

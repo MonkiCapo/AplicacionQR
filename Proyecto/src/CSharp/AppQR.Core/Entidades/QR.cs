@@ -11,8 +11,6 @@ namespace AppQR.Core.Entidades
         public int IdQR { get; set; }
         public int IdEntrada { get; set; }
         public string url { get; set; }
-        public EEstados Estado { get; set; }
-
         public QR()
         {
             

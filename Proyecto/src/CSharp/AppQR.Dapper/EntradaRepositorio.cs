@@ -14,8 +14,7 @@ namespace AppQR.Dapper
 
          public Entrada AgregarEntrada(Entrada entrada)
         {
-            var sql = @"
-                INSERT INTO Entrada (IdTarifa, IdOrden, Estado)
+            var sql = @"INSERT INTO Entrada (IdTarifa, IdOrden, Estado)
                 VALUES (@idTarifa, @idOrden, @estado);
                 SELECT LAST_INSERT_ID();";
 
