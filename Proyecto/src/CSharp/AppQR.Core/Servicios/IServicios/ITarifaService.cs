@@ -1,19 +1,19 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AppQR.Core.Dto;
 using AppQR.Core.Entidades;
 
-namespace AppQR.Core.Servicios.Repositorios
+namespace AppQR.Core.Servicios.IServicios
 {
-    public interface ITarifaRepositorio
+    public interface ITarifaService
     {
-        public IEnumerable<Tarifa> ObtenerTodasLasTarifas();
+        IEnumerable<Tarifa> ObtenerTodasLasTarifas();
         Tarifa ObtenerTarifaPorID(int id);
         IEnumerable<Tarifa> ObtenerTarifasPorFuncion(int idFuncion);
-        Tarifa AgregarTarifa(Tarifa tarifa);
-        bool ActualizarTarifa(Tarifa tarifa, int id);
+        Tarifa AgregarTarifa(TarifaDTO tarifaDto);
+        bool ActualizarTarifa(TarifaDTO tarifaDto, int id);
         bool EliminarTarifa(int id);
     }
 }
