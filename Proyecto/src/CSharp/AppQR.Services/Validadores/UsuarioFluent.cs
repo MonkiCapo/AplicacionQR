@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AppQR.Core.Dto;
 using AppQR.Core.Entidades;
 using FluentValidation;
 
 namespace AppQR.Core.Servicios.Validadores
 {
-    public class UsuarioFluent : AbstractValidator<Usuario>
+    public class UsuarioFluent : AbstractValidator<RegisterRequestDTO>
     {
         public UsuarioFluent()
         {

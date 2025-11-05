@@ -81,6 +81,7 @@ builder.Services.AddScoped<FuncionFluent>();
 builder.Services.AddScoped<TarifaFluent>();
 builder.Services.AddScoped<OrdenFluent>();
 builder.Services.AddScoped<UsuarioFluent>();
+builder.Services.AddScoped<LoginFluent>();
 #endregion
 
 #region Servicios
@@ -155,10 +156,8 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 
-#region EndPoints
-
 //app.MapControllers();
-
+#region EndPoints
 
 app.MapClienteEndpoints();
 
@@ -175,6 +174,8 @@ app.MapTarifaEndpoints();
 app.MapOrdenEndpoints();
 
 app.MapEntradaEndpoints();
+
+app.MapAuthEndpoint();
 
 #endregion
 

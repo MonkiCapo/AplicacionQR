@@ -21,9 +21,10 @@ namespace AppQR.Services.Servicios
         readonly RefreshTokenService _refreshTokenService;
         readonly IClienteRepositorio _clienteRepo;
         readonly UsuarioFluent _usuarioValidador;
+        readonly LoginFluent _loginValidador;
         readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthService(IUsuarioRepositorio usuarioRepo, IRefreshTokenRepositorio refreshTokenRepo, RefreshTokenService refreshTokenService, IClienteRepositorio clienteRepo, UsuarioFluent usuarioFluent, IHttpContextAccessor httpContextAccessor)
+        public AuthService(IUsuarioRepositorio usuarioRepo, IRefreshTokenRepositorio refreshTokenRepo, RefreshTokenService refreshTokenService, IClienteRepositorio clienteRepo, UsuarioFluent usuarioFluent, IHttpContextAccessor httpContextAccessor, LoginFluent loginfluent)
         {
             _usuarioRepo = usuarioRepo;
             _refreshTokenRepo = refreshTokenRepo;
@@ -31,16 +32,17 @@ namespace AppQR.Services.Servicios
             _clienteRepo = clienteRepo;
             _usuarioValidador = usuarioFluent;
             _httpContextAccessor = httpContextAccessor;
+            _loginValidador = loginfluent;
         }
 
         public object RegistrarUsuario(RegisterRequestDTO nuevoUsuarioDTO)
         {
-            ((IValidator<RegisterRequestDTO>)_usuarioValidador).ValidateAndThrow(nuevoUsuarioDTO);
+            _usuarioValidador.ValidateAndThrow(nuevoUsuarioDTO);
 
             if (_usuarioRepo.ExisteUsuario(nuevoUsuarioDTO.Email))
                 throw new Exception("El email ya esta en uso");
 
-            if (_clienteRepo.ExisteDNIdeCliente(nuevoUsuarioDTO.cliente.DNI))
+            if (!_clienteRepo.ExisteDNIdeCliente(nuevoUsuarioDTO.cliente.DNI))
             {
                 var nuevoCliente = new Cliente
                 {
@@ -86,7 +88,7 @@ namespace AppQR.Services.Servicios
 
         public object LoginUsuario(LoginRequestDTO loginDTO)
         {
-             ((IValidator<LoginRequestDTO>)_usuarioValidador).ValidateAndThrow(loginDTO);
+            _loginValidador.ValidateAndThrow(loginDTO);
 
             var usuario = _usuarioRepo.ObtenerUsuarioPorEmail(loginDTO.Email);
 
@@ -147,7 +149,7 @@ namespace AppQR.Services.Servicios
                 throw new Exception("Usuario no encontrado");
 
             if (!Enum.TryParse<ERoles>(rol, out var nuevoRol))
-                throw new Exception("");
+                throw new Exception("Rol invalido");
 
             usuario.Rol = nuevoRol;
             _usuarioRepo.ActualizarRol(usuario.IdUsuario, nuevoRol.ToString());
@@ -162,6 +164,38 @@ namespace AppQR.Services.Servicios
                     usuario.Email,
                     Rol = usuario.Rol.ToString()
                 }
+            };
+        }
+
+        public object Logout(RefreshTokenDTO refreshDTO)
+        {
+            _refreshTokenRepo.EliminarToken(refreshDTO.RefreshToken);
+            return new
+            {
+                Mensaje = "Sesión cerrada correctamente."
+            };
+        }
+
+        public object Me()
+        {
+            var usuarioActual = _httpContextAccessor.HttpContext?.User;
+
+            if (usuarioActual == null || !usuarioActual.Identity?.IsAuthenticated == true)
+                throw new Exception("Usuario no autenticado.");
+            
+            var email = usuarioActual.Identity?.Name;
+            var rol = usuarioActual.FindFirst(ClaimTypes.Role)?.Value;
+            var nombreUsuario = usuarioActual.FindFirst("NombreUsuario")?.Value;
+            var dni = usuarioActual.FindFirst("DNI")?.Value;
+            var nombre = usuarioActual.FindFirst("Nombre")?.Value;
+
+            return new
+            {
+                Email = email,
+                Rol = rol,
+                NombreUsuario = nombreUsuario,
+                DNI = dni,
+                Nombre = nombre
             };
         }
     }
