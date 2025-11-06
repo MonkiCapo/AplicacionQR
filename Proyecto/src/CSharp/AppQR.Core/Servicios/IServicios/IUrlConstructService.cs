@@ -7,6 +7,6 @@ namespace AppQR.Core.Servicios.IServicios
 {
     public interface IUrlConstructService
     {
-        string GenerarQrUrl(int id);
+        string GenerarUrldeQR(int id);
     }
 }
