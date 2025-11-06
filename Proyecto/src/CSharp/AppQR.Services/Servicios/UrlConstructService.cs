@@ -1,6 +1,6 @@
 using AppQR.Core.Servicios.IServicios;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Http;
 
 namespace AppQR.Services.Servicios
 {
@@ -19,7 +19,7 @@ namespace AppQR.Services.Servicios
         {
             var httpContext = _httpContextAccessor.HttpContext!;
             var routeValues = new RouteValueDictionary { ["id"] = id };
-            var qrUrl = _linkGenerator.GetUriByPage(httpContext, "/ValidarQr", null, routeValues);
+            var qrUrl = _linkGenerator.GetUriByAddress(httpContext, "/ValidarQr", null, routeValues);
             return qrUrl!;
         }
     }
