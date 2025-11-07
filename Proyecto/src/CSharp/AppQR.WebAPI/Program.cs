@@ -70,6 +70,7 @@ builder.Services.AddScoped<IFuncionRepositorio, FuncionRepositorio>();
 builder.Services.AddScoped<ITarifaRepositorio, TarifaRepositorio>();
 builder.Services.AddScoped<IOrdenRepositorio, OrdenRepositorio>();
 builder.Services.AddScoped<IEntradaRepositorio, EntradaRepositorio>();
+builder.Services.AddScoped<IQrRepositorio, QrRepositorio>();
 #endregion
 
 #region Validadores
@@ -92,6 +93,8 @@ builder.Services.AddScoped<IFuncionService, FuncionService>();
 builder.Services.AddScoped<ITarifaService, TarifaService>();
 builder.Services.AddScoped<IOrdenService, OrdenService>();
 builder.Services.AddScoped<IEntradaService, EntradaService>();
+builder.Services.AddScoped<IUrlConstructService, UrlConstructService>();
+builder.Services.AddScoped<IQrService, QrService>();
 #endregion
 
 builder.Services.AddHttpContextAccessor();

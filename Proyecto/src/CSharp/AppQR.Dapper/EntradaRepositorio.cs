@@ -130,5 +130,14 @@ namespace AppQR.Dapper
             var mensaje = Conexion.QueryFirstOrDefault<string>(sql, new { id });
             return mensaje ?? "No se pudo anular la entrada";
         }
+
+        public bool EntradaUsada(int id)
+        {
+            var sql = @"UPDATE Entrada SET
+                            Estado = 'YaUsada'
+                        WHERE IdEntrada = @id AND Estado != 'Anulada'";
+            var rowsAffected = Conexion.Execute(sql, new { id });
+            return rowsAffected > 0;
+        }
     }
 }

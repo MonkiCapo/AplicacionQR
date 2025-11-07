@@ -12,5 +12,7 @@ namespace AppQR.Core.Servicios.IServicios
         IEnumerable<Entrada> ObtenerEntradas();
         Entrada ObtenerEntradaPorID(int id);
         string AnularEntrada(int id);
+        byte[]? ObtenerQR(int id);
+        object ValidarQR(int id);
     }
 }

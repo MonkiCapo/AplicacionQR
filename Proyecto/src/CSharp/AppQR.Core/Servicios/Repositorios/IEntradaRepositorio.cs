@@ -14,5 +14,6 @@ namespace AppQR.Core.Servicios.Repositorios
         bool ActualizarEntrada(Entrada entrada);
         bool EliminarEntrada(int id);
         string AnularEntrada(int id);
+        bool EntradaUsada(int id);
     }
 }

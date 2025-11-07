@@ -7,7 +7,7 @@ namespace AppQR.Core.Servicios.IServicios
 {
     public interface IQrService
     {
-        string GenerarQrUrl(string idEntrada);
+        string GenerarUrldeQR(int idEntrada);
         byte[] CrearQR(string Url);
     }
 }
