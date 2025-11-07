@@ -61,12 +61,11 @@ namespace AppQR.Dapper
             var sql = @"SELECT 
                     e.IdEntrada,
                     e.Estado AS EstadoEntrada,
-
                     t.IdTarifa,
                     t.Tipo AS TipoTarifa,
                     t.Precio,
                     t.Estado AS EstadoTarifa,
-                    t.IdFuncion.
+                    t.IdFuncion,
                     o.IdOrden,
                     o.Estado AS EstadoOrden,
                     o.PrecioTotal,
@@ -75,19 +74,19 @@ namespace AppQR.Dapper
                 INNER JOIN Tarifa t ON e.IdTarifa = t.IdTarifa
                 INNER JOIN Orden o ON e.IdOrden = o.IdOrden;";
 
-            var entradas = Conexion.Query<Entrada, Tarifa, Orden, Entrada>(
-                sql,
-                (entrada, tarifa, orden) =>
-                {
-                    entrada.tarifa = tarifa;
-                    entrada.orden = orden;
-                    return entrada;
-                },
-                splitOn: "IdTarifa,IdOrden" 
-            );
+    var entradas = Conexion.Query<Entrada, Tarifa, Orden, Entrada>(
+        sql,
+        (entrada, tarifa, orden) =>
+        {
+            entrada.tarifa = tarifa;
+            entrada.orden = orden;
+            return entrada;
+        },
+        splitOn: "IdTarifa,IdOrden"
+    );
 
-            return entradas;
-        }
+    return entradas;
+}
 
         public Entrada ObtenerEntradaPorID(int id)
         {

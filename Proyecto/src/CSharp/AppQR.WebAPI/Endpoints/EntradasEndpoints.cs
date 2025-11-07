@@ -33,12 +33,12 @@ namespace AppQR.WebAPI.Endpoints
                 var resultado = service.AnularEntrada(id);
                 return Results.Ok(new { Mensaje = resultado });
             }).WithTags("Entrada");
-            
+
             app.MapPut("api/entradas/qr/validar", (int id, IEntradaService service) =>
             {
                 var resultado = service.ValidarQR(id);
                 return Results.Ok(resultado);
-            }).WithTags("Entrada");
+            }).WithTags("Entrada").WithName("ValidarQr");
         }
     }
 }

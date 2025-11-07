@@ -1,4 +1,4 @@
--- Active: 1760010688681@@127.0.0.1@3306@mysql
+-- Active: 1700068523370@@127.0.0.1@3306@5to_AppQR
 DROP DATABASE IF EXISTS 5to_AppQR
 
 CREATE DATABASE 5to_AppQR
@@ -117,7 +117,6 @@ CREATE TABLE RefreshTokens (
     Email VARCHAR(100) NOT NULL,
     Expiration DATETIME NOT NULL
 );
-
 
 -- ====================
 -- TABLA: QR

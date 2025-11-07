@@ -19,7 +19,7 @@ namespace AppQR.Services.Servicios
         {
             var httpContext = _httpContextAccessor.HttpContext!;
             var routeValues = new RouteValueDictionary { ["id"] = id };
-            var qrUrl = _linkGenerator.GetUriByAddress(httpContext, "/ValidarQr", null, routeValues);
+            var qrUrl = _linkGenerator.GetUriByAddress(httpContext, "ValidarQr", routeValues);
             return qrUrl!;
         }
     }
