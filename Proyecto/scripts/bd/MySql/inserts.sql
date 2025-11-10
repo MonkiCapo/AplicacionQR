@@ -94,3 +94,22 @@ INSERT INTO QR (IdEntrada, url) VALUES
 (1, 'https://mi-app.com/qr/data/uuid-entrada-1'),
 (2, 'https://mi-app.com/qr/data/uuid-entrada-2'),
 (3, 'https://mi-app.com/qr/data/uuid-entrada-3');
+
+
+-- ===============================================
+-- 1. Insertar los datos en la tabla 'Cliente'
+-- (Necesarios antes de crear el Usuario)
+-- ===============================================
+INSERT INTO Cliente (DNI, nombre, telefono) VALUES
+(40111222, 'Ana Torres', '1160001111'),
+(41222333, 'Roberto Díaz', '1160002222'),
+(39333444, 'Lucía Morales', '1160003333');
+
+-- ===============================================
+-- 2. Insertar los 'Usuarios' con Rol 'Admin'
+-- (Usando los DNI creados arriba)
+-- ===============================================
+INSERT INTO Usuario (NombreUsuario, Email, Contraseña, Rol, DNI) VALUES
+('atorres_admin', 'ana.torres@appqr.com', 'hash_contraseña_admin_1', 'Admin', 40111222),
+('rdiaz_sys', 'roberto.diaz@appqr.com', 'hash_contraseña_admin_2', 'Admin', 41222333),
+('lmorales_ger', 'lucia.morales@appqr.com', 'hash_contraseña_admin_3', 'Admin', 39333444);
