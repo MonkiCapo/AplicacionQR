@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppQR.Core.Servicios.IServicios;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AppQR.WebAPI.Endpoints
 {
@@ -10,6 +11,8 @@ namespace AppQR.WebAPI.Endpoints
     {
         public static void MapEntradaEndpoints(this IEndpointRouteBuilder app)
         {
+            app.MapGet("/", () => "Hola mundo");
+
             app.MapGet("/api/entradas", (IEntradaService service) =>
             {
                 var entradas = service.ObtenerEntradas();
@@ -34,7 +37,7 @@ namespace AppQR.WebAPI.Endpoints
                 return Results.Ok(new { Mensaje = resultado });
             }).WithTags("Entrada");
 
-            app.MapPut("api/entradas/qr/validar", (int id, IEntradaService service) =>
+            app.MapGet("api/entradas/qr/validar", ([FromQuery] int id, IEntradaService service) =>
             {
                 var resultado = service.ValidarQR(id);
                 return Results.Ok(resultado);
