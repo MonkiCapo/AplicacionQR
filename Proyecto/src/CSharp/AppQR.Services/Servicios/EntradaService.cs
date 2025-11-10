@@ -4,6 +4,7 @@ using FluentValidation;
 using AppQR.Core.Servicios.Repositorios;
 using AppQR.Core.Servicios.Validadores;
 using AppQR.Core.Dto;
+using MySqlX.XDevAPI.Common;
 using AppQR.Core.Servicios.Enums;
 
 namespace AppQR.Services.Servicios
@@ -11,69 +12,44 @@ namespace AppQR.Services.Servicios
     public class EntradaService : IEntradaService
     {
         readonly IEntradaRepositorio _EntradaRepo;
-        readonly EntradasFluent _EntradaValidador;
-        readonly ITarifaRepositorio _TarifaRepo;
-        readonly IOrdenRepositorio _OrdenRepo;
+        readonly IQrRepositorio _QrRepo;
+        readonly IQrService _QrService;
 
-        public EntradaService(IEntradaRepositorio entradaRepo, EntradasFluent entradaValidador, ITarifaRepositorio tarifaRepo, IOrdenRepositorio ordenRepo)
+        public EntradaService(IEntradaRepositorio entradaRepo, IQrRepositorio qrRepo, IQrService qrService)
         {
             _EntradaRepo = entradaRepo;
-            _EntradaValidador = entradaValidador;
-            _TarifaRepo = tarifaRepo;
-            _OrdenRepo = ordenRepo;
+            _QrRepo = qrRepo;
+            _QrService = qrService;
         }
 
         public IEnumerable<Entrada> ObtenerEntradas() => _EntradaRepo.ObtenerEntradas();
         public Entrada ObtenerEntradaPorID(int id) => _EntradaRepo.ObtenerEntradaPorID(id);
-        public Entrada AgregarEntrada(EntradaDTO entradaDTO)
+        public string AnularEntrada(int id) => _EntradaRepo.AnularEntrada(id);
+
+        public byte[]? ObtenerQR(int id)
         {
-            _EntradaValidador.ValidateAndThrow(entradaDTO);
+            var qr = _QrRepo.ObtenerQr(id);
+            if (qr is null)
+                return null;
 
-            if (_TarifaRepo.ObtenerTarifaPorID(entradaDTO.IdTarifa) == null)
-                throw new ValidationException($"La tarifa con ese Id {entradaDTO.IdTarifa} no existe");
+            return _QrService.CrearQR(qr.url);
+        }
 
-            if (_OrdenRepo.ObtenerOrdenPorID(entradaDTO.IdOrden) == null)
-                throw new ValidationException($"La orden con ese Id {entradaDTO.IdOrden} no existe");
+        public object ValidarQR(int id)
+        {
+            var entrada = _EntradaRepo.ObtenerEntradaPorID(id);
+            if (entrada == null)
+                throw new Exception("La entrada no es valida");
+            if (entrada.Estado == EEstados.YaUsada)
+                throw new Exception("Esta entrada ya fue usada");
+            if (entrada.Estado == EEstados.Anulada)
+                throw new Exception("La entrada esta anulada");
 
-            var entradaNueva = new Entrada
+            _EntradaRepo.EntradaUsada(entrada.IdEntrada);
+            return new
             {
-                tarifa = _TarifaRepo.ObtenerTarifaPorID(entradaDTO.IdTarifa),
-                orden = _OrdenRepo.ObtenerOrdenPorID(entradaDTO.IdOrden),
-                Estado = Enum.TryParse<EEstados>(entradaDTO.Estado, true, out var estado) ? estado : EEstados.Creado,
+                mensaje = "Entrada validada con exito"
             };
-            return _EntradaRepo.AgregarEntrada(entradaNueva);
         }
-
-        public bool ActualizarEntrada(EntradaDTO entradaDTO, int id)
-        {
-            _EntradaValidador.ValidateAndThrow(entradaDTO);
-
-            if (_EntradaRepo.ObtenerEntradaPorID(id) == null)
-                throw new InvalidOperationException($"No existe una entrada con ese Id {id}");
-
-            if (_TarifaRepo.ObtenerTarifaPorID(entradaDTO.IdTarifa) == null)
-                throw new ValidationException($"La tarifa con ese Id {entradaDTO.IdTarifa} no existe");
-
-            if (_OrdenRepo.ObtenerOrdenPorID(entradaDTO.IdOrden) == null)
-                throw new ValidationException($"La orden con ese Id {entradaDTO.IdOrden} no existe");
-
-            var entradaActualizada = new Entrada
-            {
-                tarifa = _TarifaRepo.ObtenerTarifaPorID(entradaDTO.IdTarifa),
-                orden = _OrdenRepo.ObtenerOrdenPorID(entradaDTO.IdOrden),
-                Estado = Enum.TryParse<EEstados>(entradaDTO.Estado, true, out var estado) ? estado : EEstados.Creado,
-            };
-
-            return _EntradaRepo.ActualizarEntrada(entradaActualizada, id);
-        }
-
-        public bool EliminarEntrada(int id)
-        {
-            if (_EntradaRepo.ObtenerEntradaPorID(id) == null)
-                throw new KeyNotFoundException($"No existe una entrada con ese Id {id}");
-            
-            return _EntradaRepo.EliminarEntrada(id);
-        }
-
     }
 }

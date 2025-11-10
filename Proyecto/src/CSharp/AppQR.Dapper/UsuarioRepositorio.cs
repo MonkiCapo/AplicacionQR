@@ -139,5 +139,16 @@ namespace AppQR.Dapper
 
             return count == 1;
         }
+
+        public bool ActualizarRol(int id, string rol)
+        {
+            var sql = "UPDATE Usuario SET Rol = @rol WHERE IdUsuario = @id;";
+            var rowsAffected = Conexion.Execute(sql, new
+            {
+                rol = rol,
+                id = id
+            });
+            return rowsAffected > 0;
+        }
     }
 }

@@ -15,15 +15,19 @@ namespace AppQR.Services.Servicios
         readonly IUsuarioRepositorio _UsuarioRepo;
         readonly IEntradaRepositorio _EntradaRepo;
         readonly ITarifaRepositorio _TarifaRepo;
+        readonly IQrRepositorio _qrRepo;
+        readonly IQrService _qrService;
         readonly OrdenFluent _OrdenValidador;
 
-        public OrdenService(IOrdenRepositorio ordenRepo, OrdenFluent ordenValidador, IUsuarioRepositorio usuarioRepo, ITarifaRepositorio tarifaRepo, IEntradaRepositorio entradaRepo)
+        public OrdenService(IOrdenRepositorio ordenRepo, OrdenFluent ordenValidador, IUsuarioRepositorio usuarioRepo, ITarifaRepositorio tarifaRepo, IEntradaRepositorio entradaRepo, IQrRepositorio qrRepo, IQrService qrService)
         {
             _OrdenRepo = ordenRepo;
             _OrdenValidador = ordenValidador;
             _UsuarioRepo = usuarioRepo;
             _TarifaRepo = tarifaRepo;
             _EntradaRepo = entradaRepo;
+            _qrRepo = qrRepo;
+            _qrService = qrService;
         }
 
         public Orden AgregarOrden(OrdenDTO ordenDto)
@@ -77,7 +81,16 @@ namespace AppQR.Services.Servicios
                 Estado = EEstados.Pagado
             };
 
-            _EntradaRepo.AgregarEntrada(entradaEmitida);
+            var entradaAlta = _EntradaRepo.AgregarEntrada(entradaEmitida);
+
+            var url = _qrService.GenerarUrldeQR(entradaAlta.IdEntrada);
+            var qr = new QR
+            {
+                IdEntrada = entradaAlta.IdEntrada,
+                url = url
+            };
+            
+            _qrRepo.AltaQR(qr);
 
             var resultado = _OrdenRepo.PagarOrden(id);
             return resultado;

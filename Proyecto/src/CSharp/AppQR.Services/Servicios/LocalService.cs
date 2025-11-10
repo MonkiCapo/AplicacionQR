@@ -13,7 +13,9 @@ namespace AppQR.Services.Servicios
     {
         readonly ILocalRepositorio _LocalRepo;
         readonly LocalFluent _LocalValidador;
+
         readonly SectorFluent _SectorValidador;
+
 
         public LocalService(ILocalRepositorio localRepo, LocalFluent localValidador, SectorFluent sectorValidador)
         {
@@ -24,12 +26,10 @@ namespace AppQR.Services.Servicios
         
         public IEnumerable<Local> ObtenerLocales () => _LocalRepo.ObtenerLocales();
 
-        public Local ObtenerLocalPorID(int id) => _LocalRepo.ObtenerLocalPorID(id);
+        public Local? ObtenerLocalPorID(int id) => _LocalRepo.ObtenerLocalPorID(id);
 
         public Local AgregarLocal (LocalDTO localDTO)
         {
-            _LocalValidador.ValidateAndThrow(localDTO);
-
             //if(_LocalRepo.ObtenerLocales().Any(l => l.Nombre == localDTO.Nombre && l.Direccion == localDTO.Direccion))
                 //throw new InvalidOperationException($"Ya existe un local con ese nombre y dirección");
 
@@ -39,25 +39,30 @@ namespace AppQR.Services.Servicios
                 Direccion =localDTO.Direccion
             };
 
+            var resultado =_LocalValidador.Validate(localNuevo);
+            if (!resultado.IsValid)
+            {
+                var errores = string.Join(" |", resultado.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException($"Error de validacion: {errores}");
+            }
+
             return _LocalRepo.AgregarLocal(localNuevo);
         }
 
         public bool ActualizarLocal (LocalDTO localDTO , int id)
         {
-            _LocalValidador.ValidateAndThrow(localDTO);
-
             var localActualizado = new Local
             {
                 Nombre = localDTO.Nombre,
                 Direccion = localDTO.Direccion
             };
 
-            // var resultado = _LocalValidador.Validate(localActualizado);
-            // if(!resultado.IsValid)
-            // {
-            //     var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
-            //     throw new ValidationException($"Error de validacion: {errores}");
-            // }
+            var resultado = _LocalValidador.Validate(localActualizado);
+            if(!resultado.IsValid)
+            {
+                var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException($"Error de validacion: {errores}");
+            }
 
             //if(_LocalRepo.ObtenerLocalPorID(IdLocal) == null)
             // throw new KeyNotFoundException($"No existe un local con ese ID {local.IdLocal}");
@@ -76,11 +81,11 @@ namespace AppQR.Services.Servicios
 
         public IEnumerable<Sector> ObtenerSectoresPorLocal(int idLocal) => _LocalRepo.ObtenerSectoresPorLocal(idLocal);
 
-        public Sector ObtenerSectorPorID(int id) => _LocalRepo.ObtenerSectorPorID(id);
+        public Sector? ObtenerSectorPorID(int id) => _LocalRepo.ObtenerSectorPorID(id);
+
 
         public Sector AgregarSector(SectorDTO sectorDTO, int id)
         {
-            _SectorValidador.ValidateAndThrow(sectorDTO);
 
             var local = _LocalRepo.ObtenerLocalPorID(id);
             var sectorNuevo = new Sector
@@ -89,31 +94,29 @@ namespace AppQR.Services.Servicios
                 local = local
             };
 
-            // var resultado = _SectorValidador.Validate(sectorNuevo);
-            // if (!resultado.IsValid)
-            // {
-            //     var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
-            //     throw new ValidationException($"Error de validacion: {errores}");
-            // }
+            var resultado = _SectorValidador.Validate(sectorNuevo);
+            if (!resultado.IsValid)
+            {
+                var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException($"Error de validacion: {errores}");
+            }
 
             return _LocalRepo.AgregarSector(sectorNuevo, id);
         }
 
         public bool ActualizarSector(SectorDTO sectorDTO, int id)
         {
-            _SectorValidador.ValidateAndThrow(sectorDTO);
-
             var sectorActualizado = new Sector
             {
                 Capacidad = sectorDTO.Capacidad
             };
 
-            // var resultado = _SectorValidador.Validate(sectorActualizado);
-            // if (!resultado.IsValid)
-            // {
-            //     var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
-            //     throw new ValidationException($"Error de validacion: {errores}");
-            // }
+            var resultado = _SectorValidador.Validate(sectorActualizado);
+            if (!resultado.IsValid)
+            {
+                var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException($"Error de validacion: {errores}");
+            }
 
             return _LocalRepo.ActualizarSector(sectorActualizado, id);
         }

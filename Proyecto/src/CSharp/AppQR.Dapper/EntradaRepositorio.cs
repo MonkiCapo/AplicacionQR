@@ -14,8 +14,7 @@ namespace AppQR.Dapper
 
          public Entrada AgregarEntrada(Entrada entrada)
         {
-            var sql = @"
-                INSERT INTO Entrada (IdTarifa, IdOrden, Estado)
+            var sql = @"INSERT INTO Entrada (IdTarifa, IdOrden, Estado)
                 VALUES (@idTarifa, @idOrden, @estado);
                 SELECT LAST_INSERT_ID();";
 
@@ -62,13 +61,11 @@ namespace AppQR.Dapper
             var sql = @"SELECT 
                     e.IdEntrada,
                     e.Estado AS EstadoEntrada,
-
                     t.IdTarifa,
                     t.Tipo AS TipoTarifa,
                     t.Precio,
                     t.Estado AS EstadoTarifa,
                     t.IdFuncion,
-
                     o.IdOrden,
                     o.Estado AS EstadoOrden,
                     o.PrecioTotal,
@@ -77,19 +74,19 @@ namespace AppQR.Dapper
                 INNER JOIN Tarifa t ON e.IdTarifa = t.IdTarifa
                 INNER JOIN Orden o ON e.IdOrden = o.IdOrden;";
 
-            var entradas = Conexion.Query<Entrada, Tarifa, Orden, Entrada>(
-                sql,
-                (entrada, tarifa, orden) =>
-                {
-                    entrada.tarifa = tarifa;
-                    entrada.orden = orden;
-                    return entrada;
-                },
-                splitOn: "IdTarifa,IdOrden" 
-            );
+    var entradas = Conexion.Query<Entrada, Tarifa, Orden, Entrada>(
+        sql,
+        (entrada, tarifa, orden) =>
+        {
+            entrada.tarifa = tarifa;
+            entrada.orden = orden;
+            return entrada;
+        },
+        splitOn: "IdTarifa,IdOrden"
+    );
 
-            return entradas;
-        }
+    return entradas;
+}
 
         public Entrada ObtenerEntradaPorID(int id)
         {
@@ -102,7 +99,6 @@ namespace AppQR.Dapper
                     t.Precio,
                     t.Estado AS EstadoTarifa,
                     t.IdFuncion,
-
                     o.IdOrden,
                     o.Estado AS EstadoOrden,
                     o.PrecioTotal,
@@ -125,6 +121,22 @@ namespace AppQR.Dapper
             ).FirstOrDefault();
 
             return entrada;
+        }
+
+        public string AnularEntrada(int id)
+        {
+            var sql = "CALL AnularEntrada(@id)";
+            var mensaje = Conexion.QueryFirstOrDefault<string>(sql, new { id });
+            return mensaje ?? "No se pudo anular la entrada";
+        }
+
+        public bool EntradaUsada(int id)
+        {
+            var sql = @"UPDATE Entrada SET
+                            Estado = 'YaUsada'
+                        WHERE IdEntrada = @id AND Estado != 'Anulada'";
+            var rowsAffected = Conexion.Execute(sql, new { id });
+            return rowsAffected > 0;
         }
     }
 }

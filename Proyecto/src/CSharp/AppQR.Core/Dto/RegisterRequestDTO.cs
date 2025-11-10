@@ -10,7 +10,7 @@ namespace AppQR.Core.Dto
         public string Email { get; set; }
         public string NombreUsuario { get; set; }
         public string Contraseña { get; set; }
-        public ClienteDTO cliente { get; set; }
         public string Rol { get; set; }
+        public ClienteDTO cliente { get; set; }
     }
 }

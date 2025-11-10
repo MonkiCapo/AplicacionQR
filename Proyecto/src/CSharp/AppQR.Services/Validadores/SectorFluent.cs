@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AppQR.Core.Dto;
 using AppQR.Core.Entidades;
 using FluentValidation;
 
 namespace AppQR.Services.Validadores
 {
-    public class SectorFluent : AbstractValidator<SectorDTO>
+    public class SectorFluent : AbstractValidator<Sector>
     {
         public SectorFluent()
         {

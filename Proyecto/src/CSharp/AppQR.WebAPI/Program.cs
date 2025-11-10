@@ -12,11 +12,11 @@ using AppQR.Services.Servicios;
 using AppQR.Core.Dto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AppQR.Services.Validadores;
-using AppQR.Core.Entidades;
-using MySqlX.XDevAPI.Common;
-
+using AppQR.WebAPI.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region Auth JWT
 
 var key = builder.Configuration["Jwt:Key"];
 var issuer = builder.Configuration["Jwt:Issuer"];
@@ -45,6 +45,10 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAuthorization();
+builder.Services.AddScoped<RefreshTokenService>();
+builder.Services.AddScoped<AuthService>();
+    
+#endregion
 
 #region Agregando conexión a BD
 builder.Services.AddScoped<IDbConnection>(provider =>
@@ -56,7 +60,7 @@ builder.Services.AddScoped<IDbConnection>(provider =>
 
 // builder.Services.AddControllers()
 //     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ClienteFluent>());
-
+#region Repositorios
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IRefreshTokenRepositorio, RefreshTokenRepositorio>();
@@ -66,19 +70,32 @@ builder.Services.AddScoped<IFuncionRepositorio, FuncionRepositorio>();
 builder.Services.AddScoped<ITarifaRepositorio, TarifaRepositorio>();
 builder.Services.AddScoped<IOrdenRepositorio, OrdenRepositorio>();
 builder.Services.AddScoped<IEntradaRepositorio, EntradaRepositorio>();
+builder.Services.AddScoped<IQrRepositorio, QrRepositorio>();
+#endregion
 
+#region Validadores
 builder.Services.AddScoped<ClienteFluent>();
+builder.Services.AddScoped<EventoFluent>();
 builder.Services.AddScoped<LocalFluent>();
 builder.Services.AddScoped<SectorFluent>();
 builder.Services.AddScoped<FuncionFluent>();
+builder.Services.AddScoped<TarifaFluent>();
+builder.Services.AddScoped<OrdenFluent>();
 builder.Services.AddScoped<UsuarioFluent>();
-builder.Services.AddScoped<EntradasFluent>();
+builder.Services.AddScoped<LoginFluent>();
+#endregion
 
+#region Servicios
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<ILocalService, LocalService>();
 builder.Services.AddScoped<IFuncionService, FuncionService>();
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<ITarifaService, TarifaService>();
+builder.Services.AddScoped<IOrdenService, OrdenService>();
 builder.Services.AddScoped<IEntradaService, EntradaService>();
+builder.Services.AddScoped<IUrlConstructService, UrlConstructService>();
+builder.Services.AddScoped<IQrService, QrService>();
+#endregion
 
 builder.Services.AddHttpContextAccessor();
 
@@ -124,12 +141,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// // Middleware pipeline
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseDeveloperExceptionPage();
-// }
-
 //app.UseRouting();>
 
 //Authentication antes de Authorization
@@ -148,216 +159,26 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 
+//app.MapControllers();
 #region EndPoints
 
-//app.MapControllers();
-#region CLientes
+app.MapClienteEndpoints();
 
-    app.MapGet("/api/Cliente", (IClienteService service) =>
-    {
-        var clientes = service.ObtenerClientes();
-        return Results.Ok(clientes);
-    }).WithTags("Cliente");
+app.MapEventoEndpoints();
 
-    app.MapGet("/api/Cliente/{dni}", (int dni, IClienteService service) =>
-    {
-        var clientes = service.ObtenerClientePorDNI(dni);
-        return clientes is not null ? Results.Ok(clientes) : Results.NotFound();
-    }).WithTags("Cliente");
+app.MapLocalEndpoints();
 
-    app.MapPost("/api/Cliente", (int dni, ClienteDTO dto, IClienteService service) =>
-    {
-        service.AgregarCliente(dto);
-        return Results.Created();
-    }).WithTags("Cliente");
+app.MapSectorEndpoints();
 
-app.MapPut("/api/Cliente/{dni}", (int dni, IClienteService service, ClienteDTO dto) =>
-{
-    service.ActualizarCliente(dto, dni);
-    return Results.Ok();
-}).WithTags("Cliente");
+app.MapFuncionEndpoints();
 
-#endregion
+app.MapTarifaEndpoints();
 
-#region Locales
+app.MapOrdenEndpoints();
 
-app.MapGet("/api/Local", (ILocalService service) =>
-{
-    var locales = service.ObtenerLocales();
-    return Results.Ok(locales);
-}).WithTags("Local");
+app.MapEntradaEndpoints();
 
-app.MapGet("/api/Local/{id}", (int id, ILocalService service) =>
-{
-    var local = service.ObtenerLocalPorID(id);
-    return local is not null ? Results.Ok(local) : Results.NotFound();
-}).WithTags("Local");
-
-app.MapPost("/api/Local", (LocalDTO dto, ILocalService service) =>
-{
-    service.AgregarLocal(dto);
-    return Results.Created();
-}).WithTags("Local");
-
-app.MapPut("/api/Local/{id}", (int id, LocalDTO dto, ILocalService service) =>
-{
-    service.ActualizarLocal(dto, id);
-    return Results.Ok();
-}).WithTags("Local");
-
-app.MapDelete("/api/Local/{id}", (int id, ILocalService service) =>
-{
-    service.EliminarLocal(id);
-    return Results.Ok();
-}).WithTags("Local");
-
-
-
-app.MapGet("/api/Local/{idLocal}/Sector", (int idLocal, ILocalService service) =>
-{
-    var sectores = service.ObtenerSectoresPorLocal(idLocal);
-    return Results.Ok(sectores);
-}).WithTags("Sector");
-
-app.MapGet("/api/Sector/{id}", (int id, ILocalService service) =>
-{
-    var sector = service.ObtenerSectorPorID(id);
-    return sector is not null ? Results.Ok(sector) : Results.NotFound();
-}).WithTags("Sector");
-
-app.MapPost("/api/Local/{id}/Sector", (int id, SectorDTO dto, ILocalService service) =>
-{
-    service.AgregarSector(dto, id);
-    return Results.Created();
-}).WithTags("Sector");
-
-app.MapPut("api/Sector/{id}", (int id, SectorDTO dto, ILocalService service) =>
-{
-    service.ActualizarSector(dto, id);
-    return Results.Ok();
-}).WithTags("Sector");
-
-app.MapDelete("/api/Sector({id}", (int id, ILocalService service) =>
-{
-    service.EliminarSector(id);
-    return Results.Ok();
-}).WithTags("Sector");
-
-#endregion
-
-#region Funciones
-
-app.MapGet("/api/Funcion", (IFuncionService service) =>
-{
-    var funciones = service.ObtenerTodasLasFunciones();
-    return Results.Ok(funciones);
-}).WithTags("Funcion");
-
-app.MapGet("/api/Funcion/{id}", (int id, IFuncionService service) =>
-{
-    var funcion = service.ObtenerPorID(id);
-    return funcion is not null ? Results.Ok(funcion) : Results.NotFound();
-}).WithTags("Funcion");
-
-app.MapPost("/api/Funcion", (FuncionDTO dto, IFuncionService service) =>
-{
-    service.AgregarFuncion(dto);
-    return Results.Created();
-}).WithTags("Funcion");
-
-app.MapPut("/api/Funcion/{id}", (int id, FuncionDTO dto, IFuncionService service) =>
-{
-    service.ActualizarFuncion(dto, id);
-    return Results.Ok();
-}).WithTags("Funcion");
-
-app.MapDelete("/api/Funcion/{id}", (int id, IFuncionService service) =>
-{
-    service.EliminarFuncion(id);
-    return Results.Ok();
-}).WithTags("Funcion");
-
-app.MapPut("/api/Funcion/{idFuncion}/Cancelar", (int idFuncion, IFuncionService service) =>
-{
-    service.CancelarFuncion(idFuncion);
-    return Results.Ok();
-}).WithTags("Funcion");
-
-#endregion
-
-#region Usuarios
-
-app.MapGet("/api/Usuario", (IUsuarioService service) =>
-{
-    var usuarios = service.ObtenerTodosLosUsuarios();
-    return Results.Ok(usuarios);
-}).WithTags("Usuario");
-
-app.MapGet("/api/Usuario/{id}", (int id, IUsuarioService service) =>
-{
-    var usuario = service.ObtenerUsuarioPorID(id);
-    return usuario is not null ? Results.Ok(usuario) : Results.NotFound();
-}).WithTags("Usuario");
-
-app.MapPost("/api/Usuario", (RegisterRequestDTO registerDTO, IUsuarioService service) =>
-{
-    service.AgregarUsuario(registerDTO);
-    return Results.Created();
-}).WithTags("Usuario");
-
-app.MapPut("/api/Usuario/{id}", (int id,RegisterRequestDTO registerDTO, IUsuarioService service) =>
-{
-    service.ActualizarUsuario(registerDTO, id);
-    return Results.Ok();
-}).WithTags("Usuario");
-
-app.MapDelete("/api/Usuario/{id}", (int id, IUsuarioService service) =>
-{
-    service.EliminarUsuario(id);
-    return Results.Ok();
-}).WithTags("Usuario");
-
-app.MapPost("/api/Usuario/Login", (LoginRequestDTO loginDTO, IUsuarioService service) =>
-{
-    var usuario = service.Login(loginDTO);
-    return usuario is not null ? Results.Ok(usuario) : Results.Unauthorized();
-}).WithTags("Usuario");
-
-#endregion
-
-#region Entradas
-
-app.MapGet("/api/Entrada", (IEntradaService service) =>
-{
-    var entradas = service.ObtenerEntradas();
-    return Results.Ok(entradas);
-}).WithTags("Entrada");
-
-app.MapGet("/api/Entrada/{id}", (int id, IEntradaService service) =>
-{
-    var entrada = service.ObtenerEntradaPorID(id);
-    return entrada is not null ? Results.Ok(entrada) : Results.NotFound();
-}).WithTags("Entrada");
-
-app.MapPost("/api/Entrada", (EntradaDTO dto, IEntradaService service) =>
-{
-    service.AgregarEntrada(dto);
-    return Results.Created();
-}).WithTags("Entrada");
-
-app.MapPut("/api/Entrada/{id}", (int id, EntradaDTO dto, IEntradaService service) =>
-{
-    service.ActualizarEntrada(dto, id);
-    return Results.Ok();
-}).WithTags("Entrada");
-
-app.MapDelete("/api/Entrada/{id}", (int id, IEntradaService service) =>
-{
-    service.EliminarEntrada(id);
-    return Results.Ok();
-}).WithTags("Entrada");
-
-#endregion
+app.MapAuthEndpoint();
 
 #endregion
 

@@ -36,7 +36,7 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
                     WHERE IdFuncion = @idFuncion";
         var rowsAffected = Conexion.Execute(sql, new
         {
-            idFuncion = funcion.IdFuncion,
+            idFuncion = id,
             nombre = funcion.Nombre,
             fechaHora = funcion.FechaHora,
             estado = funcion.Estado,
@@ -54,8 +54,21 @@ public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
 
     public IEnumerable<Funcion> ObtenerTodasLasFunciones()
     {
-        var sql = "SELECT * FROM Funcion";
-        return Conexion.Query<Funcion>(sql);
+        var sql = @"SELECT f.IdFuncion, f.Nombre, f.FechaHora, f.Estado, e.IdEvento, e.Nombre
+                    FROM Funcion f
+                    INNER JOIN Evento e ON f.IdEvento = e.IdEvento";
+
+        var funciones = Conexion.Query<Funcion, Evento, Funcion>(
+            sql,
+            (funcion, evento) =>
+            {
+                funcion.evento = evento;
+                return funcion;
+            },
+            splitOn: "IdEvento"
+        );
+
+        return funciones;
     }
 
     public Funcion ObtenerPorID(int id)

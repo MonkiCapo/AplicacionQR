@@ -52,7 +52,7 @@ namespace AppQR.Services.Servicios
                 throw new InvalidOperationException($"No existe una funcion con ese Id {id}");
 
             if (_EventoRepo.ObtenerEventoPorID(funcionDTO.idEvento) == null)
-                throw new ValidationException($"El evento con ese Id {funcionDTO.idEvento} no existe");
+                throw new ValidationException($"El evento con el Id {funcionDTO.idEvento} no existe");
 
             var funcionActualizada = new Funcion
             {

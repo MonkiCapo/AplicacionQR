@@ -12,7 +12,7 @@ namespace AppQR.Core.Servicios.IServicios
         IEnumerable<Cliente> ObtenerClientes();
         Cliente ObtenerClientePorDNI(int dni);
         Cliente AgregarCliente(ClienteDTO cliente);
-        bool ActualizarCliente(ClienteDTO cliente, int dni);
+        bool ActualizarCliente(ClienteActualizadoDTO cliente, int id);
         bool EliminarCliente(int dni);
         bool ExisteDNIdeCliente(int dniExistente);
     }

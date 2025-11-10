@@ -2,7 +2,8 @@ namespace AppQR.Core.Servicios.Enums
 {
     public enum ERoles
     {
-        Usuario,
-        Admin
+        Cliente,
+        Admin,
+        Organizador
     }
 }

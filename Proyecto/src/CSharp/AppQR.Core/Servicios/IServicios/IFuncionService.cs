@@ -15,6 +15,5 @@ namespace AppQR.Core.Servicios.IServicios
         bool ActualizarFuncion(FuncionDTO funcion, int id);
         bool EliminarFuncion(int id);
         string CancelarFuncion(int idFuncion);
-        
     }
 }

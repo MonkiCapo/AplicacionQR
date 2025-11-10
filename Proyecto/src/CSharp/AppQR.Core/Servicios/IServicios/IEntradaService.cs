@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AppQR.Core.Dto;
 using AppQR.Core.Entidades;
+using AppQR.Core.Dto;
 
 namespace AppQR.Core.Servicios.IServicios
 {
@@ -11,8 +11,8 @@ namespace AppQR.Core.Servicios.IServicios
     {
         IEnumerable<Entrada> ObtenerEntradas();
         Entrada ObtenerEntradaPorID(int id);
-        Entrada AgregarEntrada(EntradaDTO entradaDTO);
-        bool ActualizarEntrada(EntradaDTO entradaDTO, int id);
-        bool EliminarEntrada(int id);
+        string AnularEntrada(int id);
+        byte[]? ObtenerQR(int id);
+        object ValidarQR(int id);
     }
 }

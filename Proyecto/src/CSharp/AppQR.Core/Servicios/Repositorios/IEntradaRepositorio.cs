@@ -13,5 +13,7 @@ namespace AppQR.Core.Servicios.Repositorios
         Entrada AgregarEntrada(Entrada entrada);
         bool ActualizarEntrada(Entrada entrada, int id);
         bool EliminarEntrada(int id);
+        string AnularEntrada(int id);
+        bool EntradaUsada(int id);
     }
 }

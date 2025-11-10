@@ -33,7 +33,7 @@ namespace AppQR.Dapper
             {
                 nombre = local.Nombre,
                 direccion = local.Direccion,
-                idlocal = local.IdLocal
+                idlocal = id
             });
             return rowsAffected > 0;
         }
@@ -75,7 +75,7 @@ namespace AppQR.Dapper
             var rowsAffected = Conexion.Execute(sql, new
             {
                 capacidad = sector.Capacidad,
-                idSector = sector.IdSector
+                idSector = id
             });
             return rowsAffected > 0;
         }

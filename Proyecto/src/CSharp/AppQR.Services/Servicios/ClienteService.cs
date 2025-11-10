@@ -26,7 +26,7 @@ namespace AppQR.Services.Servicios
             if (_ClienteRepo.ExisteDNIdeCliente(clienteDto.DNI))
                 throw new InvalidOperationException($"Ya existe un cliente con el DNI: {clienteDto.DNI}");
 
-            var clienteNuevo = ConvertirDtoClase(clienteDto);
+            var clienteNuevo = ConvertirDtoAClase(clienteDto);
 
             var resultado = _ClienteValidador.Validate(clienteNuevo);
             if (!resultado.IsValid)
@@ -38,22 +38,26 @@ namespace AppQR.Services.Servicios
             return _ClienteRepo.AgregarCliente(clienteNuevo);
         }
 
-        public bool ActualizarCliente(ClienteDTO dto, int dni)
+        public bool ActualizarCliente(ClienteActualizadoDTO dto, int id)
         {
-            var clienteActualizado = ConvertirDtoClase(dto);
+            if (!_ClienteRepo.ExisteDNIdeCliente(id))
+                throw new KeyNotFoundException($"No existe un cliente con el DNI: {id}");
+
+            var clienteActualizado = new Cliente
+            {
+                DNI = id,
+                Nombre = dto.Nombre,
+                Telefono = dto.Telefono
+            };
 
             var resultado = _ClienteValidador.Validate(clienteActualizado);
-
             if (!resultado.IsValid)
             {
                 var errores = string.Join(" | ", resultado.Errors.Select(e => e.ErrorMessage));
                 throw new ValidationException($"Error de validacion: {errores}");
             }
 
-            if (!_ClienteRepo.ExisteDNIdeCliente(dto.DNI))
-                throw new KeyNotFoundException($"No existe un cliente con el DNI {dto.DNI}.");
-
-            return _ClienteRepo.ActualizarCliente(clienteActualizado, dni);
+            return _ClienteRepo.ActualizarCliente(clienteActualizado, id);
         }
 
         public bool EliminarCliente(int dni)
@@ -66,15 +70,15 @@ namespace AppQR.Services.Servicios
 
         public bool ExisteDNIdeCliente(int dniExistente) => _ClienteRepo.ExisteDNIdeCliente(dniExistente);
         
-        Cliente ConvertirDtoClase(ClienteDTO clienteDto)
-    {
-        return new Cliente
+        Cliente ConvertirDtoAClase(ClienteDTO clienteDto)
         {
-            DNI = clienteDto.DNI,
-            Nombre = clienteDto.Nombre,
-            Telefono = clienteDto.Telefono
-        };
-    }
+            return new Cliente
+            {
+                DNI = clienteDto.DNI,
+                Nombre = clienteDto.Nombre,
+                Telefono = clienteDto.Telefono
+            };
+        }
 
     }
 }

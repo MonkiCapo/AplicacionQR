@@ -1,9 +1,9 @@
--- Active: 1760010688681@@127.0.0.1@3306@mysql
-DROP DATABASE IF EXISTS AppQR
+-- Active: 1700068523370@@127.0.0.1@3306@5to_AppQR
+DROP DATABASE IF EXISTS 5to_AppQR
 
-CREATE DATABASE AppQR
+CREATE DATABASE 5to_AppQR
 
-USE AppQR
+USE 5to_AppQR
 
 -- ======================
 -- TABLA: Local
@@ -103,7 +103,7 @@ CREATE TABLE Entrada (
     IdEntrada INT AUTO_INCREMENT PRIMARY KEY,
     IdTarifa INT NOT NULL,
     IdOrden INT NOT NULL,
-    estado VARCHAR(50) NOT NULL,
+    Estado VARCHAR(50) NOT NULL,
     FOREIGN KEY (IdTarifa) REFERENCES Tarifa(IdTarifa),
     FOREIGN KEY (IdOrden) REFERENCES Orden(IdOrden)
 );
@@ -118,6 +118,9 @@ CREATE TABLE RefreshTokens (
     Expiration DATETIME NOT NULL
 );
 
+-- ====================
+-- TABLA: QR
+-- ====================
 CREATE TABLE QR (
     IdQR INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     IdEntrada INT NOT NULL,
