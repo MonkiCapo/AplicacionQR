@@ -54,61 +54,58 @@ namespace AppQR.Test
         }
 
         [Fact]
-        public void Debe_Crear_Una_NuevaEntrada()
+        public void Debe_Anular_UnaEntrada()
         {
             var MOQ = new Mock<IEntradaService>();
-            var nuevaEntrada = new EntradaDTO
+            var entrada = new Entrada
             {
-                IdTarifa = 2,
-                IdOrden = 3,
-                Estado = EEstados.Pagado.ToString()
+                IdEntrada = 3,
+                tarifa = new Tarifa { IdTarifa = 2 },
+                orden = new Orden { IdOrden = 2 },
+                Estado = EEstados.Anulada
             };
-            MOQ.Setup(s => s.AgregarEntrada(nuevaEntrada)).Returns(new Entrada { tarifa = new Tarifa { IdTarifa = nuevaEntrada.IdTarifa }, orden = new Orden { IdOrden = nuevaEntrada.IdOrden }, Estado = EEstados.Pagado });
+            MOQ.Setup(s => s.AnularEntrada(3)).Returns("Entrada anulada exitosamente");
 
-            var resultado = MOQ.Object.AgregarEntrada(nuevaEntrada);
+            var resultado = MOQ.Object.AnularEntrada(3);
 
             Assert.NotNull(resultado);
-            Assert.Equal(2, resultado.tarifa.IdTarifa);
-            Assert.Equal(3, resultado.orden.IdOrden);
-            Assert.Equal(EEstados.Pagado, resultado.Estado);
+            Assert.Equal("Entrada anulada exitosamente", resultado);
         }
 
         [Fact]
-        public void Debe_Actualizar_UnaEntrada_QueExiste()
+        public void Debe_ObtenerQR_DeUnaEntrada()
         {
             var MOQ = new Mock<IEntradaService>();
-            var entrada = new EntradaDTO
-            {
-                IdTarifa = 3,
-                IdOrden = 4,
-                Estado = EEstados.Pagado.ToString()
-            };
-            var entradaUpdate = new EntradaDTO
-            {
-                IdTarifa = 3,
-                IdOrden = 4,
-                Estado = EEstados.Expirada.ToString()
-            };
-            MOQ.Setup(s => s.ActualizarEntrada(entradaUpdate, 1)).Returns(true);
+            var qrData = Encoding.UTF8.GetBytes("CodigoQRDeEntradaPrueba23");
+            MOQ.Setup(s => s.ObtenerQR(1)).Returns(qrData);
 
-            var resultado = MOQ.Object.ActualizarEntrada(entradaUpdate, 1);
+            var resultado = MOQ.Object.ObtenerQR(1);
 
-            Assert.True(resultado);
-            Assert.Equal(3, entradaUpdate.IdTarifa);
-            Assert.Equal(4, entradaUpdate.IdOrden);
-            Assert.Equal(EEstados.Expirada.ToString(), entradaUpdate.Estado);
+            Assert.NotNull(resultado);
+            Assert.Equal(qrData, resultado);
         }
 
         [Fact]
-        public void Debe_Eliminar_UnaEntrada_Existente()
+        public void Debe_ValidarQR_DeUnaEntrada()
         {
             var MOQ = new Mock<IEntradaService>();
-            var entrada = new Entrada { IdEntrada = 1 };
-            MOQ.Setup(s => s.EliminarEntrada(1)).Returns(true);
+            var qrValidacion = new Entrada
+            {
+                IdEntrada = 1,
+                tarifa = new Tarifa { IdTarifa = 2 },
+                orden = new Orden { IdOrden = 2 },
+                Estado = EEstados.Pendiente
+            };
+            MOQ.Setup(s => s.ValidarQR(1)).Returns("Entrada validada con exito");
 
-            var resultado = MOQ.Object.EliminarEntrada(1);
+            var resultado = MOQ.Object.ValidarQR(1);
 
-            Assert.True(resultado);
+            Assert.NotNull(resultado);
+            Assert.Equal("Entrada validada con exito", resultado); 
+
         }
+
+       
+
     }
 }

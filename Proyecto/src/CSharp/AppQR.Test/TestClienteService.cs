@@ -81,9 +81,8 @@ namespace AppQR.Test
                 Nombre = "Morena Gomez",
                 Telefono = "1137483163"
             };
-            var clienteUpdate = new ClienteDTO
+            var clienteUpdate = new ClienteActualizadoDTO
             {
-                DNI = 47654321,
                 Nombre = "More Gomez",
                 Telefono = "1147157455"
             };
@@ -92,7 +91,6 @@ namespace AppQR.Test
             var resultado = MOQ.Object.ActualizarCliente(clienteUpdate, 47654321);
 
             Assert.True(resultado);
-            Assert.Equal(47654321, clienteUpdate.DNI);
             Assert.Equal("More Gomez", clienteUpdate.Nombre);
             Assert.Equal("1147157455", clienteUpdate.Telefono);
         }
