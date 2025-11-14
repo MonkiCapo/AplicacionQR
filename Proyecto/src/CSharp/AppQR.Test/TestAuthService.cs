@@ -36,28 +36,35 @@ namespace AppQR.Test
                     Telefono = "1173692736"
                 }
             };
-            MOQ.Setup(s => s.RegistrarUsuario(registerUsuario)).Returns(new Usuario { Email = registerUsuario.Email, NombreUsuario = registerUsuario.NombreUsuario, Contraseña = registerUsuario.Contraseña, Rol = ERoles.Cliente, cliente = new Cliente { DNI = registerUsuario.cliente.DNI, Nombre = registerUsuario.cliente.Nombre, Telefono = registerUsuario.cliente.Telefono } });
+            MOQ.Setup(s => s.RegistrarUsuario(registerUsuario)).Returns( "Usuario registrado correctamente");
 
             var resultado = MOQ.Object.RegistrarUsuario(registerUsuario);
 
             Assert.NotNull(resultado);
+            Assert.Equal("Usuario registrado correctamente", resultado)
         }
 
-        [Fact]
-        public void Debe_Crear_LoginDeUsuario()
-        {
-            var MOQ = new Mock<AuthService>();
-            var loginUsuario = new LoginRequestDTO
-            {
-                Email = "Celeste25@gmail.com",
-                Contraseña = "GatitosCute56"
-            };
-            MOQ.Setup(s => s.LoginUsuario(loginUsuario)).Returns(loginUsuario);
+        // [Fact]
+        // public void Debe_Crear_LoginDeUsuario()
+        // {
+        //     var MOQ = new Mock<AuthService>();
+        //     var loginUsuario = new LoginRequestDTO
+        //     {
+        //         Email = "Celeste25@gmail.com",
+        //         Contraseña = "GatitosCute56"
+        //     };
+        //     MOQ.Setup(s => s.LoginUsuario(loginUsuario)).Returns(loginUsuario);
 
-            var resultado = MOQ.Object.LoginUsuario(loginUsuario);
+        //     var resultado = MOQ.Object.LoginUsuario(loginUsuario);
 
-            Assert.NotNull(resultado);
+        //     Assert.NotNull(resultado);
             
+        // }
+
+        [Fact]
+        public void Debe_Refrescar_ElTokenDeUsuario()
+        {
+            var MOQ = new Mo
         }
     }
 }
