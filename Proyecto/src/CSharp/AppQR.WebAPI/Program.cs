@@ -44,7 +44,17 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
     };
 });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy =>
+        policy.RequireRole("Admin"));
+
+    options.AddPolicy("Cliente", policy =>
+        policy.RequireRole("Cliente", "Admin"));
+
+    options.AddPolicy("Organizador", policy =>
+        policy.RequireRole("Organizador", "Admin"));
+});
 builder.Services.AddScoped<RefreshTokenService>();
 builder.Services.AddScoped<AuthService>();
     

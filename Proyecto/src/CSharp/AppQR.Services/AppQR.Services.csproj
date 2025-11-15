@@ -16,6 +16,7 @@
     <PackageReference Include="QRCoder" Version="1.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.*" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.1" />
+    <PackageReference Include="MySql.Data" Version="9.4.0" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -176,6 +176,8 @@ DELIMITER ;
 
 DELIMITER //
 
+/*Stored Procedure para Anular Entrada*/
+
 CREATE PROCEDURE AnularEntrada(IN p_IdEntrada INT)
 main: BEGIN
     DECLARE v_Estado VARCHAR(45);
