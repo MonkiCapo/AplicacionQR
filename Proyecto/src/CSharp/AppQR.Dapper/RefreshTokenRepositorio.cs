@@ -11,7 +11,7 @@ namespace AppQR.Dapper
 {
     public class RefreshTokenRepositorio : DapperRepo, IRefreshTokenRepositorio
     {
-        public RefreshTokenRepositorio(IDbConnection conexion) : base(conexion) { }
+        public RefreshTokenRepositorio(IAdo _ado) : base(_ado) { }
 
         public int InsertarToken(RefreshToken token)
         {

@@ -9,7 +9,7 @@ namespace AppQR.Dapper
 {
     public class LocalRepositorio : DapperRepo, ILocalRepositorio
     {
-        public LocalRepositorio(IDbConnection conexion) : base(conexion) { }
+        public LocalRepositorio(IAdo _ado) : base(_ado) { }
 
         public Local AgregarLocal(Local local)
         {

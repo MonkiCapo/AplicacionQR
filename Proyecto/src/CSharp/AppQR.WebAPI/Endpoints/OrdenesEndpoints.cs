@@ -13,31 +13,31 @@ namespace AppQR.WebAPI.Endpoints
             {
                 var ordenes = service.ObtenerOrdenes();
                 return Results.Ok(ordenes);
-            }).WithTags("Orden");
+            }).WithTags("Orden").RequireAuthorization("Cliente");
 
             app.MapGet("/api/Ordenes/{id}", (int id, IOrdenService service) =>
             {
                 var orden = service.ObtenerOrdenPorID(id);
                 return orden is not null ? Results.Ok(orden) : Results.NotFound();
-            }).WithTags("Orden");
+            }).WithTags("Orden").RequireAuthorization("Cliente");
 
             app.MapPost("/api/Ordenes", (OrdenDTO dto, IOrdenService service) =>
             {
                 service.AgregarOrden(dto);
                 return Results.Created();
-            }).WithTags("Orden");
+            }).WithTags("Orden").RequireAuthorization("Cliente");
 
             app.MapPost("/api/Ordenes/{id}/pagar", (int id, EntradaDTO dto, IOrdenService service) =>
             {
                 var resultado = service.PagarOrden(id, dto);
                 return Results.Ok(new { Mensaje = resultado });
-            }).WithTags("Orden");
+            }).WithTags("Orden").RequireAuthorization("Cliente");
 
             app.MapPost("/api/Ordenes/{id}/cancelar", (int id, IOrdenService service) =>
             {
                 var resultado = service.CancelarOrden(id);
                 return Results.Ok(new { Mensaje = resultado });
-            }).WithTags("Orden");
+            }).WithTags("Orden").RequireAuthorization("Cliente");
         }
     }
 }

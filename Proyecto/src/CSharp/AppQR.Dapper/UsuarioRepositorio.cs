@@ -9,7 +9,7 @@ namespace AppQR.Dapper
 {
     public class UsuarioRepositorio : DapperRepo, IUsuarioRepositorio
     {
-        public UsuarioRepositorio(IDbConnection conexion) : base(conexion) { }
+        public UsuarioRepositorio(IAdo _ado) : base(_ado) { }
 
         public Usuario AgregarUsuario(Usuario usuario)
         {

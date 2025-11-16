@@ -12,7 +12,7 @@ namespace AppQR.Dapper;
 
 public class FuncionRepositorio : DapperRepo, IFuncionRepositorio
 {
-    public FuncionRepositorio(IDbConnection conexion) : base(conexion) { }
+    public FuncionRepositorio(IAdo _ado) : base(_ado) { }
 
     public Funcion AgregarFuncion(Funcion funcion)
     {

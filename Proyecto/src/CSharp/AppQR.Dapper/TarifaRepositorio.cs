@@ -9,7 +9,7 @@ namespace AppQR.Dapper
 {
     public class TarifaRepositorio : DapperRepo, ITarifaRepositorio
     {
-        public TarifaRepositorio(IDbConnection conexion) : base(conexion) { }
+        public TarifaRepositorio(IAdo _ado) : base(_ado) { }
 
         public Tarifa AgregarTarifa(Tarifa tarifa)
         {

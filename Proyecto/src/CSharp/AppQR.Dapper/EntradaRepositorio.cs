@@ -10,7 +10,7 @@ namespace AppQR.Dapper
 {
     public class EntradaRepositorio : DapperRepo, IEntradaRepositorio
     {
-        public EntradaRepositorio(IDbConnection conexion) : base(conexion) { }
+        public EntradaRepositorio(IAdo _ado) : base(_ado) { }
 
          public Entrada AgregarEntrada(Entrada entrada)
         {

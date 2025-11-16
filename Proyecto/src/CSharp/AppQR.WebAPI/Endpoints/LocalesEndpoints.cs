@@ -13,31 +13,31 @@ namespace AppQR.WebAPI.Endpoints
             {
                 var locales = service.ObtenerLocales();
                 return Results.Ok(locales);
-            }).WithTags("Local");
+            }).WithTags("Local").RequireAuthorization("Cliente");
 
             app.MapGet("/api/Local/{id}", (int id, ILocalService service) =>
             {
                 var local = service.ObtenerLocalPorID(id);
                 return local is not null ? Results.Ok(local) : Results.NotFound();
-            }).WithTags("Local");
+            }).WithTags("Local").RequireAuthorization("Cliente");
 
             app.MapPost("/api/Local", (LocalDTO dto, ILocalService service) =>
             {
                 service.AgregarLocal(dto);
                 return Results.Created();
-            }).WithTags("Local");
+            }).WithTags("Local").RequireAuthorization("Organizador");
 
             app.MapPut("/api/Local/{id}", (int id, LocalDTO dto, ILocalService service) =>
             {
                 service.ActualizarLocal(dto, id);
                 return Results.Ok();
-            }).WithTags("Local");
+            }).WithTags("Local").RequireAuthorization("Organizador");
 
             app.MapDelete("/api/Local/{id}", (int id, ILocalService service) =>
             {
                 service.EliminarLocal(id);
                 return Results.Ok();
-            }).WithTags("Local");
+            }).WithTags("Local").RequireAuthorization("Organizador");
         }
     }
 }

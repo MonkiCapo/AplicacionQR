@@ -9,29 +9,29 @@ namespace AppQR.WebAPI.Endpoints
     {
         public static void MapClienteEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/api/Cliente", [Authorize] (IClienteService service) =>
+            app.MapGet("/api/Cliente", (IClienteService service) =>
             {
                 var clientes = service.ObtenerClientes();
                 return Results.Ok(clientes);
-            }).WithTags("Cliente");
+            }).WithTags("Clientes").RequireAuthorization("Cliente");
 
-            app.MapGet("/api/Cliente/{dni}", [Authorize] (int dni, IClienteService service) =>
+            app.MapGet("/api/Cliente/{dni}", (int dni, IClienteService service) =>
             {
                 var clientes = service.ObtenerClientePorDNI(dni);
                 return clientes is not null ? Results.Ok(clientes) : Results.NotFound();
-            }).WithTags("Cliente");
+            }).WithTags("Clientes").RequireAuthorization("Cliente");
 
-            app.MapPost("/api/Cliente", [Authorize] (ClienteDTO dto, IClienteService service) =>
+            app.MapPost("/api/Cliente", (ClienteDTO dto, IClienteService service) =>
             {
                 service.AgregarCliente(dto);
                 return Results.Created();
-            }).WithTags("Cliente");
+            }).WithTags("Clientes").RequireAuthorization("Cliente");
 
-            app.MapPut("/api/Cliente/{dni}", [Authorize] (int dni, IClienteService service, ClienteActualizadoDTO dto) =>
+            app.MapPut("/api/Cliente/{dni}", (int dni, IClienteService service, ClienteActualizadoDTO dto) =>
             {
                 service.ActualizarCliente(dto, dni);
                 return Results.Ok();
-            }).WithTags("Cliente");
+            }).WithTags("Clientes").RequireAuthorization("Cliente");
         }
     }
 }

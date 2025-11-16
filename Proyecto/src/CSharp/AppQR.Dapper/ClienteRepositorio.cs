@@ -7,7 +7,7 @@ namespace AppQR.Dapper
 {
     public class ClienteRepositorio : DapperRepo, IClienteRepositorio
     {
-        public ClienteRepositorio(IDbConnection conexion) : base(conexion) { }
+        public ClienteRepositorio(IAdo _ado) : base(_ado) { }
 
         public Cliente AgregarCliente(Cliente cliente)
         {

@@ -1,4 +1,4 @@
--- Active: 1700068523370@@127.0.0.1@3306@5to_AppQR
+-- Active: 1752667437026@@127.0.0.1@3306@5to_appqr
 
 /*STORED PROCEDURE PARA CANCELAR FUNCION*/
 DELIMITER //
@@ -188,22 +188,32 @@ main: BEGIN
         RESIGNAL;
     END;
 
-    SELECT Estado INTO v_Estado FROM Entrada WHERE IdEntrada = p_IdEntrada LIMIT 1;
+    -- Verificar existencia de la entrada
+    SELECT Estado INTO v_Estado 
+    FROM Entrada 
+    WHERE IdEntrada = p_IdEntrada 
+    LIMIT 1;
+
     IF ROW_COUNT() = 0 THEN
         SELECT 'Entrada no encontrada' AS Mensaje;
         LEAVE main;
     END IF;
 
+    -- Si ya está anulada
     IF v_Estado = 'Anulada' THEN
-        SELECT 'La entrada ya esta anulada' AS Mensaje;
+        SELECT 'La entrada ya está anulada' AS Mensaje;
         LEAVE main;
     END IF;
 
     START TRANSACTION;
 
-    UPDATE Entrada SET Estado = 'Anulada' WHERE IdEntrada = p_IdEntrada;
+    -- Anula la entrada
+    UPDATE Entrada 
+    SET Estado = 'Anulada' 
+    WHERE IdEntrada = p_IdEntrada;
 
-    IF Estado = 'Pagado' THEN
+    -- Si estaba pagada, se devuelve stock
+    IF v_Estado = 'Pagado' THEN
         UPDATE Tarifa t
         INNER JOIN Entrada e ON t.IdTarifa = e.IdTarifa
         SET t.Stock = t.Stock + 1

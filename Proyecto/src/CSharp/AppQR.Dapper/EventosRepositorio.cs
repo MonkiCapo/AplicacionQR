@@ -12,7 +12,7 @@ namespace AppQR.Dapper
 {
     public class EventosRepositorio : DapperRepo, IEventosRepositorio
     {
-        public EventosRepositorio(IDbConnection conexion) : base(conexion) { }
+        public EventosRepositorio(IAdo _ado) : base(_ado) { }
 
 
         public Evento AgregarEvento(Evento evento)

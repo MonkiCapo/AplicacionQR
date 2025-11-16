@@ -13,31 +13,31 @@ namespace AppQR.WebAPI.Endpoints
             {
                 var tarifas = service.ObtenerTodasLasTarifas();
                 return Results.Ok(tarifas);
-            }).WithTags("Tarifa");
+            }).WithTags("Tarifa").RequireAuthorization("Cliente");
 
             app.MapGet("/api/Tarifa/{id}", (int id, ITarifaService service) =>
             {
                 var tarifa = service.ObtenerTarifaPorID(id);
                 return tarifa is not null ? Results.Ok(tarifa) : Results.NotFound();
-            }).WithTags("Tarifa");
+            }).WithTags("Tarifa").RequireAuthorization("Cliente");
 
             app.MapGet("/api/funciones/{idFuncion}/Tarifa", (int idFuncion, ITarifaService service) =>
             {
                 var tarifas = service.ObtenerTarifasPorFuncion(idFuncion);
                 return Results.Ok(tarifas);
-            }).WithTags("Tarifa");
+            }).WithTags("Tarifa").RequireAuthorization("Organizador");
 
             app.MapPost("/api/Tarifa", (TarifaDTO dto, ITarifaService service) =>
             {
                 service.AgregarTarifa(dto);
                 return Results.Created();
-            }).WithTags("Tarifa");
+            }).WithTags("Tarifa").RequireAuthorization("Organizador");
 
             app.MapDelete("/api/tarifas/{idTarifa}", (int id, ITarifaService service) =>
             {
                 var tarifas = service.EliminarTarifa(id);
                 return Results.Ok();
-            }).WithTags("Tarifa");
+            }).WithTags("Tarifa").RequireAuthorization("Organizador");
         }
     }
 }

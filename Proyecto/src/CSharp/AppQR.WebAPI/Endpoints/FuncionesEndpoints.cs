@@ -13,37 +13,37 @@ namespace AppQR.WebAPI.Endpoints
             {
                 var funciones = service.ObtenerTodasLasFunciones();
                 return Results.Ok(funciones);
-            }).WithTags("Funcion");
+            }).WithTags("Funcion").RequireAuthorization("Cliente");
 
             app.MapGet("/api/Funcion/{id}", (int id, IFuncionService service) =>
             {
                 var funcion = service.ObtenerPorID(id);
                 return funcion is not null ? Results.Ok(funcion) : Results.NotFound();
-            }).WithTags("Funcion");
+            }).WithTags("Funcion").RequireAuthorization("Cliente");
 
             app.MapPost("/api/Funcion", (FuncionDTO dto, IFuncionService service) =>
             {
                 service.AgregarFuncion(dto);
                 return Results.Created();
-            }).WithTags("Funcion");
+            }).WithTags("Funcion").RequireAuthorization("Organizador");
 
             app.MapPut("/api/Funcion/{id}", (int id, FuncionDTO dto, IFuncionService service) =>
             {
                 service.ActualizarFuncion(dto, id);
                 return Results.Ok();
-            }).WithTags("Funcion");
+            }).WithTags("Funcion").RequireAuthorization("Organizador");
 
             app.MapDelete("/api/Funcion/{id}", (int id, IFuncionService service) =>
             {
                 service.EliminarFuncion(id);
                 return Results.Ok();
-            }).WithTags("Funcion");
+            }).WithTags("Funcion").RequireAuthorization("Organizador");
 
             app.MapPut("/api/Funcion/{idFuncion}/Cancelar", (int idFuncion, IFuncionService service) =>
             {
                 service.CancelarFuncion(idFuncion);
                 return Results.Ok();
-            }).WithTags("Funcion");
+            }).WithTags("Funcion").RequireAuthorization("Organizador");
         }
     }
 }

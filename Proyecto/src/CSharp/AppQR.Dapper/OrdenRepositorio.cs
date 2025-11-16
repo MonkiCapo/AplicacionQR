@@ -10,7 +10,7 @@ namespace AppQR.Dapper
 {
     public class OrdenRepositorio : DapperRepo, IOrdenRepositorio
     {
-        public OrdenRepositorio(IDbConnection conexion) : base(conexion) { }
+        public OrdenRepositorio(IAdo _ado) : base(_ado) { }
 
         public Orden AgregarOrden(Orden orden)
         {

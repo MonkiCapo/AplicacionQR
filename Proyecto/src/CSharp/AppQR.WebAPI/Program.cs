@@ -61,11 +61,12 @@ builder.Services.AddScoped<AuthService>();
 #endregion
 
 #region Agregando conexión a BD
-builder.Services.AddScoped<IDbConnection>(provider =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    return new MySqlConnection(connectionString);
-});
+
+builder.Services.AddScoped<IObtenerRolActualService, ObtenerRolActualService>();
+builder.Services.AddSingleton<IDataBaseConnectionService, DataBaseConnectionService>();
+
+builder.Services.AddScoped<IAdo, Ado>();
+
 #endregion
 
 // builder.Services.AddControllers()

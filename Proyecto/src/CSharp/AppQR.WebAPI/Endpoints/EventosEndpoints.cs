@@ -13,37 +13,37 @@ namespace AppQR.WebAPI.Endpoints
             {
                 var eventos = service.ObtenerEventos();
                 return Results.Ok(eventos);
-            }).WithTags("Evento");
+            }).WithTags("Evento").RequireAuthorization("Cliente");
 
             app.MapGet("/api/Evento/{id}", (int id, IEventoService service) =>
             {
                 var eventos = service.ObtenerEventoPorID(id);
                 return eventos is not null ? Results.Ok(eventos) : Results.NotFound();
-            }).WithTags("Evento");
+            }).WithTags("Evento").RequireAuthorization("Cliente");
 
             app.MapPost("/api/Evento", (EventoDTO dto, IEventoService service) =>
             {
                 service.AgregarEvento(dto);
                 return Results.Created();
-            }).WithTags("Evento");
+            }).WithTags("Evento").RequireAuthorization("Organizador");
 
             app.MapPut("/api/Evento/{id}", (int id, IEventoService service, EventoDTO dto) =>
             {
                 service.ActualizarEvento(dto, id);
                 return Results.Ok();
-            }).WithTags("Evento");
+            }).WithTags("Evento").RequireAuthorization("Organizador");
 
             app.MapPut("/api/Evento/{id}/publicar", (int id, IEventoService service) =>
             {
                 service.PublicarEvento(id);
                 return Results.Ok();
-            }).WithTags("Evento");
+            }).WithTags("Evento").RequireAuthorization("Organizador");
 
             app.MapPut("/api/Evento/{id}/cancelar", (int id, IEventoService service) =>
             {
                 service.CancelarEvento(id);
                 return Results.Ok();
-            }).WithTags("Evento");
+            }).WithTags("Evento").RequireAuthorization("Organizador");
         }
     }
 }

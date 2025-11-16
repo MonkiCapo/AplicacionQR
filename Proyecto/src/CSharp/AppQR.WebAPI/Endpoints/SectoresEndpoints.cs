@@ -13,31 +13,31 @@ namespace AppQR.WebAPI.Endpoints
             {
                 var sectores = service.ObtenerSectoresPorLocal(idLocal);
                 return Results.Ok(sectores);
-            }).WithTags("Sector");
+            }).WithTags("Sector").RequireAuthorization("Cliente");
 
             app.MapGet("/api/Sector/{id}", (int id, ILocalService service) =>
             {
                 var sector = service.ObtenerSectorPorID(id);
             return sector is not null ? Results.Ok(sector) : Results.NotFound();
-            }).WithTags("Sector");
+            }).WithTags("Sector").RequireAuthorization("Organizador");
 
             app.MapPost("/api/Local/{id}/Sector", (int id, SectorDTO dto, ILocalService service) =>
             {
                 service.AgregarSector(dto, id);
                 return Results.Created();
-            }).WithTags("Sector");
+            }).WithTags("Sector").RequireAuthorization("Organizador");
 
             app.MapPut("api/Sector/{id}", (int id, SectorDTO dto, ILocalService service) =>
             {
                 service.ActualizarSector(dto, id);
                 return Results.Ok();
-            }).WithTags("Sector");
+            }).WithTags("Sector").RequireAuthorization("Organizador");
 
             app.MapDelete("/api/Sector({id}", (int id, ILocalService service) =>
             {
                 service.EliminarSector(id);
                 return Results.Ok();
-            }).WithTags("Sector");
+            }).WithTags("Sector").RequireAuthorization("Organizador");
         }
     }
 }

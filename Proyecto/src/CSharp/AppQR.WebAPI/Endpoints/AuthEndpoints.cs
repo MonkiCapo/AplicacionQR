@@ -51,7 +51,7 @@ namespace AppQR.WebAPI.Endpoints
             {
                 var resultado = service.AsignarRol(id, rol);
                 return Results.Ok(resultado);
-            }).WithTags("Auth-Usuarios");
+            }).WithTags("Auth-Usuarios").RequireAuthorization("Admin");
         }
     }
 }

@@ -7,7 +7,7 @@ namespace AppQR.Dapper
 {
     public class QrRepositorio : DapperRepo, IQrRepositorio
     {
-        public QrRepositorio(IDbConnection conexion) : base(conexion) { }
+        public QrRepositorio(IAdo _ado) : base(_ado) { }
         
         public QR? ObtenerQr(int idQR)
         {
