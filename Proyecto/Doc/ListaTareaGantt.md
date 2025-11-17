@@ -13,3 +13,34 @@
 |i	|Realizar capa de Tests (XUnit)               | 6	            | f            |
 |j  | Realizar capa de presentación (WebApi/Endpoints) | 15  |     d, e, f |
 |l	|Documentacion	                                | 6       | i, h         |
+
+### **Gantt**
+
+```mermaid
+
+gantt
+    title Plan de aprendizaje
+    dateFormat  HH
+    axisFormat  %Hh
+
+    section Planificacion
+    a : a, 00, 7h
+    b : b, after a, 6h
+    c : c, after b, 7h
+
+    section Desarrollo
+    d : d, after c, 12h
+    e : e, after d, 8h
+    f : f, after e, 6h
+
+    section Seguridad por Tokens
+    g : g, after f, 4h
+    h : h, after g, 5h
+    
+    section WebApi, Testeos y documentacion
+    i: i, after f, 6h
+    j : j, after f, 12h
+    l : l, after h, 6h
+
+
+```
