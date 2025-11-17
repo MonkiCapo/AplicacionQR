@@ -83,11 +83,15 @@ namespace AppQR.Services.Servicios
 
             var entradaAlta = _EntradaRepo.AgregarEntrada(entradaEmitida);
 
-            var url = _qrService.GenerarUrldeQR(entradaAlta.IdEntrada);
+            var token = Guid.NewGuid().ToString();
+
+            var url = _qrService.GenerarUrldeQR(token);
+
             var qr = new QR
             {
                 IdEntrada = entradaAlta.IdEntrada,
-                url = url
+                url = url,
+                Token = token
             };
             
             _qrRepo.AltaQR(qr);

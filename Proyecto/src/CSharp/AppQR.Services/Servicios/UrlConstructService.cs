@@ -15,10 +15,10 @@ namespace AppQR.Services.Servicios
             _linkGenerator = linkGenerator;
         }
 
-        public string GenerarUrldeQR(int id)
+        public string GenerarUrldeQR(string token)
         {
             var httpContext = _httpContextAccessor.HttpContext!;
-            var routeValues = new RouteValueDictionary { ["id"] = id };
+            var routeValues = new RouteValueDictionary { ["codigo"] = token };
             var qrUrl = _linkGenerator.GetUriByAddress(httpContext, "ValidarQr", routeValues);
             return qrUrl!;
         }

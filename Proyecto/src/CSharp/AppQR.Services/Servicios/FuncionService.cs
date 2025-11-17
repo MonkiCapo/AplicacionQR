@@ -65,13 +65,7 @@ namespace AppQR.Services.Servicios
             return _FuncionRepo.ActualizarFuncion(funcionActualizada, id);
         }
 
-        public bool EliminarFuncion(int id)
-        {
-            if (_FuncionRepo.ObtenerPorID(id) == null)
-                throw new KeyNotFoundException($"No existe una funcion con ese Id {id}");
-
-            return _FuncionRepo.EliminarFuncion(id);
-        }
+        public bool EliminarFuncion(int id) => _FuncionRepo.EliminarFuncion(id);
         
         public string CancelarFuncion(int idFuncion)
         {

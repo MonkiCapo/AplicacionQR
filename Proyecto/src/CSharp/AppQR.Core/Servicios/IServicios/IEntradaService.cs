@@ -13,6 +13,6 @@ namespace AppQR.Core.Servicios.IServicios
         Entrada ObtenerEntradaPorID(int id);
         string AnularEntrada(int id);
         byte[]? ObtenerQR(int id);
-        object ValidarQR(int id);
+        object ValidarQR(string token);
     }
 }

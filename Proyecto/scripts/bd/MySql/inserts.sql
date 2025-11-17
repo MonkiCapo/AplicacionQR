@@ -30,15 +30,15 @@ INSERT INTO Evento (Nombre, Estado, FechaInicio, FechaFin) VALUES
 -- ======================
 -- Asignamos funciones a los eventos (IdEvento 1, 2, 3)
 INSERT INTO Funcion (Nombre, FechaHora, Estado, IdEvento) VALUES
-('Función Única - Concierto', '2025-12-15 21:00:00', 'Activa', 1),
-('Función de Estreno', '2025-11-20 21:00:00', 'Activa', 2),
-('Función Matinée', '2025-11-21 18:00:00', 'Activa', 2);
+('Función Única - Concierto', '2025-12-15 21:00:00', 'Activo', 1),
+('Función de Estreno', '2025-11-20 21:00:00', 'Activo', 2),
+('Función Matinée', '2025-11-21 18:00:00', 'Activo', 2);
 
 -- ======================
 -- TABLA: Tarifa
 -- ======================
 -- Asignamos tarifas a las funciones (IdFuncion 1, 2, 3)
 INSERT INTO Tarifa (Tipo, Precio, Stock, Estado, IdFuncion) VALUES
-('General', 15000.00, 5000, 'Disponible', 1),
-('VIP', 35000.00, 500, 'Disponible', 1),
-('Infantil', 12000.00, 300, 'Disponible', 2);
+('General', 15000.00, 5000, 'Creado', 1),
+('VIP', 35000.00, 500, 'Creado', 1),
+('Infantil', 12000.00, 300, 'Creado', 2);

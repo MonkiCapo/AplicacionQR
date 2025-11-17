@@ -37,11 +37,11 @@ namespace AppQR.WebAPI.Endpoints
                 return Results.Ok(new { Mensaje = resultado });
             }).WithTags("Entrada").RequireAuthorization("Cliente");
 
-            app.MapGet("api/entradas/qr/validar", ([FromQuery] int id, IEntradaService service) =>
+            app.MapGet("api/entradas/qr/validar", ([FromQuery] string codigo, IEntradaService service) =>
             {
-                var resultado = service.ValidarQR(id);
+                var resultado = service.ValidarQR(codigo);
                 return Results.Ok(resultado);
-            }).WithTags("Entrada").RequireAuthorization("Organizador").WithName("ValidarQr");
+            }).WithTags("Entrada").WithName("ValidarQr");
         }
     }
 }

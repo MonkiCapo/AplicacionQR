@@ -18,18 +18,25 @@ namespace AppQR.Dapper
 
         public QR AltaQR(QR qr)
         {
-            var sql = @"INSERT INTO QR (IdEntrada, url) 
-                        VALUES (@idEntrada, @Url);
-                        SELECT LAST_INSERT_ID();";
+            var sql = @"INSERT INTO QR (IdEntrada, url, Token)
+                VALUES (@idEntrada, @Url, @token);
+                SELECT LAST_INSERT_ID();";
 
             var idQr = Conexion.ExecuteScalar<int>(sql, new
             {
                 idEntrada = qr.IdEntrada,
-                Url = qr.url
+                Url = qr.url,
+                token = qr.Token
             });
 
             qr.IdQR = idQr;
             return qr;
+        }
+
+        public QR? ObtenerPorToken(string token)
+        {
+            var sql = "SELECT IdQR, IdEntrada, url, Token FROM QR WHERE Token = @Token;";
+            return Conexion.QueryFirstOrDefault<QR>(sql, new { Token = token });
         }
     }
 }

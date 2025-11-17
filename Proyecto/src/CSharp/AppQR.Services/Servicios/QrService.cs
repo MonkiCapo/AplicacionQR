@@ -13,9 +13,9 @@ namespace AppQR.Services.Servicios
             _urlConstruct = UrlConstruct;
         }
 
-        public string GenerarUrldeQR(int idEntrada)
+        public string GenerarUrldeQR(string token)
         {
-            return _urlConstruct.GenerarUrldeQR(idEntrada);
+            return _urlConstruct.GenerarUrldeQR(token);
         }
 
         public byte[] CrearQR(string url)

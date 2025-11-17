@@ -10,5 +10,6 @@ namespace AppQR.Core.Servicios.Repositorios
     {
         QR? ObtenerQr(int idQR);
         QR AltaQR(QR qr);
+        QR? ObtenerPorToken(string token);
     }
 }

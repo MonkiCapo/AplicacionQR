@@ -35,20 +35,28 @@ namespace AppQR.Services.Servicios
             return _QrService.CrearQR(qr.url);
         }
 
-        public object ValidarQR(int id)
+        public object ValidarQR(string token)
         {
-            var entrada = _EntradaRepo.ObtenerEntradaPorID(id);
+            var qr = _QrRepo.ObtenerPorToken(token);
+            if (qr == null)
+                throw new Exception("QR inválido");
+
+            var entrada = _EntradaRepo.ObtenerEntradaPorID(qr.IdEntrada);
             if (entrada == null)
-                throw new Exception("La entrada no es valida");
+                throw new Exception("La entrada no existe");
+
             if (entrada.Estado == EEstados.YaUsada)
-                throw new Exception("Esta entrada ya fue usada");
+                throw new Exception("La entrada ya fue usada");
+
             if (entrada.Estado == EEstados.Anulada)
-                throw new Exception("La entrada esta anulada");
+                throw new Exception("La entrada está anulada");
 
             _EntradaRepo.EntradaUsada(entrada.IdEntrada);
+
             return new
             {
-                mensaje = "Entrada validada con exito"
+                mensaje = "Entrada validada correctamente",
+                idEntrada = entrada.IdEntrada
             };
         }
     }
