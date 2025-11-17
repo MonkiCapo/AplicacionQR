@@ -50,7 +50,7 @@ erDiagram
         int IdUsuario PK
         varchar NombreUsuario
         varchar Email
-        varchar Contraseña
+        varchar Contrasenia
         varchar Rol
         int DNI FK
     }
@@ -70,12 +70,6 @@ erDiagram
         varchar Estado
     }
 
-    RefreshTokens {
-        int IdRefreshTokens PK
-        varchar Token
-        varchar Email FK
-        datetime Expiration
-    }
 
     QR {
         int IdQR PK
@@ -99,7 +93,6 @@ erDiagram
 
     Entrada }o--|| Orden : "pertenece a"
 
-    Usuario ||--o{ RefreshTokens : "posee"
 
     Entrada ||--o| QR : "tiene"
    
