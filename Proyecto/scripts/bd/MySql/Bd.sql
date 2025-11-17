@@ -115,7 +115,8 @@ CREATE TABLE RefreshTokens (
     IdRefreshTokens INT AUTO_INCREMENT PRIMARY KEY,
     Token VARCHAR(200) NOT NULL,
     Email VARCHAR(100) NOT NULL,
-    Expiration DATETIME NOT NULL
+    Expiration DATETIME NOT NULL,
+    CONSTRAINT FK_UsuarioRT FOREIGN KEY (Email) REFERENCES Usuario (Email)
 );
 
 -- ====================
