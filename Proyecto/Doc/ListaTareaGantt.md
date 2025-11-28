@@ -26,7 +26,7 @@ gantt
     a : a, 2025-08-30, 10d
 
     section DER, UML, CASOS DE USO
-    b : after a, 3d
+    b : b, after a, 3d
 
     section DDL, SP, INSERTS y USERS
     c : c, after b, 4d
@@ -49,11 +49,12 @@ gantt
     section Capa de tests
     i: i, after f, 3d
 
-    section Capa de presentacion
+    section Capa de presentación
     j : j, after f, 7d
 
-    section Documentacion
+    section Documentación
     l : l, after h, 3d
+
 
 
 
