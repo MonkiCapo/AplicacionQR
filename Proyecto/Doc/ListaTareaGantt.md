@@ -20,27 +20,41 @@
 
 gantt
     title Plan de aprendizaje
-    dateFormat  HH
-    axisFormat  %Hh
+    dateFormat  YYYY-MM-DD
 
-    section Planificacion
-    a : a, 00, 7h
-    b : b, after a, 6h
-    c : c, after b, 7h
+    section Relevamiento
+    a : a, 2025-08-30, 10d
 
-    section Desarrollo
-    d : d, after c, 12h
-    e : e, after d, 8h
-    f : f, after e, 6h
+    section DER, UML, CASOS DE USO
+    b : after a, 3d
 
-    section Seguridad por Tokens
-    g : g, after f, 4h
-    h : h, after g, 5h
+    section DDL, SP, INSERTS y USERS
+    c : c, after b, 4d
+
+    section Realizar capa Core
+    d : d, after c, 7d
+
+    section Realizar capa Dapper
+    e : e, after d, 5d
+
+    section Realizar capa Servicios
+    f : f, after e, 3d
+
+    section Investigar Tokens
+    g : g, after f, 2d
+
+    section Configurar Tokens
+    h : h, after g, 3d
     
-    section WebApi, Testeos y documentacion
-    i: i, after f, 6h
-    j : j, after f, 12h
-    l : l, after h, 6h
+    section Capa de tests
+    i: i, after f, 3d
+
+    section Capa de presentacion
+    j : j, after f, 7d
+
+    section Documentacion
+    l : l, after h, 3d
+
 
 
 ```
